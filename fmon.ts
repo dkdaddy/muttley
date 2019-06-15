@@ -3,7 +3,7 @@ import readline from 'readline';
 import { runInThisContext } from 'vm';
 var os = require('os');
 
-enum TestState { Ready, Running, Passsed, Failed }
+enum TestState { Ready=3, Running=2, Passsed=4, Failed=1 }
 
 class Testcase {
     public path: string;
@@ -117,7 +117,7 @@ var lastTotal=0, lastIdle=0, lastSys=0, lastUser=0;
 async function render() {
     const columns = process.stdout.columns||80;
     const rows = process.stdout.rows||24;
-    console.log('\x1b[2J'); //clear
+    console.log('\x1b[2J'); //clear 
     console.log('\x1b[0;0H');
 
     const cpuList: { times: { sys: number, user: number, idle: number} }[] = os.cpus();
@@ -146,7 +146,7 @@ async function render() {
 
     console.log('\x1b[6;0H');
 
-    allTests.forEach(t => {
+    Array.from(allTests).sort(([,a], [,b]) => (a.state-b.state)).forEach(([,t]) => {
         // console.log(t.path, t.name, t.mtime);
         const colour = {
             [TestState.Ready]: '\x1b[34m',

@@ -1,2 +1,2 @@
-testcase Bob 31>25
+testcase Bob 31>26
 testcase T21 42>41
