@@ -28,7 +28,7 @@ const mutt = `
             \`-^-^'          (  :  :,'
                              \`-^--'
 `;
-enum TestState { Ready=3, Running=2, Passsed=4, Failed=1 }
+enum TestState { Ready = 3, Running = 2, Passsed = 4, Failed = 1 }
 
 class Testcase {
     public path: string;
@@ -41,7 +41,7 @@ class Testcase {
     public state = TestState.Ready;
     public stack = '';
     public error = '';
-    public get filename() {return path.basename(this.path)}
+    public get filename() { return path.basename(this.path) }
     constructor(path: string, stat: Stats, line: string) {
         this.path = path;
         this.mtime = stat.mtime;
@@ -76,7 +76,7 @@ async function runTest(t: Testcase) {
                 t.error = err;
                 t.stack = err.stack;
                 t.state = TestState.Failed;
-                
+
             }
             // console.log('Completed', t.name, t.state);
             t.endTime = new Date(Date.now());
@@ -156,6 +156,7 @@ const Label = {
     [TestState.Passsed]: 'Passed',
     [TestState.Failed]: 'Failed',
 };
+// for colours see https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
 const Colour = {
     [TestState.Ready]: '\x1b[34m',
     [TestState.Running]: '\x1b[33m',
@@ -163,68 +164,113 @@ const Colour = {
     [TestState.Failed]: '\x1b[31m',
 };
 
-function shortTextFromStack(stack:string):string {
+function shortTextFromStack(stack: string): string {
     // .replace(/[\r\n]+\s+/g, ' ')
-    return stack?stack.split(os.EOL)[1].trimLeft():'';
+    return stack ? stack.split(os.EOL)[1].trimLeft() : '';
 }
 var Columns = [
-    { name:'NAME', width:30, just:'l', fn:(t:Testcase) => t.name},
-    { name:'FILE', width:20, just:'l', fn:(t:Testcase) => t.filename},
-    { name:'STATUS', width:8, just:'l', fn:(t:Testcase) => Label[t.state]},
-    { name:'TIME(ms)', width:8, just:'l', fn:(t:Testcase) => t.runtimeInMs},
-    { name:'MSG', width:40, just:'l', fn:(t:Testcase) => t.error},
-    { name:'SOURCE', width:40, just:'l', fn:(t:Testcase) => shortTextFromStack(t.stack)}
+    { name: 'NAME', width: 30, just: 'l', fn: (t: Testcase) => t.name },
+    { name: 'FILE', width: 20, just: 'l', fn: (t: Testcase) => t.filename },
+    { name: 'STATUS', width: 8, just: 'l', fn: (t: Testcase) => Label[t.state] },
+    { name: 'TIME(ms)', width: 8, just: 'l', fn: (t: Testcase) => t.runtimeInMs },
+    { name: 'MSG', width: 40, just: 'l', fn: (t: Testcase) => t.error },
+    { name: 'SOURCE', width: 40, just: 'l', fn: (t: Testcase) => shortTextFromStack(t.stack) }
 ];
-var lastTotal=0, lastIdle=0, lastSys=0, lastUser=0;
+var lastTotal = 0, lastIdle = 0, lastSys = 0, lastUser = 0;
 function renderHeader() {
-    const columns = process.stdout.columns||80;
-    const rows = process.stdout.rows||24;
-    console.log('\x1b[2J');     //clear 
-    console.log('\x1b[0;0H');   // top left
+    const columns = process.stdout.columns || 80;
+    const rows = process.stdout.rows || 24;
+    process.stdout.write('\x1b[2J');     //clear 
+    process.stdout.write('\x1b[0;0H');   // top left
 
-    const cpuList: { times: { sys: number, user: number, idle: number} }[] = os.cpus();
+    const cpuList: { times: { sys: number, user: number, idle: number } }[] = os.cpus();
     const sys = cpuList.map(cpu => cpu.times.sys).reduce((x, y) => x + y);
     const user = cpuList.map(cpu => cpu.times.user).reduce((x, y) => x + y);
     const idle = cpuList.map(cpu => cpu.times.idle).reduce((x, y) => x + y);
-    const total = sys+user+idle;
-    const totalDelta = total-lastTotal;
-    const idleDelta = (100*(idle-lastIdle)/totalDelta).toFixed(2);
-    const sysDelta = (100*(sys-lastSys)/totalDelta).toFixed(2);
-    const userDelta = (100*(user-lastUser)/totalDelta).toFixed(2);
-    lastIdle=idle;
-    lastSys=sys;
-    lastUser=user;
-    lastTotal=total;
-    const freeMem = (100*os.freemem()/os.totalmem()).toFixed(2);
+    const total = sys + user + idle;
+    const totalDelta = total - lastTotal;
+    const idleDelta = (100 * (idle - lastIdle) / totalDelta).toFixed(2);
+    const sysDelta = (100 * (sys - lastSys) / totalDelta).toFixed(2);
+    const userDelta = (100 * (user - lastUser) / totalDelta).toFixed(2);
+    lastIdle = idle;
+    lastSys = sys;
+    lastUser = user;
+    lastTotal = total;
+    const freeMem = (100 * os.freemem() / os.totalmem()).toFixed(2);
 
     // time
-    process.stdout.write(`\x1b[0;${columns-8}H`);
+    process.stdout.write(`\x1b[0;${columns - 8}H`);
     const tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-    console.log((new Date(Date.now()-tzoffset).toISOString().substr(11,8)));
+    process.stdout.write((new Date(Date.now() - tzoffset).toISOString().substr(11, 8)));
 
     // test summary
-    let failing=0, running=0;
-    allTests.forEach(t => { failing+=t.state===TestState.Failed?1:0;running+=t.state===TestState.Running?1:0; })
-    console.log(`Tests ${allTests.size}, Failing ${failing}, Running ${running}, Files ${allFiles.size}`);
+    process.stdout.write('\x1b[0;0H');   // top left again
+    let failing = 0, running = 0;
+    allTests.forEach(t => { failing += t.state === TestState.Failed ? 1 : 0; running += t.state === TestState.Running ? 1 : 0; })
+    console.log(`Tests ${allTests.size}, Failing ${failing}, Running ${running}, Files monitored ${allFiles.size}`);
 
     // system
     console.log(`CP Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);
 }
 function renderAllTests() {
-    const rowHeadings = Columns.map(c=>(c.name).padEnd(c.width)).join(' ');
+    const rowHeadings = Columns.map(c => (c.name).padEnd(c.width)).join(' ');
     console.log(rowHeadings);
-    Array.from(allTests).sort(([,a], [,b]) => (a.state-b.state)).forEach(([,t]) => {
-        const row = Columns.map(c=>c.fn(t).toString().padEnd(c.width).substr(0, c.width)).join(' ');
+    Array.from(allTests).sort(([, a], [, b]) => (a.state - b.state)).forEach(([, t]) => {
+        const row = Columns.map(c => c.fn(t).toString().padEnd(c.width).substr(0, c.width)).join(' ');
         console.log(Colour[t.state] + row + '\x1b[0m');
     })
 }
 function renderHelp() {
-    console.log('mutt');
+    console.log('Monitor Unit Testing Tool - MUTT');
+    [`d Default view`,
+        `z Zoom into test failures`,
+        `0 Zoom into test failure 0`,
+        `1-9 Zoom into test failure 1-9`,
+        `q Quit`,
+        `h Help`].forEach(i => console.log(i));
     console.log(mutt);
+
 }
-function renderZoom() {
-    Array.from(allTests).filter(([,t]) => t.state===TestState.Failed).forEach(([,t]) => {
+function renderFailures() {
+
+    Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
+        process.stdout.write(['\x1b[31;1m', t.name, ' ', t.filename, ' ', t.error, '\x1b[0m', os.EOL].join(''))
         console.log(t.stack);
+    });
+}
+function renderZoom(n: number) {
+    const columns = process.stdout.columns || 80;
+    let test: Testcase | undefined = undefined;
+    let i = 0;
+    Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
+        if (i++ === n) {
+            process.stdout.write(['\x1b[31;1m', t.name, ' ', t.filename, ' ', t.error, '\x1b[0m', os.EOL].join(''))
+            console.log(t.stack);
+            test = t;
+        }
+    });
+    //find first line in stack
+    if (test && test!.stack) {
+        test!.stack.split(os.EOL).slice(1, 4).forEach(frame => {
+            const start = frame.indexOf('(/');
+            const end = frame.indexOf(':', start);
+            if (start>0 && end>0) {
+                const filepath = frame.substr(start + 1, end - start - 1);
+                const line = frame.substr(end + 1).split(':')[0];
+                // inverse filename padded full width
+                process.stdout.write('\x1b[7m' + (filepath + ':' + line).padEnd(columns) + '\x1b[0m');
+                renderFileWindow(filepath, 14, Number.parseInt(line, 10));
+            }
+        });
+    }
+}
+function renderFileWindow(filepath: string, rows: number, line: number) {
+    const content = fs.readFileSync(filepath);
+    const window = content.toString().split(os.EOL).slice(line-rows/2,line+rows/2);
+    let rownum=line-rows/2+1;
+    window.forEach(sourceline => {
+        const prefix = rownum===line?'\x1b[35m':'';
+        console.log(prefix + (rownum++).toString().padEnd(6), sourceline, '\x1b[0m');        
     });
 }
 async function render() {
@@ -232,8 +278,13 @@ async function render() {
     process.stdout.write('\x1b[5;0H'); // row 5
     switch (mode) {
         case 'd': return renderAllTests();
-        case 'z': return renderZoom();
+        case 'z': return renderFailures();
+        case '0': return renderZoom(0);
+        case '1': return renderZoom(1);
+        case '2': return renderZoom(2);
+        case '3': return renderZoom(3);
         case 'h': return renderHelp();
+        default: console.log(mode);
     }
 
 }
