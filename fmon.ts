@@ -1,8 +1,11 @@
 import fs, { Stats } from 'fs';
+import path from 'path';
 import readline from 'readline';
 import { runInThisContext } from 'vm';
 var os = require('os');
 
+
+const mutt = ``
 enum TestState { Ready=3, Running=2, Passsed=4, Failed=1 }
 
 class Testcase {
@@ -14,7 +17,9 @@ class Testcase {
     public endTime: Date = new Date();
     public modified: boolean = false;
     public state = TestState.Ready;
-
+    public stack = '';
+    public error = '';
+    public get filename() {return path.basename(this.path)}
     constructor(path: string, stat: Stats, line: string) {
         this.path = path;
         this.mtime = stat.mtime;
@@ -22,7 +27,7 @@ class Testcase {
         [tag, this.name, ...rest] = line.split(' ');
         this.body = rest.join(' ');
     }
-    runtimeInMs() {
+    public get runtimeInMs() {
         if (this.state === TestState.Running)
             return Date.now() - this.startTime.getTime();
         else
@@ -36,18 +41,25 @@ async function runTest(t: Testcase) {
         setTimeout(() => {
             // console.log('Running', t.name);
             try {
-                if (eval(t.body))
+                if (eval(t.body)) {
                     t.state = TestState.Passsed;
-                else
+                    t.error = '';
+                }
+                else {
                     t.state = TestState.Failed;
+                    t.error = 'returned false';
+                }
             }
             catch (err) {
+                t.error = err;
+                t.stack = err.stack;
                 t.state = TestState.Failed;
+                
             }
             // console.log('Completed', t.name, t.state);
             t.endTime = new Date(Date.now());
             resolve();
-        }, 3000);
+        }, 2145);
     });
 }
 async function readTestCasesFromFile(file: string, stat: Stats): Promise<void> {
@@ -112,13 +124,41 @@ async function readFiles(folder: string): Promise<void> {
         });
     });
 }
-var mode = 'd';
+var mode = 'd'; // i : bundle info, h : help, e - expanded errors
+// o sort, 
+
+// columns name, file, time, status, error
+const Label = {
+    [TestState.Ready]: 'Waiting',
+    [TestState.Running]: 'Running',
+    [TestState.Passsed]: 'Passed',
+    [TestState.Failed]: 'Failed',
+};
+const Colour = {
+    [TestState.Ready]: '\x1b[34m',
+    [TestState.Running]: '\x1b[33m',
+    [TestState.Passsed]: '\x1b[32m',
+    [TestState.Failed]: '\x1b[31m',
+};
+
+function shortTextFromStack(stack:string):string {
+    // .replace(/[\r\n]+\s+/g, ' ')
+    return stack?stack.split(os.EOL)[1].trimLeft():'';
+}
+var Columns = [
+    { name:'NAME', width:30, just:'l', fn:(t:Testcase) => t.name},
+    { name:'FILE', width:20, just:'l', fn:(t:Testcase) => t.filename},
+    { name:'STATUS', width:8, just:'l', fn:(t:Testcase) => Label[t.state]},
+    { name:'TIME(ms)', width:8, just:'l', fn:(t:Testcase) => t.runtimeInMs},
+    { name:'MSG', width:40, just:'l', fn:(t:Testcase) => t.error},
+    { name:'SOURCE', width:40, just:'l', fn:(t:Testcase) => shortTextFromStack(t.stack)}
+];
 var lastTotal=0, lastIdle=0, lastSys=0, lastUser=0;
-async function render() {
+function renderHeader() {
     const columns = process.stdout.columns||80;
     const rows = process.stdout.rows||24;
-    console.log('\x1b[2J'); //clear 
-    console.log('\x1b[0;0H');
+    console.log('\x1b[2J');     //clear 
+    console.log('\x1b[0;0H');   // top left
 
     const cpuList: { times: { sys: number, user: number, idle: number} }[] = os.cpus();
     const sys = cpuList.map(cpu => cpu.times.sys).reduce((x, y) => x + y);
@@ -133,51 +173,57 @@ async function render() {
     lastSys=sys;
     lastUser=user;
     lastTotal=total;
-
     const freeMem = (100*os.freemem()/os.totalmem()).toFixed(2);
-    console.log(`CP Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);
 
     // time
     process.stdout.write(`\x1b[0;${columns-8}H`);
-
     const tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-
     console.log((new Date(Date.now()-tzoffset).toISOString().substr(11,8)));
 
-    console.log('\x1b[6;0H');
+    // test summary
+    let failing=0, running=0;
+    allTests.forEach(t => { failing+=t.state===TestState.Failed?1:0;running+=t.state===TestState.Running?1:0; })
+    console.log(`Tests ${allTests.size}, Failing ${failing}, Running ${running}, Files ${allFiles.size}`);
 
+    // system
+    console.log(`CP Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);
+}
+function renderAllTests() {
+    const rowHeadings = Columns.map(c=>(c.name).padEnd(c.width)).join(' ');
+    console.log(rowHeadings);
     Array.from(allTests).sort(([,a], [,b]) => (a.state-b.state)).forEach(([,t]) => {
-        // console.log(t.path, t.name, t.mtime);
-        const colour = {
-            [TestState.Ready]: '\x1b[34m',
-            [TestState.Running]: '\x1b[33m',
-            [TestState.Passsed]: '\x1b[32m',
-            [TestState.Failed]: '\x1b[31m',
-        };
-        const message = {
-            [TestState.Ready]: 'Waiting',
-            [TestState.Running]: 'Running',
-            [TestState.Passsed]: 'Passed',
-            [TestState.Failed]: t.body,
-        };
-        if (mode === 'd' || t.state !== TestState.Passsed)
-            console.log(colour[t.state], t.path, t.name, t.body, t.runtimeInMs(), message[t.state], '\x1b[0m');
+        const row = Columns.map(c=>c.fn(t).toString().padEnd(c.width).substr(0, c.width)).join(' ');
+        console.log(Colour[t.state] + row + '\x1b[0m');
     })
+}
+function renderHelp() {
+    console.log('mutt');
+}
+function renderZoom() {
+    Array.from(allTests).filter(([,t]) => t.state===TestState.Failed).forEach(([,t]) => {
+        console.log(t.stack);
+    });
+}
+async function render() {
+    renderHeader();
+    process.stdout.write('\x1b[5;0H'); // row 5
+    switch (mode) {
+        case 'd': return renderAllTests();
+        case 'z': return renderZoom();
+        case 'h': return renderHelp();
+    }
+
 }
 async function run() {
     readline.emitKeypressEvents(process.stdin);
     process.stdin.setRawMode && process.stdin.setRawMode(true);
     process.stdin.on('keypress', (str, key) => {
 
+        mode = key.name;
         if (key.name === 'q') {
             console.log("\x1b[?25h"); // show cursor
             process.exit();
-        } else if (key.name === 'f') {
-            mode = 'f';
-            render();
-        }
-        else {
-            mode = 'd';
+        } else {
             render();
         }
     });
