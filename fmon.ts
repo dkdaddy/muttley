@@ -5,7 +5,29 @@ import { runInThisContext } from 'vm';
 var os = require('os');
 
 
-const mutt = ``
+const mutt = `
+       __,-----._                       ,-.
+     ,'   ,-.    \\\`---.          ,-----<._/
+    (,.-. o:.\`    )),"\\\\-._    ,'         \`.
+   ('"-\` .\\       \\\`:_ )\\  \`-;'-._          \\
+  ,,-.    \\\` ;  :  \\( \`-'     ) -._     :   \`:
+ (    \\ \`._\\\\ \` ;             ;    \`    :    )
+  \\\`.  \`-.    __   ,         /  \\        ;, (
+   \`.\`-.___--'  \`-          /    ;     | :   |
+     \`-' \`-.\`--._          '           ;     |
+           (\`--._\`.                ;   /\\    |
+            \\     '                \\  ,  )   :
+            |  \`--::----            \\'   ;  ;|
+            \\    .__,-      (        )   :  :|
+             \\    : \`------; \\      |    |   ;
+              \\   :       / , )     |    |   (
+     mutt      \\   \\      \`-^-|     |   / , ,\\
+                )  )          | -^- ;   \`-^-^'
+             _,' _ ;          |    |
+            / , , ,'         /---. :
+            \`-^-^'          (  :  :,'
+                             \`-^--'
+`;
 enum TestState { Ready=3, Running=2, Passsed=4, Failed=1 }
 
 class Testcase {
@@ -198,6 +220,7 @@ function renderAllTests() {
 }
 function renderHelp() {
     console.log('mutt');
+    console.log(mutt);
 }
 function renderZoom() {
     Array.from(allTests).filter(([,t]) => t.state===TestState.Failed).forEach(([,t]) => {
