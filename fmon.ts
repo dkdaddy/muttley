@@ -3,6 +3,7 @@ import path from 'path';
 import readline from 'readline';
 import { runInThisContext } from 'vm';
 var os = require('os');
+const { exec } = require('child_process');
 
 
 const mutt = `
@@ -32,6 +33,7 @@ enum TestState { Ready = 3, Running = 2, Passsed = 4, Failed = 1 }
 
 class Testcase {
     public path: string;
+    public fixture: string;
     public name: string;
     public body: string;
     public mtime: Date;
@@ -42,12 +44,12 @@ class Testcase {
     public stack = '';
     public error = '';
     public get filename() { return path.basename(this.path) }
-    constructor(path: string, stat: Stats, line: string) {
+    constructor(path: string, stat: Stats, fixture: string, name: string) {
         this.path = path;
         this.mtime = stat.mtime;
-        let tag, rest;
-        [tag, this.name, ...rest] = line.split(' ');
-        this.body = rest.join(' ');
+        this.fixture = fixture;
+        this.name = name;
+        this.body = '42';
     }
     public get runtimeInMs() {
         if (this.state === TestState.Running)
@@ -56,7 +58,22 @@ class Testcase {
             return this.endTime.getTime() - this.startTime.getTime();
     }
 };
+async function runCommand() {
+    exec('mocha .', (err:string, stdout:string, stderr:string) => {
+        if (err) {
+          // node couldn't execute the command
+          console.log(`node couldn't execute the command`);
+
+          return;
+        }
+      
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+      });
+}
 async function runTest(t: Testcase) {
+    // return runCommand();
     return new Promise((resolve, reject) => {
         t.state = TestState.Running;
         t.startTime = new Date(Date.now());
@@ -94,14 +111,23 @@ async function readTestCasesFromFile(file: string, stat: Stats): Promise<void> {
                 reject(err);
             }
             else {
-                data.toString().split("\n").forEach(line => {
-                    if (line.startsWith('testcase ')) {
-                        const testcase = new Testcase(file, stat, line);
-                        const oldTest = allTests.get(testcase.name);
-                        if (oldTest) testcase.modified = true;
-                        allTests.set(testcase.name, testcase);
-                        l(testcase);
-                        runTest(testcase);
+                let fixture = '';
+                let start;
+                data.toString().split(os.EOL).forEach(line => {
+                    if ((start = line.indexOf(' describe')) >= 0 && line.slice(start + 9).startsWith('(\'')) {
+                        fixture = line.substr(start + 9).split("'")[1];
+                    }
+                    else if ((start = line.indexOf(' it')) >= 0 && line.slice(start + 3).startsWith('(\'')) {
+                        const name = line.substr(start + 3).split("'")[1];
+                        if (name) {
+                            const key = [file, fixture, name].join('-');
+                            const testcase = new Testcase(file, stat, fixture, name);
+                            const oldTest = allTests.get(key);
+                            if (oldTest) testcase.modified = true;
+                            allTests.set(key, testcase);
+                            l('adding', key, fixture, name);
+                            runTest(testcase);
+                        }
                     }
                 });
                 resolve(void 0);
@@ -125,7 +151,7 @@ async function readFiles(folder: string): Promise<void> {
                 files.forEach(file => {
                     const filepath = folder + '/' + file;
                     const stat = fs.statSync(filepath);
-                    if (stat.isFile()) {
+                    if (stat.isFile() && file.endsWith('.js')) {
                         const lastModified = allFiles.get(filepath);
                         if (!lastModified || lastModified && lastModified < stat.mtime) {
                             allFiles.set(filepath, stat.mtime);
@@ -137,6 +163,7 @@ async function readFiles(folder: string): Promise<void> {
                     }
                 });
                 await Promise.all(promises);
+                l('subfolders', subFolders);
                 subFolders.forEach(async folder => {
                     await readFiles(folder);
                 })
@@ -169,6 +196,7 @@ function shortTextFromStack(stack: string): string {
     return stack ? stack.split(os.EOL)[1].trimLeft() : '';
 }
 var Columns = [
+    { name: 'FIXTURE', width: 15, just: 'l', fn: (t: Testcase) => t.fixture },
     { name: 'NAME', width: 30, just: 'l', fn: (t: Testcase) => t.name },
     { name: 'FILE', width: 20, just: 'l', fn: (t: Testcase) => t.filename },
     { name: 'STATUS', width: 8, just: 'l', fn: (t: Testcase) => Label[t.state] },
@@ -254,7 +282,7 @@ function renderZoom(n: number) {
         test!.stack.split(os.EOL).slice(1, 4).forEach(frame => {
             const start = frame.indexOf('(/');
             const end = frame.indexOf(':', start);
-            if (start>0 && end>0) {
+            if (start > 0 && end > 0) {
                 const filepath = frame.substr(start + 1, end - start - 1);
                 const line = frame.substr(end + 1).split(':')[0];
                 // inverse filename padded full width
@@ -266,11 +294,11 @@ function renderZoom(n: number) {
 }
 function renderFileWindow(filepath: string, rows: number, line: number) {
     const content = fs.readFileSync(filepath);
-    const window = content.toString().split(os.EOL).slice(line-rows/2,line+rows/2);
-    let rownum=line-rows/2+1;
+    const window = content.toString().split(os.EOL).slice(line - rows / 2, line + rows / 2);
+    let rownum = line - rows / 2 + 1;
     window.forEach(sourceline => {
-        const prefix = rownum===line?'\x1b[35m':'';
-        console.log(prefix + (rownum++).toString().padEnd(6), sourceline, '\x1b[0m');        
+        const prefix = rownum === line ? '\x1b[35m' : '';
+        console.log(prefix + (rownum++).toString().padEnd(6), sourceline, '\x1b[0m');
     });
 }
 async function render() {
