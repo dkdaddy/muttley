@@ -33,23 +33,23 @@ enum TestState { Ready = 3, Running = 2, Passsed = 4, Failed = 1 }
 
 class Testcase {
     public path: string;
-    public fixture: string;
+    public suite: string;
     public name: string;
-    public body: string;
     public mtime: Date;
     public startTime: Date = new Date();
     public endTime: Date = new Date();
-    public modified: boolean = false;
     public state = TestState.Ready;
-    public stack = '';
+    public stack: { file: string; lineno: number; }[] = [];
     public error = '';
     public get filename() { return path.basename(this.path) }
+    public get key() {
+        return [this.path, this.suite, this.name].join('-');
+    }
     constructor(path: string, stat: Stats, fixture: string, name: string) {
         this.path = path;
         this.mtime = stat.mtime;
-        this.fixture = fixture;
+        this.suite = fixture;
         this.name = name;
-        this.body = '42';
     }
     public get runtimeInMs() {
         if (this.state === TestState.Running)
@@ -60,90 +60,83 @@ class Testcase {
 };
 
 interface TestRunner {
-    findTests(filePath: string): [{ suite: string, name: string }];
+    findTests(filePath: string): Promise<{ suite: string, name: string }[]>;
     runFile(filePath: string,
         onStart: () => void,
         onPass: (suite: string, name: string, duration: number) => void,
-        onFail: (suite: string, name: string, message: string, stack: [{ file: string, lineno: number }]) => void,
+        onFail: (suite: string, name: string, message: string, stack: { file: string, lineno: number }[]) => void,
         onEnd: (passed: number, failed: number) => void,
-    ): void;
+    ): Promise<void>;
 }
 class fakeTestRunner implements TestRunner {
-    findTests(filePath: string): [{ suite: string; name: string; }] {
-        return [{suite:'Player constructor', name:'throws if no name'}];
-    }    
-    runFile(filePath: string, onStart: () => void, 
-            onPass: (suite: string, name: string, duration: number) => void, 
-            onFail: (suite: string, name: string, message: string, stack: [{ file: string; lineno: number; }]) => void, 
-            onEnd: (passed: number, failed: number) => void): void {
+    private tests = [
+        { file: 'game.t.js', suite: 'Player constructor', name: 'throws if no name' },
+        { file: 'game.t.js', suite: 'Player constructor', name: 'accepts a name' },
+        { file: 'game.t.js', suite: 'Player hit', name: 'reduces health' },
+        { file: 'game.t.js', suite: 'Player hit', name: 'rejects negative value', message: 'does not throw', stack: [{ file: 'tests/game.t.ts', lineno: 27 }] }
+    ];
+    async findTests(filePath: string): Promise<{ suite: string; name: string; }[]> {
+        return this.tests.filter(x => filePath.indexOf(x.file) >= 0);
+    }
+    async runFile(filePath: string, onStart: () => void,
+        onPass: (suite: string, name: string, duration: number) => void,
+        onFail: (suite: string, name: string, message: string, stack: { file: string; lineno: number; }[]) => void,
+        onEnd: (passed: number, failed: number) => void): Promise<void> {
         setImmediate(onStart);
-        setImmediate(() => onPass('Player constructor', 'throws if no name', 0));
-        setImmediate(() => onEnd(1,0));
+        this.tests.filter(test => !test.message).forEach(test => {
+            setImmediate(() => {
+                onPass(test.suite, test.name, 0);
+            });
+        });
+        this.tests.filter(test => test.message).forEach(test => {
+            setImmediate(() => {
+                onFail(test.suite, test.name, test.message || '', test.stack || []);
+            });
+        });
+        setImmediate(() => onEnd(3, 1));
     }
 }
-async function runTest(t: Testcase) {
-    // return runCommand();
-    return new Promise((resolve, reject) => {
-        t.state = TestState.Running;
-        t.startTime = new Date(Date.now());
-        setTimeout(() => {
-            // console.log('Running', t.name);
-            try {
-                if (eval(t.body)) {
-                    t.state = TestState.Passsed;
-                    t.error = '';
-                }
-                else {
-                    t.state = TestState.Failed;
-                    t.error = 'returned false';
-                }
-            }
-            catch (err) {
-                t.error = err;
-                t.stack = err.stack;
-                t.state = TestState.Failed;
+var theRunner = new fakeTestRunner();
 
-            }
-            // console.log('Completed', t.name, t.state);
-            t.endTime = new Date(Date.now());
-            resolve();
-        }, 2145);
-    });
-}
-async function readTestCasesFromFile(file: string, stat: Stats): Promise<void> {
-    l('readtestcases', file);
-    return new Promise((resolve, reject) => {
-        fs.readFile(file, (err, data) => {
-            l('readFile', file);
-            if (err) {
-                l(err);
-                reject(err);
-            }
-            else {
-                let fixture = '';
-                let start;
-                data.toString().split(os.EOL).forEach(line => {
-                    if ((start = line.indexOf(' describe')) >= 0 && line.slice(start + 9).startsWith('(\'')) {
-                        fixture = line.substr(start + 9).split("'")[1];
-                    }
-                    else if ((start = line.indexOf(' it')) >= 0 && line.slice(start + 3).startsWith('(\'')) {
-                        const name = line.substr(start + 3).split("'")[1];
-                        if (name) {
-                            const key = [file, fixture, name].join('-');
-                            const testcase = new Testcase(file, stat, fixture, name);
-                            const oldTest = allTests.get(key);
-                            if (oldTest) testcase.modified = true;
-                            allTests.set(key, testcase);
-                            l('adding', key, fixture, name);
-                            runTest(testcase);
-                        }
-                    }
-                });
-                resolve(void 0);
-            }
+function onStart(filename: string) {
+    l('onStart', filename);
+};
+function onPass(filename: string, stat: Stats, suite: string, name: string, duration: number) {
+    l('onPass', filename, suite, name);
+    const testcase = new Testcase(filename, stat, suite, name);
+    testcase.state = TestState.Passsed;
+    const oldTest = allTests.get(testcase.key);
+    allTests.set(testcase.key, testcase);
+};
+function onFail(filename: string, stat: Stats, suite: string, name: string, message: string, stack: { file: string; lineno: number; }[]) {
+    l('onFail', filename, suite, name);
+    const testcase = new Testcase(filename, stat, suite, name);
+    testcase.state = TestState.Failed;
+    testcase.error = message;
+    testcase.stack = stack;
+    testcase.state = TestState.Failed;
+    const oldTest = allTests.get(testcase.key);
+    allTests.set(testcase.key, testcase);
+};
+function onEnd(resolve: () => void, passed: number, failed: number): void {
+    l('onEnd', passed, failed);
+    resolve();
+};
+async function readTestCasesFromFile(filename: string, stat: Stats): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+        const tests = await theRunner.findTests(filename);
+        tests.forEach(test => {
+            const testcase = new Testcase(filename, stat, test.suite, test.name);
+            testcase.state = TestState.Running;
+            allTests.set(testcase.key, testcase);
+            l('adding', testcase.key, testcase.suite, testcase.name);
         });
+        if (tests.length)
+            await theRunner.runFile(filename, onStart.bind(null, filename), onPass.bind(null, filename, stat), onFail.bind(null, filename, stat), onEnd.bind(null, resolve));
+        resolve();
     });
 }
+
 const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();
 
@@ -200,12 +193,11 @@ const Colour = {
     [TestState.Failed]: '\x1b[31m',
 };
 
-function shortTextFromStack(stack: string): string {
-    // .replace(/[\r\n]+\s+/g, ' ')
-    return stack ? stack.split(os.EOL)[1].trimLeft() : '';
+function shortTextFromStack(stack: { file: string, lineno: number }[]): string {
+    return stack.length ? stack[0].file+':'+stack[0].lineno : '';
 }
 var Columns = [
-    { name: 'FIXTURE', width: 15, just: 'l', fn: (t: Testcase) => t.fixture },
+    { name: 'FIXTURE', width: 25, just: 'l', fn: (t: Testcase) => t.suite },
     { name: 'NAME', width: 30, just: 'l', fn: (t: Testcase) => t.name },
     { name: 'FILE', width: 20, just: 'l', fn: (t: Testcase) => t.filename },
     { name: 'STATUS', width: 8, just: 'l', fn: (t: Testcase) => Label[t.state] },
@@ -272,7 +264,9 @@ function renderFailures() {
 
     Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
         process.stdout.write(['\x1b[31;1m', t.name, ' ', t.filename, ' ', t.error, '\x1b[0m', os.EOL].join(''))
-        console.log(t.stack);
+        t.stack.forEach(frame => {
+            process.stdout.write(frame.file+':'+frame.lineno+os.EOL);
+        });
     });
 }
 function renderZoom(n: number) {
@@ -282,22 +276,21 @@ function renderZoom(n: number) {
     Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
         if (i++ === n) {
             process.stdout.write(['\x1b[31;1m', t.name, ' ', t.filename, ' ', t.error, '\x1b[0m', os.EOL].join(''))
-            console.log(t.stack);
             test = t;
         }
     });
+    process.stdout.write(test!.error+os.EOL);
+    test!.stack.forEach(frame => {
+        process.stdout.write(frame.file+':'+frame.lineno+os.EOL);
+    });
     //find first line in stack
-    if (test && test!.stack) {
-        test!.stack.split(os.EOL).slice(1, 4).forEach(frame => {
-            const start = frame.indexOf('(/');
-            const end = frame.indexOf(':', start);
-            if (start > 0 && end > 0) {
-                const filepath = frame.substr(start + 1, end - start - 1);
-                const line = frame.substr(end + 1).split(':')[0];
-                // inverse filename padded full width
-                process.stdout.write('\x1b[7m' + (filepath + ':' + line).padEnd(columns) + '\x1b[0m');
-                renderFileWindow(filepath, 14, Number.parseInt(line, 10));
-            }
+    if (test && test!.stack.length) {
+        test!.stack.forEach(frame => {
+            const filepath = frame.file;
+            const line = frame.lineno;
+            // inverse filename padded full width
+            process.stdout.write('\x1b[7m' + (filepath + ':' + line).padEnd(columns) + '\x1b[0m');
+            renderFileWindow(filepath, 14, line);
         });
     }
 }
