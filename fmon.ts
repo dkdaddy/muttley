@@ -58,19 +58,28 @@ class Testcase {
             return this.endTime.getTime() - this.startTime.getTime();
     }
 };
-async function runCommand() {
-    exec('mocha .', (err:string, stdout:string, stderr:string) => {
-        if (err) {
-          // node couldn't execute the command
-          console.log(`node couldn't execute the command`);
 
-          return;
-        }
-      
-        // the *entire* stdout and stderr (buffered)
-        console.log(`stdout: ${stdout}`);
-        console.log(`stderr: ${stderr}`);
-      });
+interface TestRunner {
+    findTests(filePath: string): [{ suite: string, name: string }];
+    runFile(filePath: string,
+        onStart: () => void,
+        onPass: (suite: string, name: string, duration: number) => void,
+        onFail: (suite: string, name: string, message: string, stack: [{ file: string, lineno: number }]) => void,
+        onEnd: (passed: number, failed: number) => void,
+    ): void;
+}
+class fakeTestRunner implements TestRunner {
+    findTests(filePath: string): [{ suite: string; name: string; }] {
+        return [{suite:'Player constructor', name:'throws if no name'}];
+    }    
+    runFile(filePath: string, onStart: () => void, 
+            onPass: (suite: string, name: string, duration: number) => void, 
+            onFail: (suite: string, name: string, message: string, stack: [{ file: string; lineno: number; }]) => void, 
+            onEnd: (passed: number, failed: number) => void): void {
+        setImmediate(onStart);
+        setImmediate(() => onPass('Player constructor', 'throws if no name', 0));
+        setImmediate(() => onEnd(1,0));
+    }
 }
 async function runTest(t: Testcase) {
     // return runCommand();

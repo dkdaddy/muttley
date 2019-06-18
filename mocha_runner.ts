@@ -43,11 +43,14 @@ mocha.addFile(
 // Run the tests. 
 mocha.run()
   .on('pass', function (test: any) {
-    console.log('pass: %s', test.fullTitle());
+    console.log('pass: [%s] [%s] [%s]', test.fullTitle(), test.title, test.parent.fullTitle(), test.duration);
   })
-  .on('fail', function (test: any) {
-    console.log('fail: %s', test.fullTitle());
+  .on('fail', function (test: any, err: any) {
+    console.log('failed: %s', test.fullTitle(), test.duration);
+    console.log('error message:\n', err.message.replace(/\n+/g,'\n'));
+    console.log('stack:\n', err.stack.replace(/\n+/g,'\n'));
   })
   .on('suite', function (suite: any) {
-    console.log('suite: %s', suite.fullTitle());
-  })
+    console.log('suite: %s', suite.title);
+  });
+  console.log('tests running...');
