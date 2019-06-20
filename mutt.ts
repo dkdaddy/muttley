@@ -22,7 +22,7 @@ const mutt = `
             \\    .__,-      (        )   :  :|
              \\    : \`------; \\      |    |   ;
               \\   :       / , )     |    |   (
-     mutt      \\   \\      \`-^-|     |   / , ,\\
+               \\   \\      \`-^-|     |   / , ,\\
                 )  )          | -^- ;   \`-^-^'
              _,' _ ;          |    |
             / , , ,'         /---. :
@@ -225,26 +225,53 @@ function renderHeader() {
 }
 function renderAllTests() {
     const rowHeadings = Columns.map(c => (c.name).padEnd(c.width)).join(' ');
-    console.log(['\x1b[5m','\x1b[31m' ,
-        String.fromCodePoint(0x2560), 
-        String.fromCodePoint(0x2550), 
-        String.fromCodePoint(0x2550), 
-        String.fromCodePoint(0x2557), 
-        String.fromCodePoint(0x1F354), 
-        String.fromCodePoint(0x1f3a7), 
-        String.fromCodePoint(0x1f3ae),'\x1b[0m'].join(''));
+
     console.log(rowHeadings);
     Array.from(allTests).sort(([, a], [, b]) => (a.state - b.state)).forEach(([, t]) => {
         const row = Columns.map(c => c.fn(t).toString().padEnd(c.width).substr(0, c.width)).join(' ');
         console.log(Colour[t.state] + row + '\x1b[0m');
     })
 }
+var move = 0;
+function renderPacman() {
+    // Oikake (追いかけ)
+    
+    // see https://en.wikipedia.org/wiki/ANSI_escape_code
+    const blue = '\x1b[94m';
+    const white = '\x1b[97m';
+
+    for (let i = 0; i < 40; i++) {
+        process.stdout.write(blue+String.fromCodePoint(0x2551)+white+String.fromCodePoint(0x2022)+white);
+        if (i<move)
+            console.log();
+        else if (move === i)
+            console.log(String.fromCodePoint(0x1F354));
+        else
+            console.log(String.fromCodePoint(0x2022));
+    }
+    move = move > 30 ? 0 : move + 1;
+
+    console.log([, '\x1b[31m',
+        // String.fromCodePoint(0x2560), 
+        // String.fromCodePoint(0x2550), 
+        // String.fromCodePoint(0x2550), 
+        String.fromCodePoint(0x2557),
+        String.fromCodePoint(0x2022),  // dot
+        String.fromCodePoint(0x1F354), // burger
+        String.fromCodePoint(0x1f3a7), // phones
+        String.fromCodePoint(0x1F47B), // ghost https://en.wikipedia.org/wiki/Ghosts_(Pac-Man)
+        String.fromCodePoint(0x1f3ae), // gamepad
+        '\x1b[0m'].join(''));
+
+}
+
 function renderHelp() {
-    console.log('Monitor Unit Testing Tool - MUTT');
+    console.log('Monitor Unit Testing Tool - MUTT', os.EOL);
     [`d Default view`,
         `z Zoom into test failures`,
         `0 Zoom into test failure 0`,
         `1-9 Zoom into test failure 1-9`,
+        `p Pacman`,
         `q Quit`,
         `h Help`].forEach(i => console.log(i));
     console.log(mutt);
@@ -305,6 +332,7 @@ async function render() {
     switch (mode) {
         case 'd': return renderAllTests();
         case 'z': return renderFailures();
+        case 'p': return renderPacman();
         case '0': return renderZoom(0);
         case '1': return renderZoom(1);
         case '2': return renderZoom(2);
@@ -333,9 +361,11 @@ async function run() {
 
     setInterval(async () => {
         await readFiles('.');
+    }, 1000);
+    setInterval(async () => {
         if (!debug)  // don't rendern in debug mode to see log
             await render();
-    }, 1000);
+    }, 130);
 
 }
 let debug = false;
