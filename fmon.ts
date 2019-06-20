@@ -1,9 +1,9 @@
 import fs, { Stats } from 'fs';
 import path from 'path';
 import readline from 'readline';
-import { runInThisContext } from 'vm';
+import { FakeTestRunner as FakeTestRunner } from './test-runner';
+import { MochaTestRunner } from './mocha_runner';
 var os = require('os');
-const { exec } = require('child_process');
 
 
 const mutt = `
@@ -32,7 +32,7 @@ const mutt = `
 enum TestState { Ready = 3, Running = 2, Passsed = 4, Failed = 1 }
 
 class Testcase {
-    public path: string;
+    public filename: string;
     public suite: string;
     public name: string;
     public mtime: Date;
@@ -41,12 +41,12 @@ class Testcase {
     public state = TestState.Ready;
     public stack: { file: string; lineno: number; }[] = [];
     public error = '';
-    public get filename() { return path.basename(this.path) }
+    public get basefilename() { return path.basename(this.filename) }
     public get key() {
-        return [this.path, this.suite, this.name].join('-');
+        return [this.filename, this.suite, this.name].join('-');
     }
-    constructor(path: string, stat: Stats, fixture: string, name: string) {
-        this.path = path;
+    constructor(filename: string, stat: Stats, fixture: string, name: string) {
+        this.filename = filename;
         this.mtime = stat.mtime;
         this.suite = fixture;
         this.name = name;
@@ -59,47 +59,15 @@ class Testcase {
     }
 };
 
-interface TestRunner {
-    findTests(filePath: string): Promise<{ suite: string, name: string }[]>;
-    runFile(filePath: string,
-        onStart: () => void,
-        onPass: (suite: string, name: string, duration: number) => void,
-        onFail: (suite: string, name: string, message: string, stack: { file: string, lineno: number }[]) => void,
-        onEnd: (passed: number, failed: number) => void,
-    ): Promise<void>;
-}
-class fakeTestRunner implements TestRunner {
-    private tests = [
-        { file: 'game.t.js', suite: 'Player constructor', name: 'throws if no name' },
-        { file: 'game.t.js', suite: 'Player constructor', name: 'accepts a name' },
-        { file: 'game.t.js', suite: 'Player hit', name: 'reduces health' },
-        { file: 'game.t.js', suite: 'Player hit', name: 'rejects negative value', message: 'does not throw', stack: [{ file: 'tests/game.t.ts', lineno: 27 }] }
-    ];
-    async findTests(filePath: string): Promise<{ suite: string; name: string; }[]> {
-        return this.tests.filter(x => filePath.indexOf(x.file) >= 0);
-    }
-    async runFile(filePath: string, onStart: () => void,
-        onPass: (suite: string, name: string, duration: number) => void,
-        onFail: (suite: string, name: string, message: string, stack: { file: string; lineno: number; }[]) => void,
-        onEnd: (passed: number, failed: number) => void): Promise<void> {
-        setImmediate(onStart);
-        this.tests.filter(test => !test.message).forEach(test => {
-            setImmediate(() => {
-                onPass(test.suite, test.name, 0);
-            });
-        });
-        this.tests.filter(test => test.message).forEach(test => {
-            setImmediate(() => {
-                onFail(test.suite, test.name, test.message || '', test.stack || []);
-            });
-        });
-        setImmediate(() => onEnd(3, 1));
-    }
-}
-var theRunner = new fakeTestRunner();
-
 function onStart(filename: string) {
     l('onStart', filename);
+    for (let [k, t] of allTests) {
+        l(k, t.filename, filename);
+        if (t.filename === filename) {
+            l('remove', t.filename, t.suite, t.name);
+            allTests.delete(k);
+        }
+    }
 };
 function onPass(filename: string, stat: Stats, suite: string, name: string, duration: number) {
     l('onPass', filename, suite, name);
@@ -109,7 +77,7 @@ function onPass(filename: string, stat: Stats, suite: string, name: string, dura
     allTests.set(testcase.key, testcase);
 };
 function onFail(filename: string, stat: Stats, suite: string, name: string, message: string, stack: { file: string; lineno: number; }[]) {
-    l('onFail', filename, suite, name);
+    l('onFail', filename, suite, name, message);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.state = TestState.Failed;
     testcase.error = message;
@@ -124,15 +92,29 @@ function onEnd(resolve: () => void, passed: number, failed: number): void {
 };
 async function readTestCasesFromFile(filename: string, stat: Stats): Promise<void> {
     return new Promise(async (resolve, reject) => {
+
+        const theRunner = new MochaTestRunner();
+        // var theRunner = new fakeTestRunner();
+
         const tests = await theRunner.findTests(filename);
+
         tests.forEach(test => {
             const testcase = new Testcase(filename, stat, test.suite, test.name);
             testcase.state = TestState.Running;
             allTests.set(testcase.key, testcase);
             l('adding', testcase.key, testcase.suite, testcase.name);
         });
-        if (tests.length)
+        // schedule onStart here because the event isn't being triggered in mocha 6.1.4
+        // see https://github.com/mochajs/mocha/issues/2753
+        onStart(filename);
+
+        if (tests.length) {
+            const absoluteFilePath = path.resolve(process.cwd(), filename);
+            // delete require.cache[require.resolve(absoluteFilePath)];
+            // l('Loading Mocha from', require.resolve('mocha'));
+            // delete require.cache[require.resolve('mocha')];
             await theRunner.runFile(filename, onStart.bind(null, filename), onPass.bind(null, filename, stat), onFail.bind(null, filename, stat), onEnd.bind(null, resolve));
+        }
         resolve();
     });
 }
@@ -194,16 +176,16 @@ const Colour = {
 };
 
 function shortTextFromStack(stack: { file: string, lineno: number }[]): string {
-    return stack.length ? stack[0].file+':'+stack[0].lineno : '';
+    return stack.length ? stack[0].file + ':' + stack[0].lineno : '';
 }
 var Columns = [
-    { name: 'FIXTURE', width: 25, just: 'l', fn: (t: Testcase) => t.suite },
+    { name: 'SUITE', width: 20, just: 'l', fn: (t: Testcase) => t.suite },
     { name: 'NAME', width: 30, just: 'l', fn: (t: Testcase) => t.name },
     { name: 'FILE', width: 20, just: 'l', fn: (t: Testcase) => t.filename },
     { name: 'STATUS', width: 8, just: 'l', fn: (t: Testcase) => Label[t.state] },
     { name: 'TIME(ms)', width: 8, just: 'l', fn: (t: Testcase) => t.runtimeInMs },
-    { name: 'MSG', width: 40, just: 'l', fn: (t: Testcase) => t.error },
-    { name: 'SOURCE', width: 40, just: 'l', fn: (t: Testcase) => shortTextFromStack(t.stack) }
+    { name: 'MSG', width: 50, just: 'l', fn: (t: Testcase) => t.error },
+    { name: 'SOURCE', width: 36, just: 'l', fn: (t: Testcase) => shortTextFromStack(t.stack) }
 ];
 var lastTotal = 0, lastIdle = 0, lastSys = 0, lastUser = 0;
 function renderHeader() {
@@ -239,10 +221,18 @@ function renderHeader() {
     console.log(`Tests ${allTests.size}, Failing ${failing}, Running ${running}, Files monitored ${allFiles.size}`);
 
     // system
-    console.log(`CP Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);
+    console.log(`CPU Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);
 }
 function renderAllTests() {
     const rowHeadings = Columns.map(c => (c.name).padEnd(c.width)).join(' ');
+    console.log(['\x1b[5m','\x1b[31m' ,
+        String.fromCodePoint(0x2560), 
+        String.fromCodePoint(0x2550), 
+        String.fromCodePoint(0x2550), 
+        String.fromCodePoint(0x2557), 
+        String.fromCodePoint(0x1F354), 
+        String.fromCodePoint(0x1f3a7), 
+        String.fromCodePoint(0x1f3ae),'\x1b[0m'].join(''));
     console.log(rowHeadings);
     Array.from(allTests).sort(([, a], [, b]) => (a.state - b.state)).forEach(([, t]) => {
         const row = Columns.map(c => c.fn(t).toString().padEnd(c.width).substr(0, c.width)).join(' ');
@@ -263,10 +253,12 @@ function renderHelp() {
 function renderFailures() {
 
     Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
-        process.stdout.write(['\x1b[31;1m', t.name, ' ', t.filename, ' ', t.error, '\x1b[0m', os.EOL].join(''))
+        process.stdout.write(['\x1b[31;1m' + 'FAILED:', t.suite, t.name, os.EOL, t.filename, os.EOL, t.error, '\x1b[0m', os.EOL].join(' '))
+        let n = 0;
         t.stack.forEach(frame => {
-            process.stdout.write(frame.file+':'+frame.lineno+os.EOL);
+            process.stdout.write(' '.repeat(2 * n++) + frame.file + ':' + frame.lineno + os.EOL);
         });
+        process.stdout.write(os.EOL);
     });
 }
 function renderZoom(n: number) {
@@ -275,24 +267,28 @@ function renderZoom(n: number) {
     let i = 0;
     Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
         if (i++ === n) {
-            process.stdout.write(['\x1b[31;1m', t.name, ' ', t.filename, ' ', t.error, '\x1b[0m', os.EOL].join(''))
+            process.stdout.write(['\x1b[31;1m' + t.suite, t.name, t.filename, t.error, '\x1b[0m', os.EOL].join(' '))
             test = t;
         }
     });
-    process.stdout.write(test!.error+os.EOL);
-    test!.stack.forEach(frame => {
-        process.stdout.write(frame.file+':'+frame.lineno+os.EOL);
+    if (!test)
+        return;
+
+    const renderStack = [...test!.stack].reverse();
+
+    let pad = 0;
+    renderStack.forEach(frame => {
+        process.stdout.write(' '.repeat(2 * pad++) + frame.file + ':' + frame.lineno + os.EOL);
     });
+    process.stdout.write(os.EOL);
     //find first line in stack
-    if (test && test!.stack.length) {
-        test!.stack.forEach(frame => {
-            const filepath = frame.file;
-            const line = frame.lineno;
-            // inverse filename padded full width
-            process.stdout.write('\x1b[7m' + (filepath + ':' + line).padEnd(columns) + '\x1b[0m');
-            renderFileWindow(filepath, 14, line);
-        });
-    }
+    renderStack.forEach(frame => {
+        const filepath = frame.file;
+        const line = frame.lineno;
+        // inverse filename padded full width
+        process.stdout.write('\x1b[7m' + (filepath + ':' + line).padEnd(columns) + '\x1b[0m');
+        renderFileWindow(filepath, 14, line);
+    });
 }
 function renderFileWindow(filepath: string, rows: number, line: number) {
     const content = fs.readFileSync(filepath);
@@ -337,7 +333,8 @@ async function run() {
 
     setInterval(async () => {
         await readFiles('.');
-        await render();
+        if (!debug)  // don't rendern in debug mode to see log
+            await render();
     }, 1000);
 
 }
