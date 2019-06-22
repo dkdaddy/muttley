@@ -1,6 +1,6 @@
 {
   "name": "muttley",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Monitor Unit Test Tool",
   "main": "mutt.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dkdaddy/mutt.git"
+    "url": "git+https://github.com/dkdaddy/muttley.git"
   },
   "keywords": [
     "test",
@@ -21,9 +21,9 @@
   "author": "dkdaddy",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dkdaddy/mutt/issues"
+    "url": "https://github.com/dkdaddy/muttley/issues"
   },
-  "homepage": "https://github.com/dkdaddy/mutt#readme",
+  "homepage": "https://github.com/dkdaddy/muttley#readme",
   "dependencies": {
     "mocha": "^6.1.4",
     "ps-node": "^0.1.6",
