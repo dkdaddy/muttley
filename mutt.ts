@@ -5,7 +5,23 @@ import { MochaTestRunner } from './mocha_runner';
 import { DependencyTree } from './dependency';
 
 var os = require('os');
-
+/*
+to do
+command line params
+tests
+npm package
+npm i 
+npm test
+shell script (see mocha)
+file structure
+node process viewer
+rationalise key handling, help text and mode switching
+limit file stack render to 3
+config file (see mocha or vscode)
+pacman
+logger class
+jsdoc
+*/
 
 const mutt = `
        __,-----._                       ,-.

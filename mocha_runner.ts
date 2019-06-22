@@ -44,7 +44,7 @@ export class MochaTestRunner implements TestRunner {
     onEnd: (passed: number, failed: number) => void): Promise<void> {
     let passed = 0, failed = 0;
     const absoluteFilePath = path.resolve(process.cwd(), filePath);
-    execFile('mocha', [filePath, '--reporter=xunit'], (error: any, stdout: any, stderr: any) => {
+    execFile('mocha', [filePath, '--reporter=xunit', '--require', 'source-map-support/register'], (error: any, stdout: any, stderr: any) => {
       onStart();
       if (error) {
         l(`mocha exe returned : ${error}`);
