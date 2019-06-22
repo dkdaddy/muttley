@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import {execFile} from 'child_process';
 import os from 'os';
-import parser from 'xml2json';
+import parser from 'fast-xml-parser';
 
 import { TestRunner } from './test-runner';
 
@@ -44,7 +44,12 @@ export class MochaTestRunner implements TestRunner {
     onEnd: (passed: number, failed: number) => void): Promise<void> {
     let passed = 0, failed = 0;
     const absoluteFilePath = path.resolve(process.cwd(), filePath);
-    execFile('mocha', [filePath, '--reporter=xunit', '--require', 'source-map-support/register'], (error: any, stdout: any, stderr: any) => {
+    const isWin = process.platform === "win32";
+    // there must be a better way than this but running mocha directly on windows gives an error
+    const cmd = isWin ? 'node' : 'mocha';
+    const args = isWin ? ['node_modules\\mocha\\bin\\mocha', filePath, '--reporter=xunit', '--require', 'source-map-support/register'] :
+                         [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
+    execFile(cmd, args, (error: any, stdout: any, stderr: any) => {
       onStart();
       if (error) {
         l(`mocha exe returned : ${error}`);
@@ -52,10 +57,11 @@ export class MochaTestRunner implements TestRunner {
       l(`stdout: ${stdout}`);
       l(`stderr: ${stderr}`);
       let cases:{classname:string, name:string, time:string, failure:string}[];
-      const json = JSON.parse(parser.toJson(stdout)).testsuite;
-      l(json);
+      const json = parser.parse(stdout, {ignoreAttributes : false, attributeNamePrefix : ''});
+      const suite = json.testsuite; 
+      l(suite);
       // if there is only a single case the testcase is *not* an array! Arrrrgg!
-      cases = json.testcase.length?json.testcase:[json.testcase];
+      cases = suite.testcase.length?suite.testcase:[json.testcase];
       cases.forEach((t) => {
         if (!t.failure) {
           l('pass: [%s] [%s] [%s]', t.classname, t.name, t.time);
