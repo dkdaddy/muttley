@@ -1,8 +1,9 @@
 import fs, { Stats } from 'fs';
 import path from 'path';
 import readline from 'readline';
-import { FakeTestRunner as FakeTestRunner } from './test-runner';
 import { MochaTestRunner } from './mocha_runner';
+import { DependencyTree } from './dependency';
+
 var os = require('os');
 
 
@@ -90,6 +91,8 @@ function onEnd(resolve: () => void, passed: number, failed: number): void {
     l('onEnd', passed, failed);
     resolve();
 };
+const watchlist:Map<string, string[]> = new Map();
+
 async function readTestCasesFromFile(filename: string, stat: Stats): Promise<void> {
     return new Promise(async (resolve, reject) => {
 
@@ -97,6 +100,14 @@ async function readTestCasesFromFile(filename: string, stat: Stats): Promise<voi
         // var theRunner = new fakeTestRunner();
 
         const tests = await theRunner.findTests(filename);
+
+        if (tests.length) {
+            const files = deps.getFlat(filename);
+            files.forEach(file => {
+                // todo append to existing list
+                watchlist.set(file, [filename]);
+            });
+        }
 
         tests.forEach(test => {
             const testcase = new Testcase(filename, stat, test.suite, test.name);
@@ -121,7 +132,7 @@ async function readTestCasesFromFile(filename: string, stat: Stats): Promise<voi
 
 const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();
-
+const deps = new DependencyTree('/');
 async function readFiles(folder: string): Promise<void> {
     return new Promise((resolve, reject) => {
         fs.readdir(folder, async (err, files) => {
@@ -137,8 +148,20 @@ async function readFiles(folder: string): Promise<void> {
                     const stat = fs.statSync(filepath);
                     if (stat.isFile() && file.endsWith('.js')) {
                         const lastModified = allFiles.get(filepath);
-                        if (!lastModified || lastModified && lastModified < stat.mtime) {
+                        if (!lastModified || lastModified < stat.mtime) {
                             allFiles.set(filepath, stat.mtime);
+                            let x:string[]|undefined;
+                            console.log(Object.getOwnPropertyNames(require.cache));
+                            console.log('looking for', filepath, 'in', watchlist);
+                            if (x=watchlist.get(filepath)) {
+                                x.forEach(xx => {
+                                    const xstat = fs.statSync(xx);
+                                    // todo - iterate the cache finding all modules which resolve to xx
+                                    delete require.cache[xx];
+                                    promises.push(readTestCasesFromFile(xx, xstat));
+                                });
+                            }
+                            
                             promises.push(readTestCasesFromFile(filepath, stat));
                         }
                     }
@@ -235,14 +258,14 @@ function renderAllTests() {
 var move = 0;
 function renderPacman() {
     // Oikake (追いかけ)
-    
+
     // see https://en.wikipedia.org/wiki/ANSI_escape_code
     const blue = '\x1b[94m';
     const white = '\x1b[97m';
 
     for (let i = 0; i < 40; i++) {
-        process.stdout.write(blue+String.fromCodePoint(0x2551)+white+String.fromCodePoint(0x2022)+white);
-        if (i<move)
+        process.stdout.write(blue + String.fromCodePoint(0x2551) + white + String.fromCodePoint(0x2022) + white);
+        if (i < move)
             console.log();
         else if (move === i)
             console.log(String.fromCodePoint(0x1F354));
@@ -268,6 +291,7 @@ function renderPacman() {
 function renderHelp() {
     console.log('Monitor Unit Testing Tool - MUTT', os.EOL);
     [`d Default view`,
+        `r re-run all tests`,
         `z Zoom into test failures`,
         `0 Zoom into test failure 0`,
         `1-9 Zoom into test failure 1-9`,
@@ -351,6 +375,12 @@ async function run() {
         if (key.name === 'q') {
             console.log("\x1b[?25h"); // show cursor
             process.exit();
+        }
+        else if (key.name === 'r') {
+            watchlist.forEach((value, key) => {
+                delete require.cache[value[0]];
+            });
+            allFiles.clear();
         } else {
             render();
         }
@@ -362,13 +392,13 @@ async function run() {
     setInterval(async () => {
         await readFiles('.');
     }, 1000);
-    setInterval(async () => {
-        if (!debug)  // don't rendern in debug mode to see log
+    if (!debug) {
+        setInterval(async () => {
             await render();
-    }, 130);
-
+        }, 130);
+    }
 }
-let debug = false;
+let debug = true;
 const l = debug ? console.log : () => { };
 
 run();

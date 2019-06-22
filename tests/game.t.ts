@@ -51,7 +51,7 @@ describe('Player', function () {
             const p = new Player('one');
             p.addShield();
             p.hit(100);
-            assert(p.damage === 0);
+            assert(p.damage === 70);
         }); 
     });
 });

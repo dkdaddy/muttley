@@ -2,7 +2,10 @@ var Mocha = require('mocha');
 // import {} from 'mocha';
 import fs from 'fs';
 import path from 'path';
+import {execFile} from 'child_process';
 import os from 'os';
+import parser from 'xml2json';
+
 import { TestRunner } from './test-runner';
 
 export class MochaTestRunner implements TestRunner {
@@ -40,6 +43,16 @@ export class MochaTestRunner implements TestRunner {
     onFail: (suite: string, name: string, message: string, stack: { file: string; lineno: number; }[]) => void,
     onEnd: (passed: number, failed: number) => void): Promise<void> {
     let passed = 0, failed = 0;
+    execFile('mocha', [filePath, '--reporter=xunit'], (error: any, stdout: any, stderr: any) => {
+      if (error) {
+        console.error(`mocha failed: ${error}`);
+      }
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+      const cases:{classname:string, testcase:string, Time:number}[] = JSON.parse(parser.toJson(stdout)).testsuite.testcase;
+      console.log(cases);
+      });
+
     const mocha = new Mocha(
       {
         reporter: function () {
@@ -48,8 +61,6 @@ export class MochaTestRunner implements TestRunner {
         ui: 'bdd'
       });
     const absoluteFilePath = path.resolve(process.cwd(), filePath);
-    // console.log('require cache', require.cache);
-    Mocha.unloadFile(absoluteFilePath); // remove from cache or it won't run second time
     mocha.addFile(absoluteFilePath);
     mocha.run()
       .on('start', function () {
@@ -69,7 +80,6 @@ export class MochaTestRunner implements TestRunner {
         onFail(test.parent.fullTitle(), test.title, err.message.replace(/\n+/g, ''), extractStack(err.stack));
       })
       .on('end', function () {
-        mocha.unloadFiles();
         onEnd(passed, failed);
       });
     l('tests running...');
@@ -90,5 +100,5 @@ function extractStack(stack: string): { file: string; lineno: number; }[] {
   l('extractStack returns', ret);
   return ret;
 }
-let debug = false;
+let debug = true;
 const l = debug ? console.log : () => { };
