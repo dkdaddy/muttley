@@ -12,4 +12,6 @@ export class Player {
         this.shield = Math.max(this.shield - amount / 2, 0);
     }
     addShield() { this.shield = 10 }
+
+    
 }

@@ -39,9 +39,11 @@ class Testcase {
     public mtime: Date;
     public startTime: Date = new Date();
     public endTime: Date = new Date();
+    public durationMs: number = 0;
     public state = TestState.Ready;
     public stack: { file: string; lineno: number; }[] = [];
-    public error = '';
+    public message = ''; // single line
+    public fullMessage = '';
     public get basefilename() { return path.basename(this.filename) }
     public get key() {
         return [this.filename, this.suite, this.name].join('-');
@@ -56,7 +58,7 @@ class Testcase {
         if (this.state === TestState.Running)
             return Date.now() - this.startTime.getTime();
         else
-            return this.endTime.getTime() - this.startTime.getTime();
+            return this.durationMs;
     }
 };
 
@@ -71,17 +73,19 @@ function onStart(filename: string) {
     }
 };
 function onPass(filename: string, stat: Stats, suite: string, name: string, duration: number) {
-    l('onPass', filename, suite, name);
+    l('onPass', filename, suite, name, duration);
     const testcase = new Testcase(filename, stat, suite, name);
+    testcase.durationMs = duration;
     testcase.state = TestState.Passsed;
     const oldTest = allTests.get(testcase.key);
     allTests.set(testcase.key, testcase);
 };
-function onFail(filename: string, stat: Stats, suite: string, name: string, message: string, stack: { file: string; lineno: number; }[]) {
-    l('onFail', filename, suite, name, message);
+function onFail(filename: string, stat: Stats, suite: string, name: string, fullMessage: string, message: string, stack: { file: string; lineno: number; }[]) {
+    l('onFail', filename, suite, name, fullMessage, message, stack);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.state = TestState.Failed;
-    testcase.error = message;
+    testcase.message = message;
+    testcase.fullMessage = fullMessage;
     testcase.stack = stack;
     testcase.state = TestState.Failed;
     const oldTest = allTests.get(testcase.key);
@@ -91,7 +95,7 @@ function onEnd(resolve: () => void, passed: number, failed: number): void {
     l('onEnd', passed, failed);
     resolve();
 };
-const watchlist:Map<string, string[]> = new Map();
+const watchlist: Map<string, string[]> = new Map();
 
 async function readTestCasesFromFile(filename: string, stat: Stats): Promise<void> {
     return new Promise(async (resolve, reject) => {
@@ -115,15 +119,9 @@ async function readTestCasesFromFile(filename: string, stat: Stats): Promise<voi
             allTests.set(testcase.key, testcase);
             l('adding', testcase.key, testcase.suite, testcase.name);
         });
-        // schedule onStart here because the event isn't being triggered in mocha 6.1.4
-        // see https://github.com/mochajs/mocha/issues/2753
-        onStart(filename);
 
         if (tests.length) {
             const absoluteFilePath = path.resolve(process.cwd(), filename);
-            // delete require.cache[require.resolve(absoluteFilePath)];
-            // l('Loading Mocha from', require.resolve('mocha'));
-            // delete require.cache[require.resolve('mocha')];
             await theRunner.runFile(filename, onStart.bind(null, filename), onPass.bind(null, filename, stat), onFail.bind(null, filename, stat), onEnd.bind(null, resolve));
         }
         resolve();
@@ -150,18 +148,17 @@ async function readFiles(folder: string): Promise<void> {
                         const lastModified = allFiles.get(filepath);
                         if (!lastModified || lastModified < stat.mtime) {
                             allFiles.set(filepath, stat.mtime);
-                            let x:string[]|undefined;
-                            console.log(Object.getOwnPropertyNames(require.cache));
-                            console.log('looking for', filepath, 'in', watchlist);
-                            if (x=watchlist.get(filepath)) {
+                            let x: string[] | undefined;
+                            // l(Object.getOwnPropertyNames(require.cache));
+                            const fullPath = path.resolve(__dirname, filepath);
+                            l('looking for', fullPath, 'in', watchlist);
+                            if (x = watchlist.get(fullPath)) {
                                 x.forEach(xx => {
                                     const xstat = fs.statSync(xx);
-                                    // todo - iterate the cache finding all modules which resolve to xx
-                                    delete require.cache[xx];
                                     promises.push(readTestCasesFromFile(xx, xstat));
                                 });
                             }
-                            
+
                             promises.push(readTestCasesFromFile(filepath, stat));
                         }
                     }
@@ -207,7 +204,7 @@ var Columns = [
     { name: 'FILE', width: 20, just: 'l', fn: (t: Testcase) => t.filename },
     { name: 'STATUS', width: 8, just: 'l', fn: (t: Testcase) => Label[t.state] },
     { name: 'TIME(ms)', width: 8, just: 'l', fn: (t: Testcase) => t.runtimeInMs },
-    { name: 'MSG', width: 50, just: 'l', fn: (t: Testcase) => t.error },
+    { name: 'MSG', width: 50, just: 'l', fn: (t: Testcase) => t.message },
     { name: 'SOURCE', width: 36, just: 'l', fn: (t: Testcase) => shortTextFromStack(t.stack) }
 ];
 var lastTotal = 0, lastIdle = 0, lastSys = 0, lastUser = 0;
@@ -288,26 +285,14 @@ function renderPacman() {
 
 }
 
-function renderHelp() {
-    console.log('Monitor Unit Testing Tool - MUTT', os.EOL);
-    [`d Default view`,
-        `r re-run all tests`,
-        `z Zoom into test failures`,
-        `0 Zoom into test failure 0`,
-        `1-9 Zoom into test failure 1-9`,
-        `p Pacman`,
-        `q Quit`,
-        `h Help`].forEach(i => console.log(i));
-    console.log(mutt);
-
-}
 function renderFailures() {
 
     Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
-        process.stdout.write(['\x1b[31;1m' + 'FAILED:', t.suite, t.name, os.EOL, t.filename, os.EOL, t.error, '\x1b[0m', os.EOL].join(' '))
-        let n = 0;
+        process.stdout.write(['\x1b[31;1m' + 'FAILED:', t.suite, t.name, os.EOL].join(' '))
+        process.stdout.write(['\x1b[32m', t.fullMessage, '\x1b[0m', os.EOL].join(' '))
+        let pad = 0;
         t.stack.forEach(frame => {
-            process.stdout.write(' '.repeat(2 * n++) + frame.file + ':' + frame.lineno + os.EOL);
+            process.stdout.write('\x1b[35m' + ' '.repeat(2 * pad++) + frame.file + ':' + frame.lineno + '\x1b[0m' + os.EOL);
         });
         process.stdout.write(os.EOL);
     });
@@ -315,10 +300,10 @@ function renderFailures() {
 function renderZoom(n: number) {
     const columns = process.stdout.columns || 80;
     let test: Testcase | undefined = undefined;
-    let i = 0;
+    let i = 1;
     Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
         if (i++ === n) {
-            process.stdout.write(['\x1b[31;1m' + t.suite, t.name, t.filename, t.error, '\x1b[0m', os.EOL].join(' '))
+            process.stdout.write(['\x1b[31;1m' + t.suite, t.name, t.filename, t.fullMessage, '\x1b[0m', os.EOL].join(' '))
             test = t;
         }
     });
@@ -329,7 +314,7 @@ function renderZoom(n: number) {
 
     let pad = 0;
     renderStack.forEach(frame => {
-        process.stdout.write(' '.repeat(2 * pad++) + frame.file + ':' + frame.lineno + os.EOL);
+        process.stdout.write('\x1b[35m' + ' '.repeat(2 * pad++) + frame.file + ':' + frame.lineno + '\x1b[0m' + os.EOL);
     });
     process.stdout.write(os.EOL);
     //find first line in stack
@@ -350,6 +335,19 @@ function renderFileWindow(filepath: string, rows: number, line: number) {
         console.log(prefix + (rownum++).toString().padEnd(6), sourceline, '\x1b[0m');
     });
 }
+function renderHelp() {
+    console.log('Monitor Unit Testing Tool - MUTT', os.EOL);
+    [
+        `esc Default view`,
+        `l show log`,
+        `r re-run all tests`,
+        `z Zoom into test failures`,
+        `1-9 Zoom into test failure 1-9`,
+        `p Pacman`,
+        `q Quit`,
+        `h Help`].forEach(i => console.log(i));
+    console.log(mutt);
+}
 async function render() {
     renderHeader();
     process.stdout.write('\x1b[5;0H'); // row 5
@@ -357,31 +355,38 @@ async function render() {
         case 'd': return renderAllTests();
         case 'z': return renderFailures();
         case 'p': return renderPacman();
-        case '0': return renderZoom(0);
         case '1': return renderZoom(1);
         case '2': return renderZoom(2);
         case '3': return renderZoom(3);
         case 'h': return renderHelp();
-        default: console.log(mode);
+        default: console.log(`Nothing to show in mode '${mode}'`);
     }
-
 }
 async function run() {
     readline.emitKeypressEvents(process.stdin);
     process.stdin.setRawMode && process.stdin.setRawMode(true);
     process.stdin.on('keypress', (str, key) => {
 
-        mode = key.name;
         if (key.name === 'q') {
             console.log("\x1b[?25h"); // show cursor
             process.exit();
         }
         else if (key.name === 'r') {
-            watchlist.forEach((value, key) => {
-                delete require.cache[value[0]];
-            });
+            allTests.clear();
             allFiles.clear();
-        } else {
+        }
+        else if (key.name === 'l') {
+            debugOn();
+            mode = 'l';
+            render();
+        }
+        else if (key.name === 'd' || key.name === 'escape') {
+            debugOff();
+            mode = 'd';
+            render();
+        }
+        else {
+            mode = key.name;
             render();
         }
     });
@@ -391,14 +396,23 @@ async function run() {
 
     setInterval(async () => {
         await readFiles('.');
-    }, 1000);
-    if (!debug) {
-        setInterval(async () => {
+    }, 500);
+    setInterval(async () => {
+        if (!debug) {
             await render();
-        }, 130);
-    }
+        }
+    }, 800);
 }
-let debug = true;
-const l = debug ? console.log : () => { };
+let debug = false;
+var l = (...args: any) => { };
+function debugOn() {
+    debug = true;
+    l = console.log;
+}
+function debugOff() {
+    debug = false;
+    l = () => { };
+}
 
+debugOff();
 run();

@@ -4,7 +4,7 @@ export interface TestRunner {
     runFile(filePath: string,
         onStart: () => void,
         onPass: (suite: string, name: string, duration: number) => void,
-        onFail: (suite: string, name: string, message: string, stack: { file: string, lineno: number }[]) => void,
+        onFail: (suite: string, name: string, fullMessage: string, message: string, stack: { file: string, lineno: number }[]) => void,
         onEnd: (passed: number, failed: number) => void,
     ): Promise<void>;
 }
@@ -21,7 +21,7 @@ export class FakeTestRunner implements TestRunner {
     }
     async runFile(filePath: string, onStart: () => void,
         onPass: (suite: string, name: string, duration: number) => void,
-        onFail: (suite: string, name: string, message: string, stack: { file: string; lineno: number; }[]) => void,
+        onFail: (suite: string, name: string, fullMessage: string, message: string, stack: { file: string; lineno: number; }[]) => void,
         onEnd: (passed: number, failed: number) => void): Promise<void> {
         setImmediate(onStart);
         this.tests.filter(test => !test.message).forEach(test => {
@@ -31,7 +31,7 @@ export class FakeTestRunner implements TestRunner {
         });
         this.tests.filter(test => test.message).forEach(test => {
             setImmediate(() => {
-                onFail(test.suite, test.name, test.message || '', test.stack || []);
+                onFail(test.suite, test.name, test.message || '', test.message || '', test.stack || []);
             });
         });
         setImmediate(() => onEnd(3, 1));

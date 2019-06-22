@@ -1,8 +1,5 @@
 import fs, { Stats } from 'fs';
 import path from 'path';
-import readline from 'readline';
-import { listenerCount } from 'cluster';
-import { resolve } from 'dns';
 
 export class DependencyTree {
     root: string;

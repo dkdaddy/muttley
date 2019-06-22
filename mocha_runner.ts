@@ -40,52 +40,42 @@ export class MochaTestRunner implements TestRunner {
   async runFile(filePath: string,
     onStart: () => void,
     onPass: (suite: string, name: string, duration: number) => void,
-    onFail: (suite: string, name: string, message: string, stack: { file: string; lineno: number; }[]) => void,
+    onFail: (suite: string, name: string, fullMessage:string, message: string, stack: { file: string; lineno: number; }[]) => void,
     onEnd: (passed: number, failed: number) => void): Promise<void> {
     let passed = 0, failed = 0;
-    execFile('mocha', [filePath, '--reporter=xunit'], (error: any, stdout: any, stderr: any) => {
-      if (error) {
-        console.error(`mocha failed: ${error}`);
-      }
-      console.log(`stdout: ${stdout}`);
-      console.log(`stderr: ${stderr}`);
-      const cases:{classname:string, testcase:string, Time:number}[] = JSON.parse(parser.toJson(stdout)).testsuite.testcase;
-      console.log(cases);
-      });
-
-    const mocha = new Mocha(
-      {
-        reporter: function () {
-          //avoid logs
-        },
-        ui: 'bdd'
-      });
     const absoluteFilePath = path.resolve(process.cwd(), filePath);
-    mocha.addFile(absoluteFilePath);
-    mocha.run()
-      .on('start', function () {
-        l('******* onStart *******'); // is this getting called???
-        onStart();
-      })
-      .on('pass', function (test: any) {
-        l('pass: [%s] [%s] [%s]', test.fullTitle(), test.title, test.parent.fullTitle(), test.duration);
-        passed++;
-        onPass(test.parent.fullTitle(), test.title, test.duration);
-      })
-      .on('fail', function (test: any, err: any) {
-        l('failed: %s', test.fullTitle(), test.duration);
-        l('error message:\n', err.message.replace(/\n+/g, '\n'));
-        l('stack:\n', err.stack.replace(/\n+/g, '\n'));
-        failed++;
-        onFail(test.parent.fullTitle(), test.title, err.message.replace(/\n+/g, ''), extractStack(err.stack));
-      })
-      .on('end', function () {
-        onEnd(passed, failed);
+    execFile('mocha', [filePath, '--reporter=xunit'], (error: any, stdout: any, stderr: any) => {
+      onStart();
+      if (error) {
+        l(`mocha exe returned : ${error}`);
+      }
+      l(`stdout: ${stdout}`);
+      l(`stderr: ${stderr}`);
+      let cases:{classname:string, name:string, time:string, failure:string}[];
+      const json = JSON.parse(parser.toJson(stdout)).testsuite;
+      l(json);
+      // if there is only a single case the testcase is *not* an array! Arrrrgg!
+      cases = json.testcase.length?json.testcase:[json.testcase];
+      cases.forEach((t) => {
+        if (!t.failure) {
+          l('pass: [%s] [%s] [%s]', t.classname, t.name, t.time);
+          passed++;
+          onPass(t.classname, t.name, 1000 * Number.parseFloat(t.time));
+        }
+        else {
+          l('failed: [%s] [%s] [%s]', t.classname, t.name, t.time);
+          l('error message:\n', t.failure.replace(/\n+/g, '\n'));
+          failed++;
+          onFail(t.classname, t.name, t.failure, extractError(t.failure), extractStack(t.failure));
+        }
       });
-    l('tests running...');
+      onEnd(passed, failed);
+      });
   }
 }
-
+function extractError(message:string) {
+  return message.replace(/\n+/g, ' ');
+}
 function extractStack(stack: string): { file: string; lineno: number; }[] {
   const ret: ReturnType<typeof extractStack> = [];
   stack.split(os.EOL).forEach(frame => {
@@ -100,5 +90,5 @@ function extractStack(stack: string): { file: string; lineno: number; }[] {
   l('extractStack returns', ret);
   return ret;
 }
-let debug = true;
+let debug = false;
 const l = debug ? console.log : () => { };
