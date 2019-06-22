@@ -13,5 +13,5 @@ export class Player {
     }
     addShield() { this.shield = 10 }
 
-    
+
 }

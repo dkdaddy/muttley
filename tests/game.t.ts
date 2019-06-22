@@ -55,7 +55,19 @@ describe('Player', function () {
             assert.equal(p.damage, 80);
         });
         it('is a slow test', () => {
-            for (let i = 0; i < 10000; i++) {
+            for (let i = 0; i < 20000; i++) {
+                const thisFile = readFileSync(__filename);
+                assert(thisFile);
+            };
+        })        
+        it('is a slow test 2', () => {
+            for (let i = 0; i < 20000; i++) {
+                const thisFile = readFileSync(__filename);
+                assert(thisFile);
+            };
+        })        
+        it('is a slow test 3', () => {
+            for (let i = 0; i < 20000; i++) {
                 const thisFile = readFileSync(__filename);
                 assert(thisFile);
             };

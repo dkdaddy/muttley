@@ -95,21 +95,22 @@ function onEnd(resolve: () => void, passed: number, failed: number): void {
     l('onEnd', passed, failed);
     resolve();
 };
-const watchlist: Map<string, string[]> = new Map();
+const watchlist: Map<string, Set<string>> = new Map();
 
 async function readTestCasesFromFile(filename: string, stat: Stats): Promise<void> {
     return new Promise(async (resolve, reject) => {
-
+        l('readTestCasesFromFile', filename);
         const theRunner = new MochaTestRunner();
         // var theRunner = new fakeTestRunner();
 
         const tests = await theRunner.findTests(filename);
 
         if (tests.length) {
-            const files = deps.getFlat(filename);
+            const files = deps.getFlat(filename); // all files this depends on
             files.forEach(file => {
-                // todo append to existing list
-                watchlist.set(file, [filename]);
+                const newList = watchlist.get(file) || new Set();
+                newList.add(filename);
+                watchlist.set(file, newList);
             });
         }
 
@@ -148,18 +149,20 @@ async function readFiles(folder: string): Promise<void> {
                         const lastModified = allFiles.get(filepath);
                         if (!lastModified || lastModified < stat.mtime) {
                             allFiles.set(filepath, stat.mtime);
-                            let x: string[] | undefined;
-                            // l(Object.getOwnPropertyNames(require.cache));
-                            const fullPath = path.resolve(__dirname, filepath);
-                            l('looking for', fullPath, 'in', watchlist);
-                            if (x = watchlist.get(fullPath)) {
-                                x.forEach(xx => {
-                                    const xstat = fs.statSync(xx);
-                                    promises.push(readTestCasesFromFile(xx, xstat));
-                                });
-                            }
-
                             promises.push(readTestCasesFromFile(filepath, stat));
+                            // if first time found no need to test files that depend on it
+                            if (lastModified) {
+                                let x: Set<string> | undefined;
+                                // l(Object.getOwnPropertyNames(require.cache));
+                                const fullPath = path.resolve(__dirname, filepath);
+                                l('looking for', fullPath, 'in', watchlist);
+                                if (x = watchlist.get(fullPath)) {
+                                    x.forEach(xx => {
+                                        const xstat = fs.statSync(xx);
+                                        promises.push(readTestCasesFromFile(xx, xstat));
+                                    });
+                                }
+                            }
                         }
                     }
                     else if (stat.isDirectory() && !file.startsWith('.')) {
