@@ -161,7 +161,7 @@ async function readFiles(folder: string): Promise<void> {
                 const promises: Promise<void>[] = [];
                 const subFolders: string[] = [];
                 files.forEach(file => {
-                    const filepath = folder + '/' + file;
+                    const filepath = path.resolve(folder, file);
                     const stat = fs.statSync(filepath);
                     if (stat.isFile() && file.endsWith('.js')) {
                         const lastModified = allFiles.get(filepath);

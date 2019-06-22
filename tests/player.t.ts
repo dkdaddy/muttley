@@ -11,19 +11,19 @@ describe('Player2', function () {
             assert(p.name === 'one');
         })
         it('is a very slow test', () => {
-            for (let i = 0; i < 30000; i++) {
+            for (let i = 0; i < 1000; i++) {
                 const thisFile = readFileSync(__filename);
                 assert(thisFile);
             };
         })       
         it('is another very slow test', () => {
-            for (let i = 0; i < 40000; i++) {
+            for (let i = 0; i < 1000; i++) {
                 const thisFile = readFileSync(__filename);
                 assert(thisFile);
             };
         })       
         it('is also a very slow test', () => {
-            for (let i = 0; i < 50000; i++) {
+            for (let i = 0; i < 1000; i++) {
                 const thisFile = readFileSync(__filename);
                 assert(thisFile);
             };
