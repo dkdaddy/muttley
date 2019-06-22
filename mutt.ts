@@ -3,6 +3,7 @@ import path from 'path';
 import readline from 'readline';
 import { MochaTestRunner } from './mocha_runner';
 import { DependencyTree } from './dependency';
+import { renderProcessList } from './ps';
 
 var os = require('os');
 /*
@@ -14,7 +15,7 @@ test npm i
 npm test
 shell script (see mocha)
 file structure
-node process viewer
+improve proces list
 rationalise key handling, help text and mode switching
 limit file stack render to 3
 config file (see mocha or vscode)
@@ -182,7 +183,7 @@ async function readFiles(folder: string): Promise<void> {
                             }
                         }
                     }
-                    else if (stat.isDirectory() && !file.startsWith('.')) {
+                    else if (stat.isDirectory() && !file.startsWith('.') && file.indexOf('node_modules')==-1) {
                         subFolders.push(filepath);
                     }
                 });
@@ -363,18 +364,21 @@ function renderHelp() {
         `r re-run all tests`,
         `z Zoom into test failures`,
         `1-9 Zoom into test failure 1-9`,
-        `p Pacman`,
+        `p process list`,
         `q Quit`,
         `h Help`].forEach(i => console.log(i));
     console.log(mutt);
 }
 async function render() {
-    renderHeader();
-    process.stdout.write('\x1b[5;0H'); // row 5
+    if ( mode != 'p') {
+        renderHeader();
+        process.stdout.write('\x1b[5;0H'); // row 5
+    }
     switch (mode) {
         case 'd': return renderAllTests();
         case 'z': return renderFailures();
-        case 'p': return renderPacman();
+        case 'p': return renderProcessList();
+        case 'P': return renderPacman();
         case '1': return renderZoom(1);
         case '2': return renderZoom(2);
         case '3': return renderZoom(3);
