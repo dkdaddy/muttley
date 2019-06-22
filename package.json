@@ -1,0 +1,32 @@
+{
+  "name": "mutt",
+  "version": "1.0.0",
+  "description": "Monitor Unit Test Tool",
+  "main": "mutt.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkdaddy/mutt.git"
+  },
+  "keywords": [
+    "test",
+    "mocha",
+    "cli"
+  ],
+  "author": "dkdaddy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dkdaddy/mutt/issues"
+  },
+  "homepage": "https://github.com/dkdaddy/mutt#readme",
+  "dependencies": {
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2",
+    "source-map-support": "^0.5.12"
+  }
+}

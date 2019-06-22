@@ -7,10 +7,10 @@ import { DependencyTree } from './dependency';
 var os = require('os');
 /*
 to do
+-----
 command line params
 tests
-npm package
-npm i 
+test npm i 
 npm test
 shell script (see mocha)
 file structure
@@ -21,6 +21,7 @@ config file (see mocha or vscode)
 pacman
 logger class
 jsdoc
+lint 
 */
 
 const mutt = `
