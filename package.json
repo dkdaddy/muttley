@@ -1,6 +1,6 @@
 {
   "name": "muttley",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Monitor Unit Test Tool",
   "main": "mutt.js",
   "directories": {
@@ -16,7 +16,10 @@
   "keywords": [
     "test",
     "mocha",
-    "cli"
+    "cli",
+    "test",
+    "mutt",
+    "muttley"
   ],
   "author": "dkdaddy",
   "license": "ISC",
