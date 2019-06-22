@@ -1,7 +1,7 @@
 import fs, { Stats } from 'fs';
 import path from 'path';
 import readline from 'readline';
-import { MochaTestRunner } from './mocha_runner';
+import { MochaTestRunner } from './mocha-runner';
 import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
 
