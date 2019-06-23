@@ -1,7 +1,0 @@
-testcase Bob 31>26
-testcase T21 42>41
-testcase T22 42>41
-testcase T23 42>41
-testcase T24 42>41
-testcase T25 42>41
-testcase T26 42>412

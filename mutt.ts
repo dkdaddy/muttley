@@ -9,20 +9,7 @@ var os = require('os');
 /*
 to do
 -----
-command line params
-tests
-test npm i 
-npm test
-shell script (see mocha)
-file structure
-improve proces list
-rationalise key handling, help text and mode switching
-limit file stack render to 3
-config file (see mocha or vscode)
-pacman
-logger class
-jsdoc
-lint 
+
 */
 
 const mutt = `
