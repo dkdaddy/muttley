@@ -10,7 +10,7 @@
     "test": "mocha *.t.js",
     "build": "tsc",
     "watch": "tsc -w",
-    "runit": "node test"
+    "start": "node mutt.js"
   },
   "repository": {
     "type": "git",

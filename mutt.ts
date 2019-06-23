@@ -207,9 +207,9 @@ function shortTextFromStack(stack: { file: string, lineno: number }[]): string {
     return stack.length ? stack[0].file + ':' + stack[0].lineno : '';
 }
 var Columns = [
+    { name: 'FILE', width: 20, just: 'l', fn: (t: Testcase) => path.basename(t.filename) },
     { name: 'SUITE', width: 20, just: 'l', fn: (t: Testcase) => t.suite },
     { name: 'NAME', width: 30, just: 'l', fn: (t: Testcase) => t.name },
-    { name: 'FILE', width: 20, just: 'l', fn: (t: Testcase) => t.filename },
     { name: 'STATUS', width: 8, just: 'l', fn: (t: Testcase) => Label[t.state] },
     { name: 'TIME(ms)', width: 8, just: 'l', fn: (t: Testcase) => t.runtimeInMs },
     { name: 'MSG', width: 50, just: 'l', fn: (t: Testcase) => t.message },

@@ -61,7 +61,7 @@ export class MochaTestRunner implements TestRunner {
       const suite = json.testsuite; 
       l(suite);
       // if there is only a single case the testcase is *not* an array! Arrrrgg!
-      cases = suite.testcase.length?suite.testcase:[json.testcase];
+      cases = suite.testcase.length?suite.testcase:[suite.testcase];
       cases.forEach((t) => {
         if (!t.failure) {
           l('pass: [%s] [%s] [%s]', t.classname, t.name, t.time);
