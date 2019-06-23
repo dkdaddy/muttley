@@ -3,10 +3,8 @@
 muttley is a command line tool for monitoring unit tests. By default it uses mocha but I plan to make it configurable for other test runners.
 
 * to do
-- [ ] command line params - path, debug mode, 
 - [ ] add tests
-- [ ] shell script (see mocha)
-- [ ] file structure
+- [ ] command line params - path, debug mode, 
 - [ ] improve proces list
 - [ ] rationalise key handling, help text and mode switching
 - [ ] limit file stack render based on row count
@@ -14,5 +12,6 @@ muttley is a command line tool for monitoring unit tests. By default it uses moc
 - [ ] log4js
 - [ ] jsdoc
 - [ ] eslint setup 
+- [ ] shell script (see mocha)
 - [ ] prettier setup 
 - [ ] pacman
