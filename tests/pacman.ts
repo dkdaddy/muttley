@@ -1,4 +1,3 @@
-
 const map1 = `
 BBBBBBBBBBBBBBBBBBBBB
 B...................B
@@ -23,6 +22,4 @@ B...................B
 BBBBBBBBBBBBBBBBBBBBB
 `;
 
-
 //Unicode Character “🍒” (U+1F352)
-

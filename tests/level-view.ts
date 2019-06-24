@@ -1,7 +1,18 @@
-export enum MapItem { Wall, Dot, Power, Gate, Fruit, Empty }
-export enum Direction { Up, Down, Left, Right }
+export enum MapItem {
+    Wall,
+    Dot,
+    Power,
+    Gate,
+    Fruit,
+    Empty,
+}
+export enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
 export type Position = [number, number];
-
 
 /**
  * read only view of the map
@@ -10,7 +21,7 @@ export interface MapView {
     width: number;
     height: number;
     item(location: Location): MapItem;
-};
+}
 
 /**
  * read only view of the level available to players and ghosts
