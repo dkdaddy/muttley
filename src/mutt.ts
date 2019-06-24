@@ -4,13 +4,9 @@ import readline from 'readline';
 import { MochaTestRunner } from './mocha-runner';
 import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
+import { Logger } from './logger';
 
 var os = require('os');
-/*
-to do
------
-
-*/
 
 const mutt = `
        __,-----._                       ,-.
@@ -170,7 +166,7 @@ async function readFiles(folder: string): Promise<void> {
                             }
                         }
                     }
-                    else if (stat.isDirectory() && !file.startsWith('.') && file.indexOf('node_modules')==-1) {
+                    else if (stat.isDirectory() && !file.startsWith('.') && file.indexOf('node_modules') == -1) {
                         subFolders.push(filepath);
                     }
                 });
@@ -357,7 +353,7 @@ function renderHelp() {
     console.log(mutt);
 }
 async function render() {
-    if ( mode != 'p') {
+    if (mode != 'p') {
         renderHeader();
         process.stdout.write('\x1b[5;0H'); // row 5
     }
@@ -414,11 +410,12 @@ async function run() {
         }
     }, 800);
 }
+const logger = new Logger();
 let debug = false;
-var l = (...args: any) => { };
+var l:(...args:any[]) => void  = (...args: any) => { };
 function debugOn() {
     debug = true;
-    l = console.log;
+    l = logger.debug;
 }
 function debugOff() {
     debug = false;

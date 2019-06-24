@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/mutt.js",
+            "program": "${workspaceFolder}/src/mutt.js",
             "cwd": "${workspaceFolder}",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"

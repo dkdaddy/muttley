@@ -2,7 +2,7 @@ var Mocha = require('mocha');
 // import {} from 'mocha';
 import fs from 'fs';
 import path from 'path';
-import {execFile} from 'child_process';
+import { execFile } from 'child_process';
 import os from 'os';
 import parser from 'fast-xml-parser';
 
@@ -40,7 +40,7 @@ export class MochaTestRunner implements TestRunner {
   async runFile(filePath: string,
     onStart: () => void,
     onPass: (suite: string, name: string, duration: number) => void,
-    onFail: (suite: string, name: string, fullMessage:string, message: string, stack: { file: string; lineno: number; }[]) => void,
+    onFail: (suite: string, name: string, fullMessage: string, message: string, stack: { file: string; lineno: number; }[]) => void,
     onEnd: (passed: number, failed: number) => void): Promise<void> {
     let passed = 0, failed = 0;
     const absoluteFilePath = path.resolve(process.cwd(), filePath);
@@ -48,7 +48,7 @@ export class MochaTestRunner implements TestRunner {
     // there must be a better way than this but running mocha directly on windows gives an error
     const cmd = isWin ? 'node' : 'mocha';
     const args = isWin ? ['node_modules\\mocha\\bin\\mocha', filePath, '--reporter=xunit', '--require', 'source-map-support/register'] :
-                         [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
+      [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
     execFile(cmd, args, (error: any, stdout: any, stderr: any) => {
       onStart();
       if (error) {
@@ -56,30 +56,33 @@ export class MochaTestRunner implements TestRunner {
       }
       l(`stdout: ${stdout}`);
       l(`stderr: ${stderr}`);
-      let cases:{classname:string, name:string, time:string, failure:string}[];
-      const json = parser.parse(stdout, {ignoreAttributes : false, attributeNamePrefix : ''});
-      const suite = json.testsuite; 
-      l(suite);
-      // if there is only a single case the testcase is *not* an array! Arrrrgg!
-      cases = suite.testcase.length?suite.testcase:[suite.testcase];
-      cases.forEach((t) => {
-        if (!t.failure) {
-          l('pass: [%s] [%s] [%s]', t.classname, t.name, t.time);
-          passed++;
-          onPass(t.classname, t.name, 1000 * Number.parseFloat(t.time));
-        }
-        else {
-          l('failed: [%s] [%s] [%s]', t.classname, t.name, t.time);
-          l('error message:\n', t.failure.replace(/\n+/g, '\n'));
-          failed++;
-          onFail(t.classname, t.name, t.failure, extractError(t.failure), extractStack(t.failure));
-        }
-      });
+      if (!stderr) { // if there were errors in the runner avoid bad XML parse
+
+        let cases: { classname: string, name: string, time: string, failure: string }[];
+        const json = parser.parse(stdout, { ignoreAttributes: false, attributeNamePrefix: '' });
+        const suite = json.testsuite;
+        l(suite);
+        // if there is only a single case the testcase is *not* an array! Arrrrgg!
+        cases = suite.testcase.length ? suite.testcase : [suite.testcase];
+        cases.forEach((t) => {
+          if (!t.failure) {
+            l('pass: [%s] [%s] [%s]', t.classname, t.name, t.time);
+            passed++;
+            onPass(t.classname, t.name, 1000 * Number.parseFloat(t.time));
+          }
+          else {
+            l('failed: [%s] [%s] [%s]', t.classname, t.name, t.time);
+            l('error message:\n', t.failure.replace(/\n+/g, '\n'));
+            failed++;
+            onFail(t.classname, t.name, t.failure, extractError(t.failure), extractStack(t.failure));
+          }
+        });
+      }
       onEnd(passed, failed);
-      });
+    });
   }
 }
-function extractError(message:string) {
+function extractError(message: string) {
   return message.replace(/\n+/g, ' ');
 }
 function extractStack(stack: string): { file: string; lineno: number; }[] {

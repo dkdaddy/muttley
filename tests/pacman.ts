@@ -1,26 +1,26 @@
 
-const level1 = `
-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-B..............
-B.BBBB......
-B.B  B......
-B.BBBB......
-B.........
-B.BBBBB
-B......
-BBBBBBBB
-       B
-BBBBBBBB
-
-
-BBBBBBBBBBB
-          B
-BBBBBBBBBBB
-B
-B
-B
-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-
+const map1 = `
+BBBBBBBBBBBBBBBBBBBBB
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+B...................B
+BBBBBBBBBBBBBBBBBBBBB
 `;
 
 
