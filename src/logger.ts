@@ -10,5 +10,7 @@
 
 export class Logger {
     // debug(...args) { logger.debug(...args); }
-    debug(...args:any[]) { console.log(...args); }
-};
+    debug(...args: any[]) {
+        console.log(...args);
+    }
+}

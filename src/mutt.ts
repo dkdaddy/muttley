@@ -31,7 +31,12 @@ const mutt = `
             \`-^-^'          (  :  :,'
                              \`-^--'
 `;
-enum TestState { Ready = 3, Running = 2, Passsed = 4, Failed = 1 }
+enum TestState {
+    Ready = 3,
+    Running = 2,
+    Passsed = 4,
+    Failed = 1,
+}
 
 class Testcase {
     public filename: string;
@@ -42,10 +47,12 @@ class Testcase {
     public endTime: Date = new Date();
     public durationMs: number = 0;
     public state = TestState.Ready;
-    public stack: { file: string; lineno: number; }[] = [];
+    public stack: { file: string; lineno: number }[] = [];
     public message = ''; // single line
     public fullMessage = '';
-    public get basefilename() { return path.basename(this.filename) }
+    public get basefilename() {
+        return path.basename(this.filename);
+    }
     public get key() {
         return [this.filename, this.suite, this.name].join('-');
     }
@@ -56,12 +63,10 @@ class Testcase {
         this.name = name;
     }
     public get runtimeInMs() {
-        if (this.state === TestState.Running)
-            return Date.now() - this.startTime.getTime();
-        else
-            return this.durationMs;
+        if (this.state === TestState.Running) return Date.now() - this.startTime.getTime();
+        else return this.durationMs;
     }
-};
+}
 
 function onStart(filename: string) {
     l('onStart', filename);
@@ -72,7 +77,7 @@ function onStart(filename: string) {
             allTests.delete(k);
         }
     }
-};
+}
 function onPass(filename: string, stat: Stats, suite: string, name: string, duration: number) {
     l('onPass', filename, suite, name, duration);
     const testcase = new Testcase(filename, stat, suite, name);
@@ -80,8 +85,16 @@ function onPass(filename: string, stat: Stats, suite: string, name: string, dura
     testcase.state = TestState.Passsed;
     const oldTest = allTests.get(testcase.key);
     allTests.set(testcase.key, testcase);
-};
-function onFail(filename: string, stat: Stats, suite: string, name: string, fullMessage: string, message: string, stack: { file: string; lineno: number; }[]) {
+}
+function onFail(
+    filename: string,
+    stat: Stats,
+    suite: string,
+    name: string,
+    fullMessage: string,
+    message: string,
+    stack: { file: string; lineno: number }[],
+) {
     l('onFail', filename, suite, name, fullMessage, message, stack);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.state = TestState.Failed;
@@ -91,11 +104,11 @@ function onFail(filename: string, stat: Stats, suite: string, name: string, full
     testcase.state = TestState.Failed;
     const oldTest = allTests.get(testcase.key);
     allTests.set(testcase.key, testcase);
-};
+}
 function onEnd(resolve: () => void, passed: number, failed: number): void {
     l('onEnd', passed, failed);
     resolve();
-};
+}
 const watchlist: Map<string, Set<string>> = new Map();
 
 async function readTestCasesFromFile(filename: string, stat: Stats): Promise<void> {
@@ -124,7 +137,13 @@ async function readTestCasesFromFile(filename: string, stat: Stats): Promise<voi
 
         if (tests.length) {
             const absoluteFilePath = path.resolve(process.cwd(), filename);
-            await theRunner.runFile(filename, onStart.bind(null, filename), onPass.bind(null, filename, stat), onFail.bind(null, filename, stat), onEnd.bind(null, resolve));
+            await theRunner.runFile(
+                filename,
+                onStart.bind(null, filename),
+                onPass.bind(null, filename, stat),
+                onFail.bind(null, filename, stat),
+                onEnd.bind(null, resolve),
+            );
         }
         resolve();
     });
@@ -139,8 +158,7 @@ async function readFiles(folder: string): Promise<void> {
             l('readdir', folder);
             if (err) {
                 reject(err);
-            }
-            else {
+            } else {
                 const promises: Promise<void>[] = [];
                 const subFolders: string[] = [];
                 files.forEach(file => {
@@ -157,7 +175,7 @@ async function readFiles(folder: string): Promise<void> {
                                 // l(Object.getOwnPropertyNames(require.cache));
                                 const fullPath = path.resolve(__dirname, filepath);
                                 l('looking for', fullPath, 'in', watchlist);
-                                if (x = watchlist.get(fullPath)) {
+                                if ((x = watchlist.get(fullPath))) {
                                     x.forEach(xx => {
                                         const xstat = fs.statSync(xx);
                                         promises.push(readTestCasesFromFile(xx, xstat));
@@ -165,8 +183,7 @@ async function readFiles(folder: string): Promise<void> {
                                 }
                             }
                         }
-                    }
-                    else if (stat.isDirectory() && !file.startsWith('.') && file.indexOf('node_modules') == -1) {
+                    } else if (stat.isDirectory() && !file.startsWith('.') && file.indexOf('node_modules') == -1) {
                         subFolders.push(filepath);
                     }
                 });
@@ -174,7 +191,7 @@ async function readFiles(folder: string): Promise<void> {
                 l('subfolders', subFolders);
                 subFolders.forEach(async folder => {
                     await readFiles(folder);
-                })
+                });
 
                 resolve();
             }
@@ -182,7 +199,7 @@ async function readFiles(folder: string): Promise<void> {
     });
 }
 var mode = 'd'; // i : bundle info, h : help, e - expanded errors
-// o sort, 
+// o sort,
 
 // columns name, file, time, status, error
 const Label = {
@@ -199,7 +216,7 @@ const Colour = {
     [TestState.Failed]: '\x1b[31m',
 };
 
-function shortTextFromStack(stack: { file: string, lineno: number }[]): string {
+function shortTextFromStack(stack: { file: string; lineno: number }[]): string {
     return stack.length ? stack[0].file + ':' + stack[0].lineno : '';
 }
 var Columns = [
@@ -209,52 +226,67 @@ var Columns = [
     { name: 'STATUS', width: 8, just: 'l', fn: (t: Testcase) => Label[t.state] },
     { name: 'TIME(ms)', width: 8, just: 'l', fn: (t: Testcase) => t.runtimeInMs },
     { name: 'MSG', width: 50, just: 'l', fn: (t: Testcase) => t.message },
-    { name: 'SOURCE', width: 36, just: 'l', fn: (t: Testcase) => shortTextFromStack(t.stack) }
+    { name: 'SOURCE', width: 36, just: 'l', fn: (t: Testcase) => shortTextFromStack(t.stack) },
 ];
-var lastTotal = 0, lastIdle = 0, lastSys = 0, lastUser = 0;
+var lastTotal = 0,
+    lastIdle = 0,
+    lastSys = 0,
+    lastUser = 0;
 function renderHeader() {
     const columns = process.stdout.columns || 80;
     const rows = process.stdout.rows || 24;
-    process.stdout.write('\x1b[2J');     //clear 
-    process.stdout.write('\x1b[0;0H');   // top left
+    process.stdout.write('\x1b[2J'); //clear
+    process.stdout.write('\x1b[0;0H'); // top left
 
-    const cpuList: { times: { sys: number, user: number, idle: number } }[] = os.cpus();
+    const cpuList: { times: { sys: number; user: number; idle: number } }[] = os.cpus();
     const sys = cpuList.map(cpu => cpu.times.sys).reduce((x, y) => x + y);
     const user = cpuList.map(cpu => cpu.times.user).reduce((x, y) => x + y);
     const idle = cpuList.map(cpu => cpu.times.idle).reduce((x, y) => x + y);
     const total = sys + user + idle;
     const totalDelta = total - lastTotal;
-    const idleDelta = (100 * (idle - lastIdle) / totalDelta).toFixed(2);
-    const sysDelta = (100 * (sys - lastSys) / totalDelta).toFixed(2);
-    const userDelta = (100 * (user - lastUser) / totalDelta).toFixed(2);
+    const idleDelta = ((100 * (idle - lastIdle)) / totalDelta).toFixed(2);
+    const sysDelta = ((100 * (sys - lastSys)) / totalDelta).toFixed(2);
+    const userDelta = ((100 * (user - lastUser)) / totalDelta).toFixed(2);
     lastIdle = idle;
     lastSys = sys;
     lastUser = user;
     lastTotal = total;
-    const freeMem = (100 * os.freemem() / os.totalmem()).toFixed(2);
+    const freeMem = ((100 * os.freemem()) / os.totalmem()).toFixed(2);
 
     // time
     process.stdout.write(`\x1b[0;${columns - 8}H`);
-    const tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-    process.stdout.write((new Date(Date.now() - tzoffset).toISOString().substr(11, 8)));
+    const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    process.stdout.write(new Date(Date.now() - tzoffset).toISOString().substr(11, 8));
 
     // test summary
-    process.stdout.write('\x1b[0;0H');   // top left again
-    let failing = 0, running = 0;
-    allTests.forEach(t => { failing += t.state === TestState.Failed ? 1 : 0; running += t.state === TestState.Running ? 1 : 0; })
+    process.stdout.write('\x1b[0;0H'); // top left again
+    let failing = 0,
+        running = 0;
+    allTests.forEach(t => {
+        failing += t.state === TestState.Failed ? 1 : 0;
+        running += t.state === TestState.Running ? 1 : 0;
+    });
     console.log(`Tests ${allTests.size}, Failing ${failing}, Running ${running}, Files monitored ${allFiles.size}`);
 
     // system
     console.log(`CPU Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);
 }
 function renderAllTests() {
-    const rowHeadings = Columns.map(c => (c.name).padEnd(c.width)).join(' ');
+    const rowHeadings = Columns.map(c => c.name.padEnd(c.width)).join(' ');
 
     console.log(rowHeadings);
-    Array.from(allTests).sort(([, a], [, b]) => (a.state - b.state)).forEach(([, t]) => {
-        const row = Columns.map(c => c.fn(t).toString().padEnd(c.width).substr(0, c.width)).join(' ');
-        console.log(Colour[t.state] + row + '\x1b[0m');
-    })
+    Array.from(allTests)
+        .sort(([, a], [, b]) => a.state - b.state)
+        .forEach(([, t]) => {
+            const row = Columns.map(c =>
+                c
+                    .fn(t)
+                    .toString()
+                    .padEnd(c.width)
+                    .substr(0, c.width),
+            ).join(' ');
+            console.log(Colour[t.state] + row + '\x1b[0m');
+        });
 }
 var move = 0;
 function renderPacman() {
@@ -266,53 +298,60 @@ function renderPacman() {
 
     for (let i = 0; i < 40; i++) {
         process.stdout.write(blue + String.fromCodePoint(0x2551) + white + String.fromCodePoint(0x2022) + white);
-        if (i < move)
-            console.log();
-        else if (move === i)
-            console.log(String.fromCodePoint(0x1F354));
-        else
-            console.log(String.fromCodePoint(0x2022));
+        if (i < move) console.log();
+        else if (move === i) console.log(String.fromCodePoint(0x1f354));
+        else console.log(String.fromCodePoint(0x2022));
     }
     move = move > 30 ? 0 : move + 1;
 
-    console.log([, '\x1b[31m',
-        // String.fromCodePoint(0x2560), 
-        // String.fromCodePoint(0x2550), 
-        // String.fromCodePoint(0x2550), 
-        String.fromCodePoint(0x2557),
-        String.fromCodePoint(0x2022),  // dot
-        String.fromCodePoint(0x1F354), // burger
-        String.fromCodePoint(0x1f3a7), // phones
-        String.fromCodePoint(0x1F47B), // ghost https://en.wikipedia.org/wiki/Ghosts_(Pac-Man)
-        String.fromCodePoint(0x1f3ae), // gamepad
-        '\x1b[0m'].join(''));
-
+    console.log(
+        [
+            ,
+            '\x1b[31m',
+            // String.fromCodePoint(0x2560),
+            // String.fromCodePoint(0x2550),
+            // String.fromCodePoint(0x2550),
+            String.fromCodePoint(0x2557),
+            String.fromCodePoint(0x2022), // dot
+            String.fromCodePoint(0x1f354), // burger
+            String.fromCodePoint(0x1f3a7), // phones
+            String.fromCodePoint(0x1f47b), // ghost https://en.wikipedia.org/wiki/Ghosts_(Pac-Man)
+            String.fromCodePoint(0x1f3ae), // gamepad
+            '\x1b[0m',
+        ].join(''),
+    );
 }
 
 function renderFailures() {
-
-    Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
-        process.stdout.write(['\x1b[31;1m' + 'FAILED:', t.suite, t.name, os.EOL].join(' '))
-        process.stdout.write(['\x1b[32m', t.fullMessage, '\x1b[0m', os.EOL].join(' '))
-        let pad = 0;
-        t.stack.forEach(frame => {
-            process.stdout.write('\x1b[35m' + ' '.repeat(2 * pad++) + frame.file + ':' + frame.lineno + '\x1b[0m' + os.EOL);
+    Array.from(allTests)
+        .filter(([, t]) => t.state === TestState.Failed)
+        .forEach(([, t]) => {
+            process.stdout.write(['\x1b[31;1m' + 'FAILED:', t.suite, t.name, os.EOL].join(' '));
+            process.stdout.write(['\x1b[32m', t.fullMessage, '\x1b[0m', os.EOL].join(' '));
+            let pad = 0;
+            t.stack.forEach(frame => {
+                process.stdout.write(
+                    '\x1b[35m' + ' '.repeat(2 * pad++) + frame.file + ':' + frame.lineno + '\x1b[0m' + os.EOL,
+                );
+            });
+            process.stdout.write(os.EOL);
         });
-        process.stdout.write(os.EOL);
-    });
 }
 function renderZoom(n: number) {
     const columns = process.stdout.columns || 80;
     let test: Testcase | undefined = undefined;
     let i = 1;
-    Array.from(allTests).filter(([, t]) => t.state === TestState.Failed).forEach(([, t]) => {
-        if (i++ === n) {
-            process.stdout.write(['\x1b[31;1m' + t.suite, t.name, t.filename, t.fullMessage, '\x1b[0m', os.EOL].join(' '))
-            test = t;
-        }
-    });
-    if (!test)
-        return;
+    Array.from(allTests)
+        .filter(([, t]) => t.state === TestState.Failed)
+        .forEach(([, t]) => {
+            if (i++ === n) {
+                process.stdout.write(
+                    ['\x1b[31;1m' + t.suite, t.name, t.filename, t.fullMessage, '\x1b[0m', os.EOL].join(' '),
+                );
+                test = t;
+            }
+        });
+    if (!test) return;
 
     const renderStack = [...test!.stack].reverse();
 
@@ -332,7 +371,10 @@ function renderZoom(n: number) {
 }
 function renderFileWindow(filepath: string, rows: number, line: number) {
     const content = fs.readFileSync(filepath);
-    const window = content.toString().split(os.EOL).slice(line - rows / 2, line + rows / 2);
+    const window = content
+        .toString()
+        .split(os.EOL)
+        .slice(line - rows / 2, line + rows / 2);
     let rownum = line - rows / 2 + 1;
     window.forEach(sourceline => {
         const prefix = rownum === line ? '\x1b[35m' : '';
@@ -349,7 +391,8 @@ function renderHelp() {
         `1-9 Zoom into test failure 1-9`,
         `p process list`,
         `q Quit`,
-        `h Help`].forEach(i => console.log(i));
+        `h Help`,
+    ].forEach(i => console.log(i));
     console.log(mutt);
 }
 async function render() {
@@ -358,48 +401,52 @@ async function render() {
         process.stdout.write('\x1b[5;0H'); // row 5
     }
     switch (mode) {
-        case 'd': return renderAllTests();
-        case 'z': return renderFailures();
-        case 'p': return renderProcessList();
-        case 'P': return renderPacman();
-        case '1': return renderZoom(1);
-        case '2': return renderZoom(2);
-        case '3': return renderZoom(3);
-        case 'h': return renderHelp();
-        default: console.log(`Nothing to show in mode '${mode}'`);
+        case 'd':
+            return renderAllTests();
+        case 'z':
+            return renderFailures();
+        case 'p':
+            return renderProcessList();
+        case 'P':
+            return renderPacman();
+        case '1':
+            return renderZoom(1);
+        case '2':
+            return renderZoom(2);
+        case '3':
+            return renderZoom(3);
+        case 'h':
+            return renderHelp();
+        default:
+            console.log(`Nothing to show in mode '${mode}'`);
     }
 }
 async function run() {
     readline.emitKeypressEvents(process.stdin);
     process.stdin.setRawMode && process.stdin.setRawMode(true);
     process.stdin.on('keypress', (str, key) => {
-
         if (key.name === 'q') {
-            console.log("\x1b[?25h"); // show cursor
+            console.log('\x1b[?25h'); // show cursor
             process.exit();
-        }
-        else if (key.name === 'r') {
+        } else if (key.name === 'r') {
             allTests.clear();
             allFiles.clear();
-        }
-        else if (key.name === 'l') {
+        } else if (key.name === 'l') {
             debugOn();
             mode = 'l';
             render();
-        }
-        else if (key.name === 'd' || key.name === 'escape') {
+        } else if (key.name === 'd' || key.name === 'escape') {
             debugOff();
             mode = 'd';
             render();
-        }
-        else {
+        } else {
             mode = key.name;
             render();
         }
     });
     console.log('\x1b[2J'); //clear
     console.log('\x1b[H'); // home
-    console.log("\x1b[?25l"); // hide cursor
+    console.log('\x1b[?25l'); // hide cursor
 
     setInterval(async () => {
         await readFiles('.');
@@ -412,14 +459,14 @@ async function run() {
 }
 const logger = new Logger();
 let debug = false;
-var l:(...args:any[]) => void  = (...args: any) => { };
+var l: (...args: any[]) => void = (...args: any) => {};
 function debugOn() {
     debug = true;
     l = logger.debug;
 }
 function debugOff() {
     debug = false;
-    l = () => { };
+    l = () => {};
 }
 
 debugOff();

@@ -6,7 +6,7 @@ const argv = yargs
             description: 'path to search for tests',
             alias: 'y',
             type: 'string',
-        }
+        },
     })
     .option('time', {
         alias: 't',
@@ -14,5 +14,4 @@ const argv = yargs
         type: 'boolean',
     })
     .help()
-    .alias('help', 'h')
-    .argv;
+    .alias('help', 'h').argv;
