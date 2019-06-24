@@ -9,9 +9,10 @@
   "scripts": {
     "test": "mocha *.t.js",
     "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint .",
     "pretty": "prettier -c **/**.ts",
     "pretty-write": "prettier --write **/**.ts",
-    "watch": "tsc -w",
     "start": "node src/mutt.js"
   },
   "bin": {

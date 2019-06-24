@@ -7,5 +7,5 @@
     "eslint.validate": [
         "typescript",
     ],
-    "eslint.enable": false
+    "eslint.enable": true
 }
