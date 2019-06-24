@@ -84,7 +84,7 @@ export class FakeTestRunner implements TestRunner {
                 });
             });
         const passCount = this.tests.filter((test): boolean => !!test.message).length;
-        setImmediate((): void => onEnd(passCount, this.tests.length-passCount));
+        setImmediate((): void => onEnd(passCount, this.tests.length - passCount));
         return Promise.resolve();
     }
 }

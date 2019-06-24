@@ -82,7 +82,6 @@ module.exports = {
         "no-unneeded-ternary": "error",
         "operator-assignment": ["error", "always"],
         "operator-linebreak": ["error", "after"],
-        "quotes": ["error", "single"],
         "semi": ["error", "always"],
         "semi-style": ["error", "last"],
         "sort-keys": ["off"],

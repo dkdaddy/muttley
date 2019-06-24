@@ -26,7 +26,7 @@ export class DependencyTree {
             .forEach((line): void => {
                 const imports = line.match(/.*require\((.*)\).*/);
                 if (imports) {
-                    if (imports[1].indexOf('\'') >= 0 || imports[1].indexOf('"') >= 0) {
+                    if (imports[1].indexOf("'") >= 0 || imports[1].indexOf('"') >= 0) {
                         const targetModule = imports[1].replace(/['"]/g, '');
                         let resolvedPath;
                         if (targetModule.startsWith('.')) {
