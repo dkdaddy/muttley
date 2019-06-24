@@ -13,5 +13,4 @@ muttley is a command line tool for monitoring unit tests. By default it uses moc
 - [ ] jsdoc
 - [ ] eslint setup 
 - [ ] shell script (see mocha)
-- [ ] prettier setup 
 - [ ] pacman

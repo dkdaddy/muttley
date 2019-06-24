@@ -38,11 +38,4 @@ export class Player {
     setDirection(direction: Direction) {
         this._direction = direction;
     }
-    /**
-     * update any real time state based on time ticking forward
-     * @param clockMs time since start of game
-     */
-    tick(clockMs: number) {
-        // move based on algo
-    }
 }

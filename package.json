@@ -9,6 +9,8 @@
   "scripts": {
     "test": "mocha *.t.js",
     "build": "tsc",
+    "pretty": "prettier -c **/**.ts",
+    "pretty-write": "prettier --write **/**.ts",
     "watch": "tsc -w",
     "start": "node src/mutt.js"
   },
