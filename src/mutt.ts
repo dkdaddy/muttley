@@ -117,7 +117,7 @@ async function readTestCasesFromFile(filename: string, stat: Stats): Promise<voi
         const theRunner = new MochaTestRunner();
         // var theRunner = new fakeTestRunner();
 
-        const tests = await theRunner.findTests(filename);
+        const tests = await theRunner.findTestsP(filename);
 
         if (tests.length) {
             const files = deps.getFlat(filename); // all files this depends on
@@ -137,7 +137,7 @@ async function readTestCasesFromFile(filename: string, stat: Stats): Promise<voi
 
         if (tests.length) {
             const absoluteFilePath = path.resolve(process.cwd(), filename);
-            await theRunner.runFile(
+            await theRunner.runFileP(
                 filename,
                 onStart.bind(null, filename),
                 onPass.bind(null, filename, stat),

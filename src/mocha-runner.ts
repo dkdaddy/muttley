@@ -1,18 +1,15 @@
-var Mocha = require('mocha');
-// import {} from 'mocha';
 import fs from 'fs';
-import path from 'path';
-import { execFile } from 'child_process';
 import os from 'os';
+import path from 'path';
 import parser from 'fast-xml-parser';
+import { execFile } from 'child_process';
 
 import { TestRunner } from './test-runner';
 
 export class MochaTestRunner implements TestRunner {
-    constructor() {}
-    async findTests(filePath: string): Promise<{ suite: string; name: string }[]> {
-        return new Promise((resolve, reject) => {
-            fs.readFile(filePath, (err, data) => {
+    public findTestsP(filePath: string): Promise<{ suite: string; name: string }[]> {
+        return new Promise((resolve, reject): void => {
+            fs.readFile(filePath, (err, data): void => {
                 if (err) {
                     reject(err);
                 } else {
@@ -36,7 +33,7 @@ export class MochaTestRunner implements TestRunner {
             });
         });
     }
-    async runFile(
+    public runFileP(
         filePath: string,
         onStart: () => void,
         onPass: (suite: string, name: string, duration: number) => void,
@@ -96,6 +93,7 @@ export class MochaTestRunner implements TestRunner {
             }
             onEnd(passed, failed);
         });
+        return Promise.resolve();
     }
 }
 function extractError(message: string) {
@@ -115,5 +113,5 @@ function extractStack(stack: string): { file: string; lineno: number }[] {
     l('extractStack returns', ret);
     return ret;
 }
-let debug = false;
+const debug = false;
 const l = debug ? console.log : () => {};
