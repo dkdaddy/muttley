@@ -2,14 +2,14 @@ import fs, { Stats } from 'fs';
 import path from 'path';
 
 export class DependencyTree {
-    root: string;
-    cache: Map<string, string[]>;
-    constructor(root: string) {
+    private root: string;
+    private cache: Map<string, string[]>;
+    public constructor(root: string) {
         this.root = root;
         this.cache = new Map();
     }
 
-    getFlat(filepath: string): string[] {
+    public getFlat(filepath: string): string[] {
         let list;
         if ((list = this.cache.get(filepath))) return list;
         list = this.getImportsCommonJS(filepath);
@@ -17,16 +17,16 @@ export class DependencyTree {
         return list;
     }
 
-    getImportsCommonJS(filepath: string) {
+    public getImportsCommonJS(filepath: string): string[] {
         const list: string[] = [];
         const folder = path.dirname(filepath);
         fs.readFileSync(filepath)
             .toString()
             .split('\n')
-            .forEach(line => {
+            .forEach((line): void => {
                 const imports = line.match(/.*require\((.*)\).*/);
                 if (imports) {
-                    if (imports[1].indexOf("'") >= 0 || imports[1].indexOf('"') >= 0) {
+                    if (imports[1].indexOf('\'') >= 0 || imports[1].indexOf('"') >= 0) {
                         const targetModule = imports[1].replace(/['"]/g, '');
                         let resolvedPath;
                         if (targetModule.startsWith('.')) {
@@ -35,7 +35,7 @@ export class DependencyTree {
                             } else if (fs.existsSync(resolvedPath)) {
                                 resolvedPath += '/index.js';
                             } else {
-                                resolvedPath = resolvedPath + '.js';
+                                resolvedPath += '.js';
                             }
                         } else {
                             // for now ignore node modules
@@ -52,7 +52,7 @@ export class DependencyTree {
                 }
             });
         const nextLevel: string[] = [];
-        list.forEach(f => nextLevel.concat(this.getImportsCommonJS(f)));
+        list.forEach((file): string[] => nextLevel.concat(this.getImportsCommonJS(file)));
         return [...list, ...nextLevel];
     }
 }

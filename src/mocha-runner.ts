@@ -64,6 +64,7 @@ export class MochaTestRunner implements TestRunner {
                   'source-map-support/register',
               ]
             : [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
+        l('exec @', process.cwd(), cmd, args);
         execFile(cmd, args, (error: any, stdout: any, stderr: any) => {
             onStart();
             if (error) {

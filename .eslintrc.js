@@ -20,9 +20,9 @@ module.exports = {
         'no-await-in-loop': 'error',
         'no-console': 'error',
         'require-atomic-updates': 'error',
-        
+
         //best practices
-        
+
         'class-methods-use-this': 'error',
         'complexity': 'error',
         "complexity": ["error", 10],
@@ -35,7 +35,7 @@ module.exports = {
         'no-extend-native': 'error',
         'no-implied-eval': 'error',
         'no-invalid-this': 'error',
-        'no-magic-numbers': ['error', { "ignore": [0], 'enforceConst':true }],
+        'no-magic-numbers': ['error', { "ignore": [0,1], 'enforceConst':true }],
         'no-return-assign': 'error',
         'no-return-await': 'error',
         'no-self-compare': 'error',
@@ -47,7 +47,7 @@ module.exports = {
         'require-await': 'error',
         'no-shadow': 'error',
         'no-undefined': 'error',
-        
+
         //node.js
         'callback-return': 'error',
         'handle-callback-err': 'error',
@@ -57,7 +57,6 @@ module.exports = {
         'no-path-concat': 'error',
         'no-process-env': 'error',
         'no-process-env': 'error',
-        'no-sync': 'error',
 
         // stylistic
         "camelcase": "error",
@@ -88,7 +87,7 @@ module.exports = {
         "semi-style": ["error", "last"],
         "sort-keys": ["off"],
         "semi": ["error", "always"],
-        
+
         // es6
         "no-confusing-arrow": "error",
         "no-duplicate-imports": "error",
