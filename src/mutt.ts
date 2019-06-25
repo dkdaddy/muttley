@@ -4,7 +4,7 @@ import readline from 'readline';
 import { MochaTestRunner } from './mocha-runner';
 import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
-import { Logger } from './logger';
+import { logger } from './logger';
 import { argv } from './command-line';
 
 var os = require('os');
@@ -70,17 +70,17 @@ class Testcase {
 }
 
 function onStart(filename: string) {
-    l('onStart', filename);
+    logger.debug('onStart', filename);
     for (let [k, t] of allTests) {
-        l(k, t.filename, filename);
+        logger.debug(k, t.filename, filename);
         if (t.filename === filename) {
-            l('remove', t.filename, t.suite, t.name);
+            logger.debug('remove', t.filename, t.suite, t.name);
             allTests.delete(k);
         }
     }
 }
 function onPass(filename: string, stat: Stats, suite: string, name: string, duration: number) {
-    l('onPass', filename, suite, name, duration);
+    logger.debug('onPass', filename, suite, name, duration);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.durationMs = duration;
     testcase.state = TestState.Passsed;
@@ -96,7 +96,7 @@ function onFail(
     message: string,
     stack: { file: string; lineno: number }[],
 ) {
-    l('onFail', filename, suite, name, fullMessage, message, stack);
+    logger.debug('onFail', filename, suite, name, fullMessage, message, stack);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.state = TestState.Failed;
     testcase.message = message;
@@ -107,14 +107,14 @@ function onFail(
     allTests.set(testcase.key, testcase);
 }
 function onEnd(resolve: () => void, passed: number, failed: number): void {
-    l('onEnd', passed, failed);
+    logger.debug('onEnd', passed, failed);
     resolve();
 }
 const watchlist: Map<string, Set<string>> = new Map();
 
 async function readTestCasesFromFile(filename: string, stat: Stats): Promise<void> {
     return new Promise(async (resolve, reject) => {
-        l('readTestCasesFromFile', filename);
+        logger.debug('readTestCasesFromFile', filename);
         const theRunner = new MochaTestRunner();
         // var theRunner = new fakeTestRunner();
 
@@ -133,7 +133,7 @@ async function readTestCasesFromFile(filename: string, stat: Stats): Promise<voi
             const testcase = new Testcase(filename, stat, test.suite, test.name);
             testcase.state = TestState.Running;
             allTests.set(testcase.key, testcase);
-            l('adding', testcase.key, testcase.suite, testcase.name);
+            logger.debug('adding', testcase.key, testcase.suite, testcase.name);
         });
 
         if (tests.length) {
@@ -157,7 +157,7 @@ async function readFiles(folders: string[]): Promise<void> {
     return new Promise((resolve, reject) => {
         folders.forEach(folder => {
             fs.readdir(folder, async (err, files) => {
-                l('readdir', folder);
+                logger.debug('readdir', folder);
                 if (err) {
                     reject(err);
                 } else {
@@ -176,7 +176,7 @@ async function readFiles(folders: string[]): Promise<void> {
                                     let x: Set<string> | undefined;
                                     // l(Object.getOwnPropertyNames(require.cache));
                                     const fullPath = path.resolve(__dirname, filepath);
-                                    l('looking for', fullPath, 'in', watchlist);
+                                    logger.debug('looking for', fullPath, 'in', watchlist);
                                     if ((x = watchlist.get(fullPath))) {
                                         x.forEach(xx => {
                                             const xstat = fs.statSync(xx);
@@ -190,7 +190,7 @@ async function readFiles(folders: string[]): Promise<void> {
                         }
                     });
                     await Promise.all(promises);
-                    l('subfolders', subFolders);
+                    logger.debug('subfolders', subFolders);
                     await readFiles(subFolders);
 
                     resolve();
@@ -432,12 +432,7 @@ async function run(paths: string[]) {
         } else if (key.name === 'r') {
             allTests.clear();
             allFiles.clear();
-        } else if (key.name === 'l') {
-            debugOn();
-            mode = 'l';
-            render();
         } else if (key.name === 'd' || key.name === 'escape') {
-            debugOff();
             mode = 'd';
             render();
         } else {
@@ -453,26 +448,14 @@ async function run(paths: string[]) {
         await readFiles(paths);
     }, 500);
     setInterval(async () => {
-        if (!debug) {
-            await render();
-        }
+        await render();
     }, 800);
 }
-const logger = new Logger();
-let debug = false;
-var l: (...args: any[]) => void = (...args: any) => {};
-function debugOn() {
-    debug = true;
-    l = logger.debug;
-}
-function debugOff() {
-    debug = false;
-    l = () => {};
-}
 if (argv.debug) {
-    debugOn();
+    logger.level = 'debug';
 } else {
-    debugOff();
+    logger.level = 'error';
 }
+
 const paths = Array.isArray(argv.paths) && (argv.paths as string[]).length ? argv.paths : ['.'];
 run(paths);

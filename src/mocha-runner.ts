@@ -1,10 +1,10 @@
 import fs from 'fs';
 import os from 'os';
-import path from 'path';
 import parser from 'fast-xml-parser';
 import { execFile } from 'child_process';
 
 import { TestRunner } from './test-runner';
+import { logger } from './logger';
 
 export class MochaTestRunner implements TestRunner {
     // eslint-disable-next-line class-methods-use-this
@@ -71,31 +71,31 @@ export class MochaTestRunner implements TestRunner {
                   'source-map-support/register',
               ]
             : [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
-        l('exec @', process.cwd(), cmd, args);
+        logger.debug('exec @', process.cwd(), cmd, args);
         execFile(cmd, args, (error: any, stdout: any, stderr: any): void => {
             onStart();
             if (error) {
-                l(`mocha exe returned : ${error}`);
+                logger.debug(`mocha exe returned : ${error}`);
             }
-            l(`stdout: ${stdout}`);
-            l(`stderr: ${stderr}`);
+            logger.debug(`stdout: ${stdout}`);
+            logger.debug(`stderr: ${stderr}`);
             if (!stderr) {
                 // if there were errors in the runner avoid bad XML parse
 
                 const json = parser.parse(stdout, { ignoreAttributes: false, attributeNamePrefix: '' });
                 const suite = json.testsuite;
-                l(suite);
+                logger.debug(suite);
                 // if there is only a single case the testcase is *not* an array! Arrrrgg!
                 const cases: { classname: string; name: string; time: string; failure: string }[] =
                     suite.testcase.length ? suite.testcase : [suite.testcase];
                 cases.forEach((testcase): void => {
                     if (testcase.failure) {
-                        l('failed: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
-                        l('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
+                        logger.debug('failed: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
+                        logger.debug('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
                         failed++;
-                    } else {
                         onFail(testcase.classname, testcase.name, testcase.failure, extractError(testcase.failure), extractStack(testcase.failure));
-                        l('pass: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
+                    } else {
+                        logger.debug('pass: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
                         passed++;
                         const msPerSeconds=1000;
                         onPass(testcase.classname, testcase.name, msPerSeconds * Number.parseFloat(testcase.time));
@@ -121,8 +121,6 @@ function extractStack(stack: string): { file: string; lineno: number }[] {
             ret.push({ file: filepath, lineno: Number.parseInt(line, 10) });
         }
     });
-    l('extractStack returns', ret);
+    logger.debug('extractStack returns', ret);
     return ret;
 }
-const debug = false;
-const l = debug ? console.log : () => {};
