@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 
-// eslint-disable-next-line
+// eslint-disable-next-line prefer-destructuring
 const argv = yargs
     .command(
         '* [paths...]',

@@ -64,7 +64,6 @@ module.exports = {
         "func-call-spacing": ["error", "never"],
         "id-blacklist": ["error", "data", "err", "e", "cb", "callback"],
         "id-length": ["error", { "min": 2 }],
-        'indent': [ 'error', 4, { "SwitchCase": 1 }],
         'linebreak-style': [ 'error', 'unix' ],
         "max-depth": ["error", 4],
         'max-len': ['error', 120],
@@ -81,7 +80,6 @@ module.exports = {
         "no-nested-ternary": "error",
         "no-unneeded-ternary": "error",
         "operator-assignment": ["error", "always"],
-        "operator-linebreak": ["error", "after"],
         "semi": ["error", "always"],
         "semi-style": ["error", "last"],
         "sort-keys": ["off"],
@@ -103,7 +101,9 @@ module.exports = {
         // typescript plugin
 
         '@typescript-eslint/no-for-in-array': "error",
-        '@typescript-eslint/restrict-plus-operands': "error"
+        '@typescript-eslint/restrict-plus-operands': "error",
+        '@typescript-eslint/indent': "off",
+        '@typescript-eslint/no-use-before-define': "off"
     },
 
 }

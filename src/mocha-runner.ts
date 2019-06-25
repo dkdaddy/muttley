@@ -7,22 +7,32 @@ import { execFile } from 'child_process';
 import { TestRunner } from './test-runner';
 
 export class MochaTestRunner implements TestRunner {
+    // eslint-disable-next-line class-methods-use-this
     public findTestsP(filePath: string): Promise<{ suite: string; name: string }[]> {
         return new Promise((resolve, reject): void => {
-            fs.readFile(filePath, (err, data): void => {
-                if (err) {
-                    reject(err);
+            fs.readFile(filePath, (error, content): void => {
+                if (error) {
+                    reject(error);
                 } else {
                     let suite = '';
                     let start;
                     const testcases: { suite: string; name: string }[] = [];
-                    data.toString()
+                    content
+                        .toString()
                         .split(os.EOL)
-                        .forEach(line => {
-                            if ((start = line.indexOf(' describe')) >= 0 && line.slice(start + 9).startsWith("('")) {
-                                suite = line.substr(start + 9).split("'")[1];
-                            } else if ((start = line.indexOf(' it')) >= 0 && line.slice(start + 3).startsWith("('")) {
-                                const name = line.substr(start + 3).split("'")[1];
+                        .forEach((line): void => {
+                            const describeString = ' describe';
+                            const itString = ' it';
+                            if (
+                                (start = line.indexOf(describeString)) >= 0 &&
+                                line.slice(start + describeString.length).startsWith("('")
+                            ) {
+                                [, suite] = line.substr(start + describeString.length).split("'");
+                            } else if (
+                                (start = line.indexOf(itString)) >= 0 &&
+                                line.slice(start + itString.length).startsWith("('")
+                            ) {
+                                const [, name] = line.substr(start + itString.length).split("'");
                                 if (name) {
                                     testcases.push({ suite, name });
                                 }
@@ -33,6 +43,7 @@ export class MochaTestRunner implements TestRunner {
             });
         });
     }
+    // eslint-disable-next-line class-methods-use-this
     public runFileP(
         filePath: string,
         onStart: () => void,
@@ -48,7 +59,6 @@ export class MochaTestRunner implements TestRunner {
     ): Promise<void> {
         let passed = 0,
             failed = 0;
-        const absoluteFilePath = path.resolve(process.cwd(), filePath);
         const isWin = process.platform === 'win32';
         // there must be a better way than this but running mocha directly on windows gives an error
         const cmd = isWin ? 'node' : 'mocha';
@@ -62,7 +72,7 @@ export class MochaTestRunner implements TestRunner {
               ]
             : [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
         l('exec @', process.cwd(), cmd, args);
-        execFile(cmd, args, (error: any, stdout: any, stderr: any) => {
+        execFile(cmd, args, (error: any, stdout: any, stderr: any): void => {
             onStart();
             if (error) {
                 l(`mocha exe returned : ${error}`);
@@ -72,22 +82,23 @@ export class MochaTestRunner implements TestRunner {
             if (!stderr) {
                 // if there were errors in the runner avoid bad XML parse
 
-                let cases: { classname: string; name: string; time: string; failure: string }[];
                 const json = parser.parse(stdout, { ignoreAttributes: false, attributeNamePrefix: '' });
                 const suite = json.testsuite;
                 l(suite);
                 // if there is only a single case the testcase is *not* an array! Arrrrgg!
-                cases = suite.testcase.length ? suite.testcase : [suite.testcase];
-                cases.forEach(t => {
-                    if (!t.failure) {
-                        l('pass: [%s] [%s] [%s]', t.classname, t.name, t.time);
-                        passed++;
-                        onPass(t.classname, t.name, 1000 * Number.parseFloat(t.time));
-                    } else {
-                        l('failed: [%s] [%s] [%s]', t.classname, t.name, t.time);
-                        l('error message:\n', t.failure.replace(/\n+/g, '\n'));
+                const cases: { classname: string; name: string; time: string; failure: string }[] =
+                    suite.testcase.length ? suite.testcase : [suite.testcase];
+                cases.forEach((testcase): void => {
+                    if (testcase.failure) {
+                        l('failed: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
+                        l('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
                         failed++;
-                        onFail(t.classname, t.name, t.failure, extractError(t.failure), extractStack(t.failure));
+                    } else {
+                        onFail(testcase.classname, testcase.name, testcase.failure, extractError(testcase.failure), extractStack(testcase.failure));
+                        l('pass: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
+                        passed++;
+                        const msPerSeconds=1000;
+                        onPass(testcase.classname, testcase.name, msPerSeconds * Number.parseFloat(testcase.time));
                     }
                 });
             }
@@ -96,17 +107,17 @@ export class MochaTestRunner implements TestRunner {
         return Promise.resolve();
     }
 }
-function extractError(message: string) {
+function extractError(message: string): string {
     return message.replace(/\n+/g, ' ');
 }
 function extractStack(stack: string): { file: string; lineno: number }[] {
     const ret: ReturnType<typeof extractStack> = [];
-    stack.split(os.EOL).forEach(frame => {
+    stack.split(os.EOL).forEach((frame): void => {
         const start = frame.indexOf('(');
         const end = frame.indexOf(':', start);
         if (start > 0 && end > 0) {
             const filepath = frame.substr(start + 1, end - start - 1);
-            const line = frame.substr(end + 1).split(':')[0];
+            const [line] = frame.substr(end + 1).split(':');
             ret.push({ file: filepath, lineno: Number.parseInt(line, 10) });
         }
     });
