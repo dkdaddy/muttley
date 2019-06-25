@@ -23,7 +23,6 @@ It then finds all the module dependencies for those files and monitors them, re-
 
 ## To Do
 - [ ] add tests
-- [ ] command line params - path, debug mode,
 - [ ] improve proces list
 - [ ] rationalise key handling, help text and mode switching
 - [ ] limit file stack render based on row count

@@ -1,17 +1,25 @@
-const yargs = require('yargs');
+import yargs from 'yargs';
 
+// eslint-disable-next-line
 const argv = yargs
-    .command('mutt', 'Monitor Unit Tests', {
-        path: {
-            description: 'path to search for tests',
-            alias: 'y',
-            type: 'string',
+    .command(
+        '* [paths...]',
+        'Monitor all Unit Tests in the paths. If no paths supplied use current directory.',
+        (args: yargs.Argv): yargs.Argv => {
+            return args.positional('paths', {
+                describe: 'paths to watch',
+                type: 'string',
+                default: '.'
+            });
         },
-    })
-    .option('time', {
-        alias: 't',
-        description: 'Tell the present Time',
+    )
+    .option('debug', {
+        alias: 'd',
+        description: 'start in debug mode',
         type: 'boolean',
     })
+    .alias('v', 'verbose')
     .help()
     .alias('help', 'h').argv;
+
+export { argv };

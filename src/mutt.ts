@@ -5,6 +5,7 @@ import { MochaTestRunner } from './mocha-runner';
 import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
 import { Logger } from './logger';
+import { argv } from './command-line';
 
 var os = require('os');
 
@@ -152,49 +153,49 @@ async function readTestCasesFromFile(filename: string, stat: Stats): Promise<voi
 const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();
 const deps = new DependencyTree('/');
-async function readFiles(folder: string): Promise<void> {
+async function readFiles(folders: string[]): Promise<void> {
     return new Promise((resolve, reject) => {
-        fs.readdir(folder, async (err, files) => {
-            l('readdir', folder);
-            if (err) {
-                reject(err);
-            } else {
-                const promises: Promise<void>[] = [];
-                const subFolders: string[] = [];
-                files.forEach(file => {
-                    const filepath = path.resolve(folder, file);
-                    const stat = fs.statSync(filepath);
-                    if (stat.isFile() && file.endsWith('.js')) {
-                        const lastModified = allFiles.get(filepath);
-                        if (!lastModified || lastModified < stat.mtime) {
-                            allFiles.set(filepath, stat.mtime);
-                            promises.push(readTestCasesFromFile(filepath, stat));
-                            // if first time found no need to test files that depend on it
-                            if (lastModified) {
-                                let x: Set<string> | undefined;
-                                // l(Object.getOwnPropertyNames(require.cache));
-                                const fullPath = path.resolve(__dirname, filepath);
-                                l('looking for', fullPath, 'in', watchlist);
-                                if ((x = watchlist.get(fullPath))) {
-                                    x.forEach(xx => {
-                                        const xstat = fs.statSync(xx);
-                                        promises.push(readTestCasesFromFile(xx, xstat));
-                                    });
+        folders.forEach(folder => {
+            fs.readdir(folder, async (err, files) => {
+                l('readdir', folder);
+                if (err) {
+                    reject(err);
+                } else {
+                    const promises: Promise<void>[] = [];
+                    const subFolders: string[] = [];
+                    files.forEach(file => {
+                        const filepath = path.resolve(folder, file);
+                        const stat = fs.statSync(filepath);
+                        if (stat.isFile() && file.endsWith('.js')) {
+                            const lastModified = allFiles.get(filepath);
+                            if (!lastModified || lastModified < stat.mtime) {
+                                allFiles.set(filepath, stat.mtime);
+                                promises.push(readTestCasesFromFile(filepath, stat));
+                                // if first time found no need to test files that depend on it
+                                if (lastModified) {
+                                    let x: Set<string> | undefined;
+                                    // l(Object.getOwnPropertyNames(require.cache));
+                                    const fullPath = path.resolve(__dirname, filepath);
+                                    l('looking for', fullPath, 'in', watchlist);
+                                    if ((x = watchlist.get(fullPath))) {
+                                        x.forEach(xx => {
+                                            const xstat = fs.statSync(xx);
+                                            promises.push(readTestCasesFromFile(xx, xstat));
+                                        });
+                                    }
                                 }
                             }
+                        } else if (stat.isDirectory() && !file.startsWith('.') && file.indexOf('node_modules') == -1) {
+                            subFolders.push(filepath);
                         }
-                    } else if (stat.isDirectory() && !file.startsWith('.') && file.indexOf('node_modules') == -1) {
-                        subFolders.push(filepath);
-                    }
-                });
-                await Promise.all(promises);
-                l('subfolders', subFolders);
-                subFolders.forEach(async folder => {
-                    await readFiles(folder);
-                });
+                    });
+                    await Promise.all(promises);
+                    l('subfolders', subFolders);
+                    await readFiles(subFolders);
 
-                resolve();
-            }
+                    resolve();
+                }
+            });
         });
     });
 }
@@ -421,7 +422,7 @@ async function render() {
             console.log(`Nothing to show in mode '${mode}'`);
     }
 }
-async function run() {
+async function run(paths: string[]) {
     readline.emitKeypressEvents(process.stdin);
     process.stdin.setRawMode && process.stdin.setRawMode(true);
     process.stdin.on('keypress', (str, key) => {
@@ -449,7 +450,7 @@ async function run() {
     console.log('\x1b[?25l'); // hide cursor
 
     setInterval(async () => {
-        await readFiles('.');
+        await readFiles(paths);
     }, 500);
     setInterval(async () => {
         if (!debug) {
@@ -468,6 +469,10 @@ function debugOff() {
     debug = false;
     l = () => {};
 }
-
-debugOff();
-run();
+if (argv.debug) {
+    debugOn();
+} else {
+    debugOff();
+}
+const paths = Array.isArray(argv.paths) && (argv.paths as string[]).length ? argv.paths : ['.'];
+run(paths);
