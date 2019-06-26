@@ -1,13 +1,12 @@
-import fs, { Stats } from 'fs';
+import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import readline from 'readline';
 import { MochaTestRunner } from './mocha-runner';
 import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
 import { logger } from './logger';
 import { argv } from './command-line';
-
-var os = require('os');
 
 const mutt = `
        __,-----._                       ,-.
@@ -57,7 +56,7 @@ class Testcase {
     public get key() {
         return [this.filename, this.suite, this.name].join('-');
     }
-    constructor(filename: string, stat: Stats, fixture: string, name: string) {
+    constructor(filename: string, stat: fs.Stats, fixture: string, name: string) {
         this.filename = filename;
         this.mtime = stat.mtime;
         this.suite = fixture;
@@ -79,7 +78,7 @@ function onStart(filename: string) {
         }
     }
 }
-function onPass(filename: string, stat: Stats, suite: string, name: string, duration: number) {
+function onPass(filename: string, stat: fs.Stats, suite: string, name: string, duration: number) {
     logger.debug('onPass', filename, suite, name, duration);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.durationMs = duration;
@@ -89,7 +88,7 @@ function onPass(filename: string, stat: Stats, suite: string, name: string, dura
 }
 function onFail(
     filename: string,
-    stat: Stats,
+    stat: fs.Stats,
     suite: string,
     name: string,
     fullMessage: string,
@@ -112,7 +111,7 @@ function onEnd(resolve: () => void, passed: number, failed: number): void {
 }
 const watchlist: Map<string, Set<string>> = new Map();
 
-async function readTestCasesFromFile(filename: string, stat: Stats): Promise<void> {
+async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<void> {
     return new Promise(async (resolve, reject) => {
         logger.debug('readTestCasesFromFile', filename);
         const theRunner = new MochaTestRunner();

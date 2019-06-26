@@ -93,7 +93,9 @@ export class MochaTestRunner implements TestRunner {
                         logger.debug('failed: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
                         logger.debug('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
                         failed++;
-                        onFail(testcase.classname, testcase.name, testcase.failure, extractError(testcase.failure), extractStack(testcase.failure));
+                        onFail(testcase.classname, testcase.name, testcase.failure, 
+                                extractError(testcase.failure), 
+                                extractStack(testcase.failure));
                     } else {
                         logger.debug('pass: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
                         passed++;

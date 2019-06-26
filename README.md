@@ -27,7 +27,7 @@ It then finds all the module dependencies for those files and monitors them, re-
 - [ ] rationalise key handling, help text and mode switching
 - [ ] limit file stack render based on row count
 - [ ] config file using https://www.npmjs.com/package/configstore
-- [ ] log4js
 - [ ] jsdoc
 - [ ] fix execFile code for Windows
 - [ ] https://github.com/dwyl/repo-badges
+- [ ] travis CI https://github.com/dwyl/learn-travis 

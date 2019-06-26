@@ -33,20 +33,23 @@ export interface LevelView {
 }
 
 export function newPosition([x, y]: Position, direction: Direction): Position {
-    let newPosition: Position;
+    let position: Position;
     switch (direction) {
         case Direction.Up:
-            newPosition = [x, y + 1];
+            position = [x, y + 1];
             break;
         case Direction.Down:
-            newPosition = [x, y - 1];
+            position = [x, y - 1];
             break;
         case Direction.Left:
-            newPosition = [x - 1, y];
+            position = [x - 1, y];
             break;
         case Direction.Up:
-            newPosition = [x + 1, y];
+            position = [x + 1, y];
             break;
+        default:
+            throw Error('bad direction');
+            
     }
-    return newPosition!;
+    return position;
 }

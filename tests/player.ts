@@ -1,41 +1,41 @@
 import { Direction, Position } from './level-view';
+const initialLives=3;
 
 export class Player {
-    readonly playerNumber: number;
-    _position: Position;
-    _lives: number;
-    _score: number;
-    _direction: Direction = Direction.Left;
-    constructor(player: number, position: Position = [1, 1], lives = 3, direction = Direction.Left) {
+    public readonly playerNumber: number;
+    private _position: Position;
+    private _lives: number;
+    private _score: number;
+    private _direction: Direction = Direction.Left;
+    public constructor(player: number, position: Position = [1, 1], lives = initialLives, direction = Direction.Left) {
         this.playerNumber = player;
         this._position = position;
         this._lives = lives;
         this._score = 0;
         this._direction = direction;
     }
-    get position() {
+    public get position(): Position {
         return this._position;
     }
-    get score() {
+    public get score(): number {
         return this._score;
     }
-    get lives() {
+    public get lives(): number {
         return this._lives;
     }
-    get direction() {
+    public get direction(): Direction {
         return this._direction;
     }
-
-    moveTo(position: Position) {
+    public moveTo(position: Position): void {
         this._position = position;
     }
-    addToScore(points: number) {
+    public addToScore(points: number): void {
         this._score += points;
     }
-    loseLife() {
+    public loseLife(): void {
         this._lives--;
     }
-    setDirection(direction: Direction) {
+    public setDirection(direction: Direction): void {
         this._direction = direction;
     }
 }

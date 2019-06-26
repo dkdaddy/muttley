@@ -1,16 +1,17 @@
-var ps = require('ps-node');
+import ps from 'ps-node';
 
-export function renderProcessList() {
-    ps.lookup({ command: 'node' }, function(err: any, resultList: any) {
-        if (err) {
-            throw new Error(err);
+export function renderProcessList(): void {
+    ps.lookup({ command: 'node' }, function(error, resultList): void {
+        if (error) {
+            throw new Error(error);
         }
 
         process.stdout.write('\x1b[2J'); //clear
         process.stdout.write('\x1b[0;0H'); // top left
-        resultList.forEach(function(process: any) {
+        process.stdout.write('PID COMMAND ARGUMENTS');
+        resultList.forEach(function(process: any): void {
             if (process) {
-                console.log('PID: %s, COMMAND: %s, ARGUMENTS: %s', process.pid, process.command, process.arguments);
+                process.stdout.write([process.pid, process.command, process.arguments].join(' '));
             }
         });
     });
