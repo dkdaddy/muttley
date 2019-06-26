@@ -1,5 +1,13 @@
 import path from 'path';
 
+export interface TestFailure {
+    suite: string;
+    name: string;
+    fullMessage: string;
+    message: string;
+    stack: { file: string; lineno: number }[];
+}
+
 /**
  * Interface for test runners. Mutt does not assume any particular test runner
  */
@@ -22,13 +30,7 @@ export interface TestRunner {
         filePath: string,
         onStart: () => void,
         onPass: (suite: string, name: string, duration: number) => void,
-        onFail: (
-            suite: string,
-            name: string,
-            fullMessage: string,
-            message: string,
-            stack: { file: string; lineno: number }[],
-        ) => void,
+        onFail: (failure: TestFailure) => void,
         onEnd: (passed: number, failed: number) => void,
     ): Promise<void>;
 }
@@ -57,13 +59,7 @@ export class FakeTestRunner implements TestRunner {
         filePath: string,
         onStart: () => void,
         onPass: (suite: string, name: string, duration: number) => void,
-        onFail: (
-            suite: string,
-            name: string,
-            fullMessage: string,
-            message: string,
-            stack: { file: string; lineno: number }[],
-        ) => void,
+        onFail: (failure: TestFailure) => void,
         onEnd: (passed: number, failed: number) => void,
     ): Promise<void> {
         setImmediate(onStart);
@@ -80,7 +76,12 @@ export class FakeTestRunner implements TestRunner {
             .filter((test): boolean => !!test.message)
             .forEach((test): void => {
                 setImmediate((): void => {
-                    onFail(test.suite, test.name, test.message || '', test.message || '', test.stack || []);
+                    onFail({
+                        suite: test.suite, 
+                        name: test.name, 
+                        fullMessage: test.message || '', 
+                        message: test.message || '', 
+                        stack: test.stack || []});
                 });
             });
         const passCount = this.tests.filter((test): boolean => !!test.message).length;

@@ -3,7 +3,7 @@ import os from 'os';
 import parser from 'fast-xml-parser';
 import { execFile } from 'child_process';
 
-import { TestRunner } from './test-runner';
+import { TestRunner, TestFailure } from './test-runner';
 import { logger } from './logger';
 
 export class MochaTestRunner implements TestRunner {
@@ -48,13 +48,7 @@ export class MochaTestRunner implements TestRunner {
         filePath: string,
         onStart: () => void,
         onPass: (suite: string, name: string, duration: number) => void,
-        onFail: (
-            suite: string,
-            name: string,
-            fullMessage: string,
-            message: string,
-            stack: { file: string; lineno: number }[],
-        ) => void,
+        onFail: (testFailure: TestFailure) => void,
         onEnd: (passed: number, failed: number) => void,
     ): Promise<void> {
         let passed = 0,
@@ -93,9 +87,11 @@ export class MochaTestRunner implements TestRunner {
                         logger.debug('failed: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
                         logger.debug('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
                         failed++;
-                        onFail(testcase.classname, testcase.name, testcase.failure, 
-                                extractError(testcase.failure), 
-                                extractStack(testcase.failure));
+                        onFail( { suite: testcase.classname, 
+                                  name: testcase.name, 
+                                  fullMessage: testcase.failure, 
+                                  message: extractError(testcase.failure), 
+                                  stack: extractStack(testcase.failure)});
                     } else {
                         logger.debug('pass: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
                         passed++;

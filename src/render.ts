@@ -1,6 +1,5 @@
 import os from 'os';
 import fs from 'fs';
-import { on } from 'cluster';
 
 const defaultColumns = 80, defaultRows = 24;
 const columns = process.stdout.columns || defaultColumns;

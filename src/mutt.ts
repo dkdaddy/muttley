@@ -8,6 +8,7 @@ import { renderProcessList } from './ps';
 import { logger } from './logger';
 import { argv } from './command-line';
 import { renderHeader, renderFileWindow, renderPacman } from './render';
+import { TestFailure } from './test-runner';
 
 const mutt = `
        __,-----._                       ,-.
@@ -89,11 +90,11 @@ function onPass(filename: string, stat: fs.Stats, suite: string, name: string, d
 function onFail(
     filename: string,
     stat: fs.Stats,
-    suite: string,
-    name: string,
-    fullMessage: string,
-    message: string,
-    stack: { file: string; lineno: number }[],
+    { suite,
+    name,
+    fullMessage,
+    message, 
+    stack}: TestFailure 
 ): void {
     logger.debug('onFail', filename, suite, name, fullMessage, message, stack);
     const testcase = new Testcase(filename, stat, suite, name);
