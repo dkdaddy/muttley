@@ -1,5 +1,10 @@
 import os from 'os';
 import fs from 'fs';
+import { on } from 'cluster';
+
+const defaultColumns = 80, defaultRows = 24;
+const columns = process.stdout.columns || defaultColumns;
+const rows = process.stdout.rows || defaultRows;
 
 function write(...args: any[]): void {
     process.stdout.write(args.join(''));
@@ -8,25 +13,23 @@ function writeline(...args: any[]): void {
     write(...args, os.EOL);
 }
 
-type Column = {
+export interface Column {
     name: string;
     width: number;
     just: string;
-    func: () => void;
+    func: (row: {}) => void;
 };
-type Table = { columns: Column[]; rows: {}[] };
+export interface Table { columns: Column[]; rows: {}[] };
 
 export function renderTable(table: Table): void {
-    const rowHeadings = table.columns.map(c => c.name.padEnd(c.width)).join(' ');
+    const rowHeadings = table.columns.map((column): string => column.name.padEnd(column.width)).join(' ');
     process.stdout.write(rowHeadings);
 
-    table.columns.forEach(column => {
-
-    });
-    table.rows.forEach(row => {
-        table.columns.forEach(column => {
-
+    table.rows.forEach((row): void => {
+        table.columns.forEach((column): void => {
+            write(column.func(row));
         });
+        writeline('');
     });
 }
 let lastTotal = 0,
@@ -34,30 +37,35 @@ let lastTotal = 0,
     lastSys = 0,
     lastUser = 0;
 export function renderHeader(failing: number, running: number, fileCount: number): void {
-    const columns = process.stdout.columns || 80;
-    const rows = process.stdout.rows || 24;
+
     write('\x1b[2J'); //clear
     write('\x1b[0;0H'); // top left
 
+    const oneHundred=100;
+    const decimalPlaces=2;
     const cpuList: { times: { sys: number; user: number; idle: number } }[] = os.cpus();
     const sys = cpuList.map(cpu => cpu.times.sys).reduce((x, y) => x + y);
     const user = cpuList.map(cpu => cpu.times.user).reduce((x, y) => x + y);
     const idle = cpuList.map(cpu => cpu.times.idle).reduce((x, y) => x + y);
     const total = sys + user + idle;
     const totalDelta = total - lastTotal;
-    const idleDelta = ((100 * (idle - lastIdle)) / totalDelta).toFixed(2);
-    const sysDelta = ((100 * (sys - lastSys)) / totalDelta).toFixed(2);
-    const userDelta = ((100 * (user - lastUser)) / totalDelta).toFixed(2);
+    const idleDelta = ((oneHundred * (idle - lastIdle)) / totalDelta).toFixed(decimalPlaces);
+    const sysDelta = ((oneHundred * (sys - lastSys)) / totalDelta).toFixed(decimalPlaces);
+    const userDelta = ((oneHundred * (user - lastUser)) / totalDelta).toFixed(decimalPlaces);
     lastIdle = idle;
     lastSys = sys;
     lastUser = user;
     lastTotal = total;
-    const freeMem = ((100 * os.freemem()) / os.totalmem()).toFixed(2);
+    const freeMem = ((oneHundred * os.freemem()) / os.totalmem()).toFixed(decimalPlaces);
 
     // time
-    write(`\x1b[0;${columns - 8}H`);
-    const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
-    write(new Date(Date.now() - tzoffset).toISOString().substr(11, 8));
+    const timeWidth=8;
+    const isoOffsetToTime=11;
+    const msPerMinute=60000;
+    write(`\x1b[0;${columns - timeWidth}H`);
+    const tzoffset = new Date().getTimezoneOffset() * msPerMinute; //offset in milliseconds
+    write(new Date(Date.now() - tzoffset).toISOString().
+                        substr(isoOffsetToTime, timeWidth));
 
     // test summary
     write('\x1b[0;0H'); // top left again
@@ -69,16 +77,17 @@ export function renderHeader(failing: number, running: number, fileCount: number
     write(`CPU Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);
 }
 
-export function renderFileWindow(filepath: string, rows: number, line: number): void {
+export function renderFileWindow(filepath: string, height: number, line: number): void {
     const content = fs.readFileSync(filepath);
     const window = content
         .toString()
         .split(os.EOL)
-        .slice(line - rows / 2, line + rows / 2);
-    let rownum = line - rows / 2 + 1;
+        .slice(line - (height / 2), line + (height / 2));
+    let rownum = line - (height / 2) + 1;
     window.forEach((sourceline): void => {
         const prefix = rownum === line ? '\x1b[35m' : '';
-        writeline(prefix + (rownum++).toString().padEnd(6), sourceline, '\x1b[0m');
+        const rowNumColumnWidth=6;
+        writeline(prefix + (rownum++).toString().padEnd(rowNumColumnWidth), sourceline, '\x1b[0m');
     });
 }
 

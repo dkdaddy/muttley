@@ -9,6 +9,7 @@ import { logger } from './logger';
 import { argv } from './command-line';
 import { renderHeader, renderFileWindow, renderPacman } from './render';
 
+/* eslint-disable */
 
 const mutt = `
        __,-----._                       ,-.

@@ -35,7 +35,7 @@ module.exports = {
         'no-extend-native': 'error',
         'no-implied-eval': 'error',
         'no-invalid-this': 'error',
-        'no-magic-numbers': ['error', { "ignore": [0,1], 'enforceConst':true }],
+        'no-magic-numbers': ['error', { "ignore": [0,1,2], 'enforceConst':true }],
         'no-return-assign': 'error',
         'no-return-await': 'error',
         'no-self-compare': 'error',
@@ -63,7 +63,7 @@ module.exports = {
         "comma-spacing": ["error", { "before": false, "after": true }],
         "func-call-spacing": ["error", "never"],
         "id-blacklist": ["error", "data", "err", "e", "cb", "callback"],
-        "id-length": ["error", { "min": 2 }],
+        "id-length": ["error", { "min": 2, "exceptions": ["x", "y"] }],
         'linebreak-style': [ 'error', 'unix' ],
         "max-depth": ["error", 4],
         'max-len': ['error', 120],
@@ -103,7 +103,11 @@ module.exports = {
         '@typescript-eslint/no-for-in-array': "error",
         '@typescript-eslint/restrict-plus-operands': "error",
         '@typescript-eslint/indent': "off",
-        '@typescript-eslint/no-use-before-define': "off"
+        '@typescript-eslint/no-use-before-define': "off",
+        '@typescript-eslint/explicit-function-return-type': ["error",  
+                                    {  allowExpressions: true,
+                                       allowTypedFunctionExpressions: true,
+                                       allowHigherOrderFunctions:true}]
     },
 
 }
