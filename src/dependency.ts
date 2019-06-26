@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { logger } from './logger';
 
 export class DependencyTree {
     private root: string;
@@ -17,7 +18,8 @@ export class DependencyTree {
         return list;
     }
 
-    public getImportsCommonJS(filepath: string): string[] {
+    public getImportsCommonJS(filepath: string, depth: number=0): string[] {
+        const indent: string = ' '.repeat(depth);
         const list: string[] = [];
         const folder = path.dirname(filepath);
         fs.readFileSync(filepath)
@@ -51,8 +53,17 @@ export class DependencyTree {
                     // else it is dynamically computing target string
                 }
             });
-        const nextLevel: string[] = [];
-        list.forEach((file): string[] => nextLevel.concat(this.getImportsCommonJS(file)));
-        return [...list, ...nextLevel];
+        const nextLevel: Set<string> = new Set();
+        logger.info(indent, `File ${filepath} depends on ${list}`);
+        list.forEach((file): void => {
+            const imports = this.getImportsCommonJS(file, depth+1);
+            if (imports.length) {
+                logger.info(indent, `File ${file} depends on ${imports}`);
+                imports.forEach((importedFile) => {nextLevel.add(importedFile);});
+            }
+        });
+        const allDependants: string[] = [...list, ...Array.from(nextLevel.keys())];
+        logger.info(indent, `Full dependants for ${filepath} are ${allDependants}`);
+        return allDependants;
     }
 }

@@ -9,7 +9,6 @@ import { logger } from './logger';
 import { argv } from './command-line';
 import { Table, renderHeader, renderTable, renderFileWindow, renderPacman, FgColour } from './render';
 import { TestFailure } from './test-runner';
-import { Test } from 'mocha';
 
 const mutt = `
        __,-----._                       ,-.
@@ -72,7 +71,7 @@ class Testcase {
 }
 
 function onStart(filename: string): void {
-    logger.debug('onStart', filename);
+    logger.info('onStart', filename);
     for (const [key, t] of allTests) {
         logger.debug(key, t.filename, filename);
         if (t.filename === filename) {
@@ -82,7 +81,7 @@ function onStart(filename: string): void {
     }
 }
 function onPass(filename: string, stat: fs.Stats, suite: string, name: string, duration: number): void {
-    logger.debug('onPass', filename, suite, name, duration);
+    logger.info('onPass', filename, suite, name, duration);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.durationMs = duration;
     testcase.state = TestState.Passsed;
@@ -97,7 +96,7 @@ function onFail(
     message, 
     stack}: TestFailure 
 ): void {
-    logger.debug('onFail', filename, suite, name, fullMessage, message, stack);
+    logger.info('onFail', filename, suite, name, fullMessage, message, stack);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.state = TestState.Failed;
     testcase.message = message;
@@ -107,13 +106,13 @@ function onFail(
     allTests.set(testcase.key, testcase);
 }
 function onEnd(resolve: () => void, passed: number, failed: number): void {
-    logger.debug('onEnd', passed, failed);
+    logger.info('onEnd', passed, failed);
     resolve();
 }
 const watchlist: Map<string, Set<string>> = new Map();
 
 async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<void> {
-    logger.debug('readTestCasesFromFile', filename);
+    logger.info('readTestCasesFromFile', filename);
     const theRunner = new MochaTestRunner();
     // var theRunner = new fakeTestRunner();
 
@@ -176,8 +175,9 @@ async function readFiles(folders: string[]): Promise<void> {
                                     let x: Set<string> | undefined;
                                     // l(Object.getOwnPropertyNames(require.cache));
                                     const fullPath = path.resolve(__dirname, filepath);
-                                    logger.debug('looking for', fullPath, 'in', watchlist);
+                                    logger.info('File Changed. Looking for', fullPath, 'in', watchlist);
                                     if ((x = watchlist.get(fullPath))) {
+                                        logger.info('Found files that need re-run', x);
                                         x.forEach(xx => {
                                             const xstat = fs.statSync(xx);
                                             promises.push(readTestCasesFromFile(xx, xstat));
@@ -241,7 +241,7 @@ function renderTestHeader() {
 function renderAllTests() {
     const table: Table = {
         columns: testColumns,
-        rows: Array.from(allTests.values()),
+        rows: Array.from(allTests.values()).sort((a, b) => (a.state-b.state)),
         rowColour: (row: any) => {
             const test = row as Testcase;
             return Colour[test.state]
@@ -368,9 +368,12 @@ async function run(paths: string[]) {
 }
 if (argv.debug) {
     logger.level = 'debug';
-} else {
+} else if (argv.verbose) {
+    logger.level = 'info'
+}
+else {
     logger.level = 'error';
 }
-
+console.log(argv);
 const paths = Array.isArray(argv.paths) && (argv.paths as string[]).length ? argv.paths : ['.'];
 run(paths);
