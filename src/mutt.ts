@@ -9,8 +9,6 @@ import { logger } from './logger';
 import { argv } from './command-line';
 import { renderHeader, renderFileWindow, renderPacman } from './render';
 
-/* eslint-disable */
-
 const mutt = `
        __,-----._                       ,-.
      ,'   ,-.    \\\`---.          ,-----<._/
@@ -53,40 +51,39 @@ class Testcase {
     public stack: { file: string; lineno: number }[] = [];
     public message = ''; // single line
     public fullMessage = '';
-    public get basefilename() {
+    public get basefilename(): string {
         return path.basename(this.filename);
     }
-    public get key() {
+    public get key(): string {
         return [this.filename, this.suite, this.name].join('-');
     }
-    constructor(filename: string, stat: fs.Stats, fixture: string, name: string) {
+    public constructor(filename: string, stat: fs.Stats, fixture: string, name: string) {
         this.filename = filename;
         this.mtime = stat.mtime;
         this.suite = fixture;
         this.name = name;
     }
-    public get runtimeInMs() {
+    public get runtimeInMs(): number {
         if (this.state === TestState.Running) return Date.now() - this.startTime.getTime();
         else return this.durationMs;
     }
 }
 
-function onStart(filename: string) {
+function onStart(filename: string): void {
     logger.debug('onStart', filename);
-    for (let [k, t] of allTests) {
-        logger.debug(k, t.filename, filename);
+    for (const [key, t] of allTests) {
+        logger.debug(key, t.filename, filename);
         if (t.filename === filename) {
             logger.debug('remove', t.filename, t.suite, t.name);
-            allTests.delete(k);
+            allTests.delete(key);
         }
     }
 }
-function onPass(filename: string, stat: fs.Stats, suite: string, name: string, duration: number) {
+function onPass(filename: string, stat: fs.Stats, suite: string, name: string, duration: number): void {
     logger.debug('onPass', filename, suite, name, duration);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.durationMs = duration;
     testcase.state = TestState.Passsed;
-    const oldTest = allTests.get(testcase.key);
     allTests.set(testcase.key, testcase);
 }
 function onFail(
@@ -97,7 +94,7 @@ function onFail(
     fullMessage: string,
     message: string,
     stack: { file: string; lineno: number }[],
-) {
+): void {
     logger.debug('onFail', filename, suite, name, fullMessage, message, stack);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.state = TestState.Failed;
@@ -105,7 +102,6 @@ function onFail(
     testcase.fullMessage = fullMessage;
     testcase.stack = stack;
     testcase.state = TestState.Failed;
-    const oldTest = allTests.get(testcase.key);
     allTests.set(testcase.key, testcase);
 }
 function onEnd(resolve: () => void, passed: number, failed: number): void {
@@ -115,42 +111,42 @@ function onEnd(resolve: () => void, passed: number, failed: number): void {
 const watchlist: Map<string, Set<string>> = new Map();
 
 async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-        logger.debug('readTestCasesFromFile', filename);
-        const theRunner = new MochaTestRunner();
-        // var theRunner = new fakeTestRunner();
+    logger.debug('readTestCasesFromFile', filename);
+    const theRunner = new MochaTestRunner();
+    // var theRunner = new fakeTestRunner();
 
-        const tests = await theRunner.findTestsP(filename);
+    const tests = await theRunner.findTestsP(filename);
 
-        if (tests.length) {
-            const files = deps.getFlat(filename); // all files this depends on
-            files.forEach(file => {
-                const newList = watchlist.get(file) || new Set();
-                newList.add(filename);
-                watchlist.set(file, newList);
-            });
-        }
-
-        tests.forEach(test => {
-            const testcase = new Testcase(filename, stat, test.suite, test.name);
-            testcase.state = TestState.Running;
-            allTests.set(testcase.key, testcase);
-            logger.debug('adding', testcase.key, testcase.suite, testcase.name);
+    if (tests.length) {
+        const files = deps.getFlat(filename); // all files this depends on
+        files.forEach(file => {
+            const newList = watchlist.get(file) || new Set();
+            newList.add(filename);
+            watchlist.set(file, newList);
         });
+    }
 
-        if (tests.length) {
-            const absoluteFilePath = path.resolve(process.cwd(), filename);
-            await theRunner.runFileP(
+    tests.forEach(test => {
+        const testcase = new Testcase(filename, stat, test.suite, test.name);
+        testcase.state = TestState.Running;
+        allTests.set(testcase.key, testcase);
+        logger.debug('adding', testcase.key, testcase.suite, testcase.name);
+    });
+
+    if (tests.length) {
+        // const absoluteFilePath = path.resolve(process.cwd(), filename);
+        return new Promise((resolve) => {
+            return theRunner.runFileP(
                 filename,
                 onStart.bind(null, filename),
                 onPass.bind(null, filename, stat),
                 onFail.bind(null, filename, stat),
                 onEnd.bind(null, resolve),
             );
-        }
-        resolve();
-    });
+        });
+    }
 }
+/* eslint-disable */
 
 const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();

@@ -10,7 +10,7 @@
     "test": "mocha *.t.js",
     "build": "tsc",
     "watch": "tsc -w",
-    "lint": "eslint .",
+    "lint": "eslint --ext .ts .",
     "pretty": "prettier -c **/**.ts",
     "pretty-write": "prettier --write **/**.ts",
     "start": "node src/mutt.js"

@@ -35,7 +35,8 @@ module.exports = {
         'no-extend-native': 'error',
         'no-implied-eval': 'error',
         'no-invalid-this': 'error',
-        'no-magic-numbers': ['error', { "ignore": [0,1,2], 'enforceConst':true }],
+        //'no-magic-numbers': ['error', { "ignore": [0,1,2], 'enforceConst':true }],
+        'no-magic-numbers': 'off',
         'no-return-assign': 'error',
         'no-return-await': 'error',
         'no-self-compare': 'error',
@@ -99,7 +100,8 @@ module.exports = {
         "prefer-template": "error",
 
         // typescript plugin
-
+        // uncomment when merged https://github.com/typescript-eslint/typescript-eslint/issues/573n
+        // '@typescript-eslint/no-magic-numbers': ['error', { ignoreNumericLiteralTypes: true }],
         '@typescript-eslint/no-for-in-array': "error",
         '@typescript-eslint/restrict-plus-operands': "error",
         '@typescript-eslint/indent': "off",
