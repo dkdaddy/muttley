@@ -312,10 +312,8 @@ function renderHelp() {
     console.log(mutt);
 }
 async function render() {
-    if (mode != 'p') {
-        renderTestHeader();
-        process.stdout.write('\x1b[5;0H'); // row 5
-    }
+    renderTestHeader();
+    process.stdout.write('\x1b[5;0H'); // row 5
     switch (mode) {
         case 'd':
             return renderAllTests();

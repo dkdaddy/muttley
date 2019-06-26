@@ -22,12 +22,10 @@ It then finds all the module dependencies for those files and monitors them, re-
 - start - run mutt
 
 ## To Do
-- [ ] add tests
-- [ ] improve proces list
-- [ ] rationalise key handling, help text and mode switching
-- [ ] limit file stack render based on row count
-- [ ] config file using https://www.npmjs.com/package/configstore
 - [ ] jsdoc
+- [ ] add tests
+- [ ] rationalise key handling, help text and mode switching
+- [ ] config file using https://www.npmjs.com/package/configstore
 - [ ] fix execFile code for Windows
-- [ ] https://github.com/dwyl/repo-badges
+- [ ] add build badges https://github.com/dwyl/repo-badges
 - [ ] travis CI https://github.com/dwyl/learn-travis 

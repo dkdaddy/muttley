@@ -1,19 +1,27 @@
 import ps from 'ps-node';
-import os from 'os';
+import { renderTable, FgColour } from './render';
 
+interface Process {
+    pid: string;
+    command: string;
+    arguments: string;
+};
+let processList: Process[]=[];
+
+const psColumns = [
+    { name: 'PID', width: 10, just: 'l', func: (row: Process) => row.pid },
+    { name: 'COMMAND', width: 30, just: 'l', func: (row: Process) => row.command },
+    { name: 'ARGS', width: 90, just: 'l', func: (row: Process) => row.arguments },
+];
 export function renderProcessList(): void {
+    // to avoid flicker between the clear and waiting for the callback, draw the latest list and update 
+    // the list in the callback
+    renderTable({columns: psColumns, rowColour: (row) => FgColour.green, rows: processList});
+
     ps.lookup({ command: 'node' }, function(error, resultList): void {
         if (error) {
             throw new Error(error);
         }
-
-        process.stdout.write('\x1b[2J'); //clear
-        process.stdout.write('\x1b[0;0H'); // top left
-        process.stdout.write('PID COMMAND ARGUMENTS');
-        resultList.forEach(function(proc: any): void {
-            if (proc) {
-                process.stdout.write([proc.pid, proc.command, proc.arguments, os.EOL].join(' '));
-            }
-        });
+        processList = resultList as Process[];
     });
 }
