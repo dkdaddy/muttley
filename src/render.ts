@@ -1,6 +1,11 @@
 import os from 'os';
 import fs from 'fs';
 
+// for colours see https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
+export enum FgColour {
+    red=31, green=32, yellow=33, blue=34, magenta=35, cyan=36, white=37
+};
+
 const defaultColumns = 80, defaultRows = 24;
 const columns = process.stdout.columns || defaultColumns;
 const rows = process.stdout.rows || defaultRows;
@@ -16,19 +21,28 @@ export interface Column {
     name: string;
     width: number;
     just: string;
-    func: (row: {}) => void;
+    func: (row: any) => string|number;
 };
-export interface Table { columns: Column[]; rows: {}[] };
+export interface Table { 
+    columns: Column[];
+    rows: {}[]; 
+    rowColour: (row: {}) => FgColour ;
+};
 
 export function renderTable(table: Table): void {
     const rowHeadings = table.columns.map((column): string => column.name.padEnd(column.width)).join(' ');
-    process.stdout.write(rowHeadings);
+    writeline(rowHeadings);
 
     table.rows.forEach((row): void => {
+        const color = table.rowColour(row);
+        write(`\x1b[${color}m`);
         table.columns.forEach((column): void => {
-            write(column.func(row));
+            write(column.func(row)
+                    .toString()
+                    .padEnd(column.width)
+                    .substr(0, column.width), ' ');
         });
-        writeline('');
+        writeline('\x1b[0m');
     });
 }
 let lastTotal = 0,

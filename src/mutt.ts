@@ -7,8 +7,9 @@ import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
 import { logger } from './logger';
 import { argv } from './command-line';
-import { renderHeader, renderFileWindow, renderPacman } from './render';
+import { Table, renderHeader, renderTable, renderFileWindow, renderPacman, FgColour } from './render';
 import { TestFailure } from './test-runner';
+import { Test } from 'mocha';
 
 const mutt = `
        __,-----._                       ,-.
@@ -210,51 +211,44 @@ const Label = {
 };
 // for colours see https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
 const Colour = {
-    [TestState.Ready]: '\x1b[34m',
-    [TestState.Running]: '\x1b[33m',
-    [TestState.Passsed]: '\x1b[32m',
-    [TestState.Failed]: '\x1b[31m',
+    [TestState.Ready]: FgColour.blue,
+    [TestState.Running]: FgColour.yellow,
+    [TestState.Passsed]: FgColour.green,
+    [TestState.Failed]: FgColour.red,
 };
 
 function shortTextFromStack(stack: { file: string; lineno: number }[]): string {
     return stack.length ? stack[0].file + ':' + stack[0].lineno : '';
 }
-var Columns = [
-    { name: 'FILE', width: 20, just: 'l', fn: (t: Testcase) => path.basename(t.filename) },
-    { name: 'SUITE', width: 20, just: 'l', fn: (t: Testcase) => t.suite },
-    { name: 'NAME', width: 30, just: 'l', fn: (t: Testcase) => t.name },
-    { name: 'STATUS', width: 8, just: 'l', fn: (t: Testcase) => Label[t.state] },
-    { name: 'TIME(ms)', width: 8, just: 'l', fn: (t: Testcase) => t.runtimeInMs },
-    { name: 'MSG', width: 50, just: 'l', fn: (t: Testcase) => t.message },
-    { name: 'SOURCE', width: 36, just: 'l', fn: (t: Testcase) => shortTextFromStack(t.stack) },
+var testColumns = [
+    { name: 'FILE', width: 20, just: 'l', func: (row: Testcase) => path.basename(row.filename) },
+    { name: 'SUITE', width: 20, just: 'l', func: (row: Testcase) => row.suite },
+    { name: 'NAME', width: 30, just: 'l', func: (row: Testcase) => row.name },
+    { name: 'STATUS', width: 8, just: 'l', func: (row: Testcase) => Label[row.state] },
+    { name: 'TIME(ms)', width: 8, just: 'l', func: (row: Testcase) => row.runtimeInMs },
+    { name: 'MSG', width: 50, just: 'l', func: (row: Testcase) => row.message },
+    { name: 'SOURCE', width: 36, just: 'l', func: (row: Testcase) => shortTextFromStack(row.stack) },
 ];
 
 function renderTestHeader() {
-    let failing = 0,
-        running = 0;
+    let failing = 0;
     allTests.forEach(t => {
         failing += t.state === TestState.Failed ? 1 : 0;
-        running += t.state === TestState.Running ? 1 : 0;
     });
     const fileCount = allFiles.size;
     renderHeader(failing, failing, allFiles.size);
 }
 function renderAllTests() {
-    const rowHeadings = Columns.map(c => c.name.padEnd(c.width)).join(' ');
+    const table: Table = {
+        columns: testColumns,
+        rows: Array.from(allTests.values()),
+        rowColour: (row: any) => {
+            const test = row as Testcase;
+            return Colour[test.state]
+        }
 
-    console.log(rowHeadings);
-    Array.from(allTests)
-        .sort(([, a], [, b]) => a.state - b.state)
-        .forEach(([, t]) => {
-            const row = Columns.map(c =>
-                c
-                    .fn(t)
-                    .toString()
-                    .padEnd(c.width)
-                    .substr(0, c.width),
-            ).join(' ');
-            console.log(Colour[t.state] + row + '\x1b[0m');
-        });
+    };
+    renderTable(table);
 }
 function renderFailures() {
     Array.from(allTests)
