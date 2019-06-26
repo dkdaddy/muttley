@@ -67,7 +67,7 @@ module.exports = {
         'linebreak-style': [ 'error', 'unix' ],
         "max-depth": ["error", 4],
         'max-len': ['error', 120],
-        "max-lines": ["error", 500],
+        "max-lines": ["error", 400],
         "max-params": ["error", 6],
         "max-statements": ["error", 50],
         "newline-per-chained-call": ["error"],

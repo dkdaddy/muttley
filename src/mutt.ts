@@ -7,6 +7,8 @@ import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
 import { logger } from './logger';
 import { argv } from './command-line';
+import { renderHeader, renderFileWindow, renderPacman } from './render';
+
 
 const mutt = `
        __,-----._                       ,-.
@@ -228,48 +230,16 @@ var Columns = [
     { name: 'MSG', width: 50, just: 'l', fn: (t: Testcase) => t.message },
     { name: 'SOURCE', width: 36, just: 'l', fn: (t: Testcase) => shortTextFromStack(t.stack) },
 ];
-var lastTotal = 0,
-    lastIdle = 0,
-    lastSys = 0,
-    lastUser = 0;
-function renderHeader() {
-    const columns = process.stdout.columns || 80;
-    const rows = process.stdout.rows || 24;
-    process.stdout.write('\x1b[2J'); //clear
-    process.stdout.write('\x1b[0;0H'); // top left
 
-    const cpuList: { times: { sys: number; user: number; idle: number } }[] = os.cpus();
-    const sys = cpuList.map(cpu => cpu.times.sys).reduce((x, y) => x + y);
-    const user = cpuList.map(cpu => cpu.times.user).reduce((x, y) => x + y);
-    const idle = cpuList.map(cpu => cpu.times.idle).reduce((x, y) => x + y);
-    const total = sys + user + idle;
-    const totalDelta = total - lastTotal;
-    const idleDelta = ((100 * (idle - lastIdle)) / totalDelta).toFixed(2);
-    const sysDelta = ((100 * (sys - lastSys)) / totalDelta).toFixed(2);
-    const userDelta = ((100 * (user - lastUser)) / totalDelta).toFixed(2);
-    lastIdle = idle;
-    lastSys = sys;
-    lastUser = user;
-    lastTotal = total;
-    const freeMem = ((100 * os.freemem()) / os.totalmem()).toFixed(2);
-
-    // time
-    process.stdout.write(`\x1b[0;${columns - 8}H`);
-    const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
-    process.stdout.write(new Date(Date.now() - tzoffset).toISOString().substr(11, 8));
-
-    // test summary
-    process.stdout.write('\x1b[0;0H'); // top left again
+function renderTestHeader() {
     let failing = 0,
         running = 0;
     allTests.forEach(t => {
         failing += t.state === TestState.Failed ? 1 : 0;
         running += t.state === TestState.Running ? 1 : 0;
     });
-    console.log(`Tests ${allTests.size}, Failing ${failing}, Running ${running}, Files monitored ${allFiles.size}`);
-
-    // system
-    console.log(`CPU Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);
+    const fileCount = allFiles.size;
+    renderHeader(failing, failing, allFiles.size);
 }
 function renderAllTests() {
     const rowHeadings = Columns.map(c => c.name.padEnd(c.width)).join(' ');
@@ -288,40 +258,6 @@ function renderAllTests() {
             console.log(Colour[t.state] + row + '\x1b[0m');
         });
 }
-var move = 0;
-function renderPacman() {
-    // Oikake (追いかけ)
-
-    // see https://en.wikipedia.org/wiki/ANSI_escape_code
-    const blue = '\x1b[94m';
-    const white = '\x1b[97m';
-
-    for (let i = 0; i < 40; i++) {
-        process.stdout.write(blue + String.fromCodePoint(0x2551) + white + String.fromCodePoint(0x2022) + white);
-        if (i < move) console.log();
-        else if (move === i) console.log(String.fromCodePoint(0x1f354));
-        else console.log(String.fromCodePoint(0x2022));
-    }
-    move = move > 30 ? 0 : move + 1;
-
-    console.log(
-        [
-            ,
-            '\x1b[31m',
-            // String.fromCodePoint(0x2560),
-            // String.fromCodePoint(0x2550),
-            // String.fromCodePoint(0x2550),
-            String.fromCodePoint(0x2557),
-            String.fromCodePoint(0x2022), // dot
-            String.fromCodePoint(0x1f354), // burger
-            String.fromCodePoint(0x1f3a7), // phones
-            String.fromCodePoint(0x1f47b), // ghost https://en.wikipedia.org/wiki/Ghosts_(Pac-Man)
-            String.fromCodePoint(0x1f3ae), // gamepad
-            '\x1b[0m',
-        ].join(''),
-    );
-}
-
 function renderFailures() {
     Array.from(allTests)
         .filter(([, t]) => t.state === TestState.Failed)
@@ -369,18 +305,6 @@ function renderZoom(n: number) {
         renderFileWindow(filepath, 14, line);
     });
 }
-function renderFileWindow(filepath: string, rows: number, line: number) {
-    const content = fs.readFileSync(filepath);
-    const window = content
-        .toString()
-        .split(os.EOL)
-        .slice(line - rows / 2, line + rows / 2);
-    let rownum = line - rows / 2 + 1;
-    window.forEach(sourceline => {
-        const prefix = rownum === line ? '\x1b[35m' : '';
-        console.log(prefix + (rownum++).toString().padEnd(6), sourceline, '\x1b[0m');
-    });
-}
 function renderHelp() {
     console.log('Monitor Unit Testing Tool - MUTT', os.EOL);
     [
@@ -397,7 +321,7 @@ function renderHelp() {
 }
 async function render() {
     if (mode != 'p') {
-        renderHeader();
+        renderTestHeader();
         process.stdout.write('\x1b[5;0H'); // row 5
     }
     switch (mode) {

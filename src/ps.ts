@@ -1,4 +1,5 @@
 import ps from 'ps-node';
+import os from 'os';
 
 export function renderProcessList(): void {
     ps.lookup({ command: 'node' }, function(error, resultList): void {
@@ -9,9 +10,9 @@ export function renderProcessList(): void {
         process.stdout.write('\x1b[2J'); //clear
         process.stdout.write('\x1b[0;0H'); // top left
         process.stdout.write('PID COMMAND ARGUMENTS');
-        resultList.forEach(function(process: any): void {
-            if (process) {
-                process.stdout.write([process.pid, process.command, process.arguments].join(' '));
+        resultList.forEach(function(proc: any): void {
+            if (proc) {
+                process.stdout.write([proc.pid, proc.command, proc.arguments, os.EOL].join(' '));
             }
         });
     });
