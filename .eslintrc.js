@@ -98,6 +98,10 @@ module.exports = {
         "prefer-spread": "error",
         "prefer-template": "error",
 
+        // waiting for https://github.com/typescript-eslint/typescript-eslint/pull/548
+        //'@typescript-eslint/no-explicit-any': ["error", { "ignoreRestArgs": true }], 
+        '@typescript-eslint/no-explicit-any': ["off"],
+        
         // typescript plugin
         // uncomment when merged https://github.com/typescript-eslint/typescript-eslint/issues/573n
         // '@typescript-eslint/no-magic-numbers': ['error', { ignoreNumericLiteralTypes: true }],

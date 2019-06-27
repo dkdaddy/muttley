@@ -21,5 +21,5 @@ B...................B
 B...................B
 BBBBBBBBBBBBBBBBBBBBB
 `;
-
+export = map1;
 //Unicode Character “🍒” (U+1F352)

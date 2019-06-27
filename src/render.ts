@@ -12,10 +12,11 @@ export enum FgColour {
     white = 37,
 }
 
-const defaultColumns = 80,
-    defaultRows = 24;
+const defaultColumns = 80;
+// defaultRows = 24;
+
 const columns = process.stdout.columns || defaultColumns;
-const rows = process.stdout.rows || defaultRows;
+// const rows = process.stdout.rows || defaultRows;
 
 export function write(...args: any[]): void {
     process.stdout.write(args.join(''));

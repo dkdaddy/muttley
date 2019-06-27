@@ -16,7 +16,7 @@ const psColumns = [
 export function renderProcessList(): void {
     // to avoid flicker between the clear and waiting for the callback, draw the latest list and update
     // the list in the callback
-    renderTable({ columns: psColumns, rowColour: row => FgColour.green, rows: processList });
+    renderTable({ columns: psColumns, rowColour: () => FgColour.green, rows: processList });
 
     ps.lookup({ command: 'node' }, function(error, resultList): void {
         if (error) {
