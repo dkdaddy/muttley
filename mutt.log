@@ -1,1519 +1,330 @@
-[2019-06-27T06:22:25.038] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:25.048] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/.eslintrc.js' ]
-[2019-06-27T06:22:25.050] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/.prettierrc.js' ]
-[2019-06-27T06:22:25.052] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:25.053] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/bin/mutt.js' ]
-[2019-06-27T06:22:25.053] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/src/command-line.js' ]
-[2019-06-27T06:22:25.054] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/src/dependency.js' ]
-[2019-06-27T06:22:25.054] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/src/logger.js' ]
-[2019-06-27T06:22:25.054] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/src/mocha-runner.js' ]
-[2019-06-27T06:22:25.054] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/src/mutt.js' ]
-[2019-06-27T06:22:25.054] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/src/ps.js' ]
-[2019-06-27T06:22:25.054] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/src/render.js' ]
-[2019-06-27T06:22:25.054] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/src/test-runner.js' ]
-[2019-06-27T06:22:25.055] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/game.js' ]
-[2019-06-27T06:22:25.055] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/game.t.js' ]
-[2019-06-27T06:22:25.055] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/ghost.js' ]
-[2019-06-27T06:22:25.055] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/ghost.t.js' ]
-[2019-06-27T06:22:25.055] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.055] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/level-view.t.js' ]
-[2019-06-27T06:22:25.056] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/pacman.js' ]
-[2019-06-27T06:22:25.056] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/player.js' ]
-[2019-06-27T06:22:25.056] [INFO] file - [ 'readTestCasesFromFile',
-  '/Users/robertcook/play/fmon/tests/player.t.js' ]
-[2019-06-27T06:22:25.057] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:25.059] [INFO] file - [ '',
-  'File /Users/robertcook/play/fmon/tests/game.t.js depends on /Users/robertcook/play/fmon/tests/game.js' ]
-[2019-06-27T06:22:25.059] [INFO] file - [ ' ',
-  'File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js' ]
-[2019-06-27T06:22:25.060] [INFO] file - [ '  ',
-  'File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.060] [INFO] file - [ '   ',
-  'File /Users/robertcook/play/fmon/tests/level-view.js depends on ' ]
-[2019-06-27T06:22:25.060] [INFO] file - [ '   ',
-  'Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are ' ]
-[2019-06-27T06:22:25.060] [INFO] file - [ '  ',
-  'Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.061] [INFO] file - [ ' ',
-  'File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.061] [INFO] file - [ '  ',
-  'File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.061] [INFO] file - [ '   ',
-  'File /Users/robertcook/play/fmon/tests/level-view.js depends on ' ]
-[2019-06-27T06:22:25.061] [INFO] file - [ '   ',
-  'Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are ' ]
-[2019-06-27T06:22:25.061] [INFO] file - [ '  ',
-  'Full dependants for /Users/robertcook/play/fmon/tests/ghost.js are /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.062] [INFO] file - [ ' ',
-  'File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.062] [INFO] file - [ ' ',
-  'Full dependants for /Users/robertcook/play/fmon/tests/game.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.062] [INFO] file - [ '',
-  'File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.062] [INFO] file - [ '',
-  'Full dependants for /Users/robertcook/play/fmon/tests/game.t.js are /Users/robertcook/play/fmon/tests/game.js,/Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.068] [INFO] file - [ '',
-  'File /Users/robertcook/play/fmon/tests/player.t.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.068] [INFO] file - [ ' ',
-  'File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.068] [INFO] file - [ '  ',
-  'File /Users/robertcook/play/fmon/tests/level-view.js depends on ' ]
-[2019-06-27T06:22:25.069] [INFO] file - [ '  ',
-  'Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are ' ]
-[2019-06-27T06:22:25.069] [INFO] file - [ ' ',
-  'Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.069] [INFO] file - [ '',
-  'File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.069] [INFO] file - [ ' ',
-  'File /Users/robertcook/play/fmon/tests/level-view.js depends on ' ]
-[2019-06-27T06:22:25.069] [INFO] file - [ ' ',
-  'Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are ' ]
-[2019-06-27T06:22:25.069] [INFO] file - [ '',
-  'Full dependants for /Users/robertcook/play/fmon/tests/player.t.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js,/Users/robertcook/play/fmon/tests/level-view.js' ]
-[2019-06-27T06:22:25.073] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:25.537] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:25.538] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:25.539] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:25.540] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:25.541] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:25.894] [INFO] file - [ 'onStart', '/Users/robertcook/play/fmon/tests/game.t.js' ]
-[2019-06-27T06:22:25.897] [INFO] file - [ 'onPass',
-  '/Users/robertcook/play/fmon/tests/game.t.js',
-  'Game constuctor',
-  'score === 0',
-  0 ]
-[2019-06-27T06:22:25.898] [INFO] file - [ 'onEnd', 1, 0 ]
-[2019-06-27T06:22:25.898] [INFO] file - [ 'onStart', '/Users/robertcook/play/fmon/tests/player.t.js' ]
-[2019-06-27T06:22:25.899] [INFO] file - [ 'onPass',
-  '/Users/robertcook/play/fmon/tests/player.t.js',
-  'Player default constructor',
-  'score === 0 etc',
-  0 ]
-[2019-06-27T06:22:25.899] [INFO] file - [ 'onPass',
-  '/Users/robertcook/play/fmon/tests/player.t.js',
-  'Player constructor',
-  'sets values correctly',
-  1 ]
-[2019-06-27T06:22:25.899] [INFO] file - [ 'onPass',
-  '/Users/robertcook/play/fmon/tests/player.t.js',
-  'Player moveTo',
-  'moves',
-  0 ]
-[2019-06-27T06:22:25.899] [INFO] file - [ 'onPass',
-  '/Users/robertcook/play/fmon/tests/player.t.js',
-  'Player addToScore',
-  'adds to score',
-  0 ]
-[2019-06-27T06:22:25.899] [INFO] file - [ 'onPass',
-  '/Users/robertcook/play/fmon/tests/player.t.js',
-  'Player loseLife',
-  'decrements lives',
-  0 ]
-[2019-06-27T06:22:25.899] [INFO] file - [ 'onPass',
-  '/Users/robertcook/play/fmon/tests/player.t.js',
-  'Player setDirection',
-  'sets direction',
-  0 ]
-[2019-06-27T06:22:25.899] [INFO] file - [ 'onEnd', 6, 0 ]
-[2019-06-27T06:22:25.899] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:26.040] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:26.042] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:26.043] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:26.044] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:26.045] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:26.544] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:26.547] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:26.549] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:26.549] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:26.550] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:27.047] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:27.053] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:27.054] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:27.055] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:27.056] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:27.549] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:27.553] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:27.554] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:27.555] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:27.555] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:28.053] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:28.057] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:28.058] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:28.059] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:28.060] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:28.557] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:28.561] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:28.562] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:28.563] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:28.564] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:29.059] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:29.064] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:29.064] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:29.065] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:29.066] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:29.565] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:29.570] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:29.571] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:29.572] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:29.573] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:30.067] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:30.072] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:30.073] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:30.074] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:30.075] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:30.569] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:30.575] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:30.576] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:30.578] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:30.579] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:31.071] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:31.076] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:31.076] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:31.077] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:31.078] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:31.573] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:31.581] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:31.581] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:31.582] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:31.583] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:32.076] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:32.082] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:32.083] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:32.084] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:32.085] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:32.580] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:32.585] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:32.586] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:32.586] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:32.587] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:33.083] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:33.087] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:33.088] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:33.089] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:33.090] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:33.584] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:33.590] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:33.591] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:33.592] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:33.592] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:34.086] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:34.089] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:34.090] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:34.091] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:34.091] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:34.588] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:34.594] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:34.595] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:34.596] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:34.597] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:35.093] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:35.104] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:35.105] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:35.106] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:35.107] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:35.595] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:35.599] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:35.600] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:35.601] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:35.602] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:36.098] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:36.102] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:36.103] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:36.104] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:36.105] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:36.602] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:36.606] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:36.606] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:36.609] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:36.610] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:37.107] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:37.111] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:37.111] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:37.114] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:37.115] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:37.609] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:37.613] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:37.614] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:37.615] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:37.615] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:38.111] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:38.115] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:38.116] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:38.117] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:38.117] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:38.615] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:38.620] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:38.620] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:38.623] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:38.625] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:39.120] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:39.124] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:39.124] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:39.125] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:39.126] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:39.622] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:39.626] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:39.626] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:39.627] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:39.628] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:40.124] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:40.128] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:40.128] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:40.129] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:40.130] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:40.628] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:40.633] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:40.634] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:40.635] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:40.636] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:41.130] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:41.135] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:41.136] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:41.137] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:41.137] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:41.632] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:41.636] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:41.637] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:41.639] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:41.639] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:42.138] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:42.148] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:42.149] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:42.151] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:42.152] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:42.641] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:42.646] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:42.647] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:42.648] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:42.649] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:43.144] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:43.148] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:43.149] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:43.150] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:43.151] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:43.649] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:43.652] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:43.653] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:43.654] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:43.655] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:44.152] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:44.156] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:44.156] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:44.158] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:44.159] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:44.653] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:44.656] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:44.657] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:44.658] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:44.658] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:45.157] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:45.162] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:45.162] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:45.163] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:45.163] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:45.659] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:45.663] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:45.664] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:45.665] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:45.665] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:46.161] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:46.166] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:46.167] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:46.168] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:46.169] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:46.664] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:46.669] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:46.670] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:46.671] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:46.671] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:47.166] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:47.171] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:47.172] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:47.173] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:47.174] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:47.666] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:47.671] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:47.672] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:47.673] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:47.673] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:48.169] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:48.176] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:48.177] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:48.178] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:48.179] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:48.674] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:48.681] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:48.682] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:48.683] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:48.683] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:49.176] [INFO] file - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:49.179] [INFO] file - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:49.180] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:49.181] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:49.181] [INFO] file - [ 'readFiles', [] ]
-[2019-06-27T06:22:49.680] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:49.681] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:49.682] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:49.682] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:49.683] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:49.683] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:49.683] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:49.683] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:49.684] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:49.684] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:49.684] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:49.685] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:49.685] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:50.183] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:50.184] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:50.184] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:50.184] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:50.185] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:50.185] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:50.185] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:50.186] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:50.186] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:50.186] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:50.187] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:50.187] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:50.187] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:50.687] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:50.688] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:50.689] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:50.689] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:50.689] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:50.690] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:50.690] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:50.690] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:50.690] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:50.691] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:50.691] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:50.691] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:50.691] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:51.191] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:51.192] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:51.193] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:51.193] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:51.193] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:51.194] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:51.194] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:51.195] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:51.195] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:51.196] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:51.196] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:51.196] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:51.196] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:51.694] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:51.695] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:51.696] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:51.696] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:51.697] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:51.697] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:51.697] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:51.697] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:51.698] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:51.698] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:51.698] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:51.699] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:51.699] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:52.197] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:52.199] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:52.200] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:52.200] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:52.201] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:52.201] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:52.201] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:52.201] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:52.202] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:52.202] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:52.202] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:52.202] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:52.202] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:52.700] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:52.701] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:52.702] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:52.702] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:52.702] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:52.703] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:52.703] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:52.703] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:52.704] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:52.704] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:52.704] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:52.705] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:52.705] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:53.204] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:53.204] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:53.205] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:53.205] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:53.206] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:53.206] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:53.206] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:53.207] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:53.207] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:53.207] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:53.207] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:53.208] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:53.208] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:53.707] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:53.707] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:53.722] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:53.723] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:53.723] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:53.723] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:53.724] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:53.724] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:53.724] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:53.724] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:53.728] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:53.728] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:53.729] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:54.209] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:54.210] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:54.211] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:54.211] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:54.211] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:54.212] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:54.212] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:54.212] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:54.213] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:54.213] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:54.213] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:54.213] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:54.213] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:54.713] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:54.714] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:54.715] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:54.715] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:54.716] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:54.716] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:54.716] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:54.716] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:54.717] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:54.717] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:54.717] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:54.718] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:54.718] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:55.215] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:55.215] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:55.216] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:55.216] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:55.216] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:55.216] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:55.216] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:55.216] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:55.217] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:55.217] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:55.217] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:55.217] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:55.217] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:55.717] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:55.718] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:55.718] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:55.718] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:55.719] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:55.719] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:55.719] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:55.720] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:55.720] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:55.720] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:55.720] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:55.721] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:55.721] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:56.222] [INFO] stdout - [ 'readFiles', [ '.' ] ]
-[2019-06-27T06:22:56.223] [DEBUG] stdout - [ 'readdir', '.' ]
-[2019-06-27T06:22:56.223] [DEBUG] stdout - [ 'subfolders',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:56.223] [INFO] stdout - [ 'readFiles',
-  [ '/Users/robertcook/play/fmon/bin',
-    '/Users/robertcook/play/fmon/src',
-    '/Users/robertcook/play/fmon/tests' ] ]
-[2019-06-27T06:22:56.224] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/bin' ]
-[2019-06-27T06:22:56.224] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:56.224] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:56.224] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/src' ]
-[2019-06-27T06:22:56.225] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:56.226] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T06:22:56.226] [DEBUG] stdout - [ 'readdir', '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T06:22:56.227] [DEBUG] stdout - [ 'subfolders', [] ]
-[2019-06-27T06:22:56.227] [INFO] stdout - [ 'readFiles', [] ]
-[2019-06-27T07:27:32.029] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:32.040] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/.eslintrc.js
-[2019-06-27T07:27:32.041] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/.prettierrc.js
-[2019-06-27T07:27:32.044] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:32.044] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/bin/mutt.js
-[2019-06-27T07:27:32.045] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/command-line.js
-[2019-06-27T07:27:32.045] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/dependency.js
-[2019-06-27T07:27:32.045] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/logger.js
-[2019-06-27T07:27:32.045] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/mocha-runner.js
-[2019-06-27T07:27:32.045] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/mutt.js
-[2019-06-27T07:27:32.045] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/ps.js
-[2019-06-27T07:27:32.045] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/render.js
-[2019-06-27T07:27:32.046] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/test-runner.js
-[2019-06-27T07:27:32.046] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/game.js
-[2019-06-27T07:27:32.046] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:27:32.046] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/ghost.js
-[2019-06-27T07:27:32.046] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/ghost.t.js
-[2019-06-27T07:27:32.046] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.046] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/level-view.t.js
-[2019-06-27T07:27:32.046] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/pacman.js
-[2019-06-27T07:27:32.047] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/player.js
-[2019-06-27T07:27:32.047] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:27:32.049] [INFO] file -   File /Users/robertcook/play/fmon/tests/game.t.js depends on /Users/robertcook/play/fmon/tests/game.js
-[2019-06-27T07:27:32.049] [INFO] file -    File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js
-[2019-06-27T07:27:32.050] [INFO] file -     File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.050] [INFO] file -      File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:27:32.050] [INFO] file -      Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:27:32.050] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.050] [INFO] file -    File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.051] [INFO] file -     File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.051] [INFO] file -      File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:27:32.051] [INFO] file -      Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:27:32.051] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/ghost.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.051] [INFO] file -    File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.051] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/game.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.051] [INFO] file -   File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.051] [INFO] file -   Full dependants for /Users/robertcook/play/fmon/tests/game.t.js are /Users/robertcook/play/fmon/tests/game.js,/Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.057] [INFO] file -   File /Users/robertcook/play/fmon/tests/player.t.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.058] [INFO] file -    File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.058] [INFO] file -     File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:27:32.058] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:27:32.058] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.058] [INFO] file -   File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.058] [INFO] file -    File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:27:32.058] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:27:32.058] [INFO] file -   Full dependants for /Users/robertcook/play/fmon/tests/player.t.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:27:32.533] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:32.534] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:32.859] [INFO] file -  onStart /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:27:32.862] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/game.t.js Game constuctor score === 0 0
-[2019-06-27T07:27:32.862] [INFO] file -  onEnd 1 0
-[2019-06-27T07:27:32.875] [INFO] file -  onStart /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:27:32.878] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player default constructor score === 0 etc 1
-[2019-06-27T07:27:32.878] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player constructor sets values correctly 2
-[2019-06-27T07:27:32.878] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player moveTo moves 0
-[2019-06-27T07:27:32.879] [ERROR] file -  onFail /Users/robertcook/play/fmon/tests/player.t.js Player addToScore adds to score err Error: err     at Player.addToScore (tests/player.ts:33:34)     at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)
-[2019-06-27T07:27:32.879] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player loseLife decrements lives 0
-[2019-06-27T07:27:32.879] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player setDirection sets direction 0
-[2019-06-27T07:27:32.879] [INFO] file -  onEnd 5 1
-[2019-06-27T07:27:33.036] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:33.040] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:33.539] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:33.544] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:34.044] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:34.050] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:34.546] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:34.550] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:34.574] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:27:35.047] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:35.049] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:27:35.050] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:35.551] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:35.552] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:27:35.553] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:36.055] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:36.057] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:27:36.058] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:36.557] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:36.558] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:27:36.560] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:37.060] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:37.061] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:27:37.062] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:37.562] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:37.563] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:27:37.565] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:38.015] [ERROR] file -  renderZoom 2 not found
-[2019-06-27T07:27:38.063] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:27:38.064] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:27:38.065] [ERROR] file -  renderZoom 2 not found
-[2019-06-27T07:29:45.393] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:45.402] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/.eslintrc.js
-[2019-06-27T07:29:45.404] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/.prettierrc.js
-[2019-06-27T07:29:45.406] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:45.407] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/bin/mutt.js
-[2019-06-27T07:29:45.407] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/command-line.js
-[2019-06-27T07:29:45.407] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/dependency.js
-[2019-06-27T07:29:45.408] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/logger.js
-[2019-06-27T07:29:45.408] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/mocha-runner.js
-[2019-06-27T07:29:45.408] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/mutt.js
-[2019-06-27T07:29:45.408] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/ps.js
-[2019-06-27T07:29:45.408] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/render.js
-[2019-06-27T07:29:45.408] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/test-runner.js
-[2019-06-27T07:29:45.408] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/game.js
-[2019-06-27T07:29:45.408] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:29:45.409] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/ghost.js
-[2019-06-27T07:29:45.409] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/ghost.t.js
-[2019-06-27T07:29:45.409] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.409] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/level-view.t.js
-[2019-06-27T07:29:45.409] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/pacman.js
-[2019-06-27T07:29:45.409] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/player.js
-[2019-06-27T07:29:45.409] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:29:45.412] [INFO] file -   File /Users/robertcook/play/fmon/tests/game.t.js depends on /Users/robertcook/play/fmon/tests/game.js
-[2019-06-27T07:29:45.412] [INFO] file -    File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js
-[2019-06-27T07:29:45.412] [INFO] file -     File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.413] [INFO] file -      File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:29:45.413] [INFO] file -      Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:29:45.413] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.413] [INFO] file -    File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.413] [INFO] file -     File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.414] [INFO] file -      File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:29:45.414] [INFO] file -      Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:29:45.414] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/ghost.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.414] [INFO] file -    File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.414] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/game.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.414] [INFO] file -   File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.414] [INFO] file -   Full dependants for /Users/robertcook/play/fmon/tests/game.t.js are /Users/robertcook/play/fmon/tests/game.js,/Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.421] [INFO] file -   File /Users/robertcook/play/fmon/tests/player.t.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.421] [INFO] file -    File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.422] [INFO] file -     File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:29:45.422] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:29:45.422] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.422] [INFO] file -   File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.422] [INFO] file -    File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:29:45.422] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:29:45.422] [INFO] file -   Full dependants for /Users/robertcook/play/fmon/tests/player.t.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:29:45.896] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:45.897] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:46.397] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:46.399] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:46.410] [INFO] file -  onStart /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:29:46.413] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/game.t.js Game constuctor score === 0 0
-[2019-06-27T07:29:46.413] [INFO] file -  onEnd 1 0
-[2019-06-27T07:29:46.426] [INFO] file -  onStart /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:29:46.427] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player default constructor score === 0 etc 0
-[2019-06-27T07:29:46.427] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player constructor sets values correctly 2
-[2019-06-27T07:29:46.428] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player moveTo moves 1
-[2019-06-27T07:29:46.428] [ERROR] file -  onFail /Users/robertcook/play/fmon/tests/player.t.js Player addToScore adds to score err Error: err     at Player.addToScore (tests/player.ts:33:34)     at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)
-[2019-06-27T07:29:46.428] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player loseLife decrements lives 1
-[2019-06-27T07:29:46.428] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player setDirection sets direction 0
-[2019-06-27T07:29:46.428] [INFO] file -  onEnd 5 1
-[2019-06-27T07:29:46.899] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:46.901] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:47.404] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:47.408] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:47.908] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:47.914] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:48.346] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:29:48.412] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:48.414] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:29:48.415] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:48.914] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:48.915] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:29:48.917] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:49.417] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:49.418] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:29:49.419] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:29:49.919] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:29:49.920] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:29:49.921] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:46.201] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:46.209] [DEBUG] file -  readdir .
-[2019-06-27T07:30:46.210] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/.eslintrc.js
-[2019-06-27T07:30:46.211] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/.prettierrc.js
-[2019-06-27T07:30:46.214] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:46.215] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:46.215] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:46.215] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/command-line.js
-[2019-06-27T07:30:46.215] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/dependency.js
-[2019-06-27T07:30:46.215] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/logger.js
-[2019-06-27T07:30:46.216] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/mocha-runner.js
-[2019-06-27T07:30:46.216] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/mutt.js
-[2019-06-27T07:30:46.216] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/ps.js
-[2019-06-27T07:30:46.216] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/render.js
-[2019-06-27T07:30:46.216] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/test-runner.js
-[2019-06-27T07:30:46.216] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:46.216] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/bin/mutt.js
-[2019-06-27T07:30:46.217] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/game.js
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/ghost.js
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/ghost.t.js
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/level-view.t.js
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/pacman.js
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/player.js
-[2019-06-27T07:30:46.217] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:46.219] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:46.220] [INFO] file -   File /Users/robertcook/play/fmon/tests/game.t.js depends on /Users/robertcook/play/fmon/tests/game.js
-[2019-06-27T07:30:46.220] [INFO] file -    File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js
-[2019-06-27T07:30:46.221] [INFO] file -     File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.221] [INFO] file -      File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:30:46.221] [INFO] file -      Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:30:46.221] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.221] [INFO] file -    File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.222] [INFO] file -     File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.222] [INFO] file -      File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:30:46.222] [INFO] file -      Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:30:46.222] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/ghost.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.222] [INFO] file -    File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.222] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/game.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.222] [INFO] file -   File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.222] [INFO] file -   Full dependants for /Users/robertcook/play/fmon/tests/game.t.js are /Users/robertcook/play/fmon/tests/game.js,/Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.222] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/game.t.js-constuctor-score === 0 constuctor score === 0
-[2019-06-27T07:30:46.223] [DEBUG] file -  exec @ /Users/robertcook/play/fmon mocha [ '/Users/robertcook/play/fmon/tests/game.t.js',
+[2019-06-27T16:15:36.359] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:15:36.364] [DEBUG] file -  readdir src
+[2019-06-27T16:15:36.364] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/command-line.js
+[2019-06-27T16:15:36.365] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/dependency.js
+[2019-06-27T16:15:36.365] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:15:36.365] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.365] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/mocha-runner.js
+[2019-06-27T16:15:36.365] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:15:36.365] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/mutt.js
+[2019-06-27T16:15:36.365] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/ps.js
+[2019-06-27T16:15:36.365] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/render.js
+[2019-06-27T16:15:36.366] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/test-runner.js
+[2019-06-27T16:15:36.368] [INFO] file -   File /private/tmp/mutt/muttley/src/dependency.t.js depends on /private/tmp/mutt/muttley/src/dependency.js
+[2019-06-27T16:15:36.369] [INFO] file -    File /private/tmp/mutt/muttley/src/dependency.js depends on /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.369] [INFO] file -     File /private/tmp/mutt/muttley/src/logger.js depends on 
+[2019-06-27T16:15:36.369] [INFO] file -     Full dependants for /private/tmp/mutt/muttley/src/logger.js are 
+[2019-06-27T16:15:36.370] [INFO] file -    Full dependants for /private/tmp/mutt/muttley/src/dependency.js are /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.370] [INFO] file -   File /private/tmp/mutt/muttley/src/dependency.js depends on /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.370] [INFO] file -   Full dependants for /private/tmp/mutt/muttley/src/dependency.t.js are /private/tmp/mutt/muttley/src/dependency.js,/private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.370] [DEBUG] file -  adding /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-throws if file not found getFlat throws if file not found
+[2019-06-27T16:15:36.370] [DEBUG] file -  adding /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns a single file getFlat returns a single file
+[2019-06-27T16:15:36.370] [DEBUG] file -  adding /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns multiple files getFlat returns multiple files
+[2019-06-27T16:15:36.370] [DEBUG] file -  exec @ /private/tmp/mutt/muttley mocha [ '/private/tmp/mutt/muttley/src/dependency.t.js',
   '--reporter=xunit',
   '--require',
   'source-map-support/register' ]
-[2019-06-27T07:30:46.228] [INFO] file -   File /Users/robertcook/play/fmon/tests/player.t.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.229] [INFO] file -    File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.229] [INFO] file -     File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:30:46.229] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:30:46.229] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.229] [INFO] file -   File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.229] [INFO] file -    File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:30:46.229] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:30:46.229] [INFO] file -   Full dependants for /Users/robertcook/play/fmon/tests/player.t.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:30:46.229] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-default constructor-score === 0 etc default constructor score === 0 etc
-[2019-06-27T07:30:46.229] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-constructor-sets values correctly constructor sets values correctly
-[2019-06-27T07:30:46.230] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-moveTo-moves moveTo moves
-[2019-06-27T07:30:46.230] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-addToScore-adds to score addToScore adds to score
-[2019-06-27T07:30:46.230] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-loseLife-decrements lives loseLife decrements lives
-[2019-06-27T07:30:46.230] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-setDirection-sets direction setDirection sets direction
-[2019-06-27T07:30:46.230] [DEBUG] file -  exec @ /Users/robertcook/play/fmon mocha [ '/Users/robertcook/play/fmon/tests/player.t.js',
+[2019-06-27T16:15:36.374] [INFO] file -   File /private/tmp/mutt/muttley/src/mocha-runner.t.js depends on /private/tmp/mutt/muttley/src/mocha-runner.js
+[2019-06-27T16:15:36.375] [INFO] file -    File /private/tmp/mutt/muttley/src/mocha-runner.js depends on /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.375] [INFO] file -     File /private/tmp/mutt/muttley/src/logger.js depends on 
+[2019-06-27T16:15:36.375] [INFO] file -     Full dependants for /private/tmp/mutt/muttley/src/logger.js are 
+[2019-06-27T16:15:36.375] [INFO] file -    Full dependants for /private/tmp/mutt/muttley/src/mocha-runner.js are /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.375] [INFO] file -   File /private/tmp/mutt/muttley/src/mocha-runner.js depends on /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.375] [INFO] file -   Full dependants for /private/tmp/mutt/muttley/src/mocha-runner.t.js are /private/tmp/mutt/muttley/src/mocha-runner.js,/private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:15:36.376] [DEBUG] file -  adding /private/tmp/mutt/muttley/src/mocha-runner.t.js-ctor-is can be created ctor is can be created
+[2019-06-27T16:15:36.376] [DEBUG] file -  exec @ /private/tmp/mutt/muttley mocha [ '/private/tmp/mutt/muttley/src/mocha-runner.t.js',
   '--reporter=xunit',
   '--require',
   'source-map-support/register' ]
-[2019-06-27T07:30:46.233] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:46.703] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:46.703] [DEBUG] file -  readdir .
-[2019-06-27T07:30:46.704] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:46.705] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:46.714] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:46.714] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:46.718] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:46.719] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:46.719] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:46.719] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:47.028] [INFO] file -  onStart /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:47.028] [DEBUG] file -  /Users/robertcook/play/fmon/tests/game.t.js-constuctor-score === 0 /Users/robertcook/play/fmon/tests/game.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:47.028] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/game.t.js constuctor score === 0
-[2019-06-27T07:30:47.029] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-default constructor-score === 0 etc /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:47.029] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-constructor-sets values correctly /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:47.029] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-moveTo-moves /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:47.029] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-addToScore-adds to score /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:47.029] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-loseLife-decrements lives /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:47.029] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-setDirection-sets direction /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:30:47.029] [DEBUG] file -  stdout: <testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Thu, 27 Jun 2019 11:30:47 GMT" time="0.006">
-<testcase classname="Game constuctor" name="score === 0" time="0"/>
+[2019-06-27T16:15:36.863] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:15:36.865] [DEBUG] file -  readdir src
+[2019-06-27T16:15:36.866] [DEBUG] file -  subfolders []
+[2019-06-27T16:15:36.989] [INFO] file -  onStart /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:15:36.989] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-throws if file not found /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:15:36.989] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns a single file /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:15:36.989] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns multiple files /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:15:36.989] [DEBUG] file -  /private/tmp/mutt/muttley/src/mocha-runner.t.js-ctor-is can be created /private/tmp/mutt/muttley/src/mocha-runner.t.js /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:15:36.989] [DEBUG] file -  remove /private/tmp/mutt/muttley/src/mocha-runner.t.js ctor is can be created
+[2019-06-27T16:15:36.989] [DEBUG] file -  stdout: <testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Thu, 27 Jun 2019 20:15:36 GMT" time="0.004">
+<testcase classname="MochaTestRunner ctor" name="is can be created" time="0"/>
 </testsuite>
 
-[2019-06-27T07:30:47.029] [DEBUG] file -  stderr: 
-[2019-06-27T07:30:47.031] [DEBUG] file -  { name: 'Mocha Tests',
+[2019-06-27T16:15:36.989] [DEBUG] file -  stderr: 
+[2019-06-27T16:15:36.991] [DEBUG] file -  { name: 'Mocha Tests',
   tests: '1',
   failures: '0',
   errors: '0',
   skipped: '0',
-  timestamp: 'Thu, 27 Jun 2019 11:30:47 GMT',
-  time: '0.006',
+  timestamp: 'Thu, 27 Jun 2019 20:15:36 GMT',
+  time: '0.004',
   testcase:
-   { classname: 'Game constuctor', name: 'score === 0', time: '0' } }
-[2019-06-27T07:30:47.031] [DEBUG] file -  pass: [%s] [%s] [%s] Game constuctor score === 0 0
-[2019-06-27T07:30:47.032] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/game.t.js Game constuctor score === 0 0
-[2019-06-27T07:30:47.032] [INFO] file -  onEnd 1 0
-[2019-06-27T07:30:47.054] [INFO] file -  onStart /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:47.055] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-default constructor-score === 0 etc /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:47.055] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js default constructor score === 0 etc
-[2019-06-27T07:30:47.055] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-constructor-sets values correctly /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:47.055] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js constructor sets values correctly
-[2019-06-27T07:30:47.055] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-moveTo-moves /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:47.055] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js moveTo moves
-[2019-06-27T07:30:47.055] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-addToScore-adds to score /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:47.055] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js addToScore adds to score
-[2019-06-27T07:30:47.055] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-loseLife-decrements lives /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:47.055] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js loseLife decrements lives
-[2019-06-27T07:30:47.055] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-setDirection-sets direction /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:47.055] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js setDirection sets direction
-[2019-06-27T07:30:47.055] [DEBUG] file -  /Users/robertcook/play/fmon/tests/game.t.js-Game constuctor-score === 0 /Users/robertcook/play/fmon/tests/game.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:30:47.055] [DEBUG] file -  mocha exe returned : Error: Command failed: mocha /Users/robertcook/play/fmon/tests/player.t.js --reporter=xunit --require source-map-support/register
+   { classname: 'MochaTestRunner ctor',
+     name: 'is can be created',
+     time: '0' } }
+[2019-06-27T16:15:36.992] [DEBUG] file -  pass: [%s] [%s] [%s] MochaTestRunner ctor is can be created 0
+[2019-06-27T16:15:36.992] [INFO] file -  onPass /private/tmp/mutt/muttley/src/mocha-runner.t.js MochaTestRunner ctor is can be created 0
+[2019-06-27T16:15:36.992] [INFO] file -  onEnd 1 0
+[2019-06-27T16:15:36.993] [INFO] file -  onStart /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:15:36.993] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-throws if file not found /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:15:36.993] [DEBUG] file -  remove /private/tmp/mutt/muttley/src/dependency.t.js getFlat throws if file not found
+[2019-06-27T16:15:36.993] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns a single file /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:15:36.993] [DEBUG] file -  remove /private/tmp/mutt/muttley/src/dependency.t.js getFlat returns a single file
+[2019-06-27T16:15:36.993] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns multiple files /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:15:36.993] [DEBUG] file -  remove /private/tmp/mutt/muttley/src/dependency.t.js getFlat returns multiple files
+[2019-06-27T16:15:36.993] [DEBUG] file -  /private/tmp/mutt/muttley/src/mocha-runner.t.js-MochaTestRunner ctor-is can be created /private/tmp/mutt/muttley/src/mocha-runner.t.js /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:15:36.993] [DEBUG] file -  mocha exe returned : Error: Command failed: mocha /private/tmp/mutt/muttley/src/dependency.t.js --reporter=xunit --require source-map-support/register
 
-[2019-06-27T07:30:47.055] [DEBUG] file -  stdout: <testsuite name="Mocha Tests" tests="6" failures="0" errors="1" skipped="0" timestamp="Thu, 27 Jun 2019 11:30:47 GMT" time="0.024">
-<testcase classname="Player default constructor" name="score === 0 etc" time="0"/>
-<testcase classname="Player constructor" name="sets values correctly" time="0.002"/>
-<testcase classname="Player moveTo" name="moves" time="0"/>
-<testcase classname="Player addToScore" name="adds to score" time="0"><failure>err
-Error: err
-    at Player.addToScore (tests/player.ts:33:34)
-    at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)</failure></testcase>
-<testcase classname="Player loseLife" name="decrements lives" time="0"/>
-<testcase classname="Player setDirection" name="sets direction" time="0"/>
+[2019-06-27T16:15:36.993] [DEBUG] file -  stdout: <testsuite name="Mocha Tests" tests="3" failures="0" errors="1" skipped="0" timestamp="Thu, 27 Jun 2019 20:15:36 GMT" time="0.02">
+<testcase classname="DependencyTree getFlat" name="throws if file not found" time="0.001"/>
+<testcase classname="DependencyTree getFlat" name="returns a single file" time="0.003"/>
+<testcase classname="DependencyTree getFlat" name="returns multiple files" time="0.002"><failure>[ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+
+      + expected - actual
+
+       [
+      +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;
+         &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;
+       ]
+      
+AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+    at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20)</failure></testcase>
 </testsuite>
 
-[2019-06-27T07:30:47.055] [DEBUG] file -  stderr: 
-[2019-06-27T07:30:47.056] [DEBUG] file -  { name: 'Mocha Tests',
-  tests: '6',
+[2019-06-27T16:15:36.993] [DEBUG] file -  stderr: 
+[2019-06-27T16:15:36.993] [DEBUG] file -  { name: 'Mocha Tests',
+  tests: '3',
   failures: '0',
   errors: '1',
   skipped: '0',
-  timestamp: 'Thu, 27 Jun 2019 11:30:47 GMT',
-  time: '0.024',
+  timestamp: 'Thu, 27 Jun 2019 20:15:36 GMT',
+  time: '0.02',
   testcase:
-   [ { classname: 'Player default constructor',
-       name: 'score === 0 etc',
-       time: '0' },
-     { classname: 'Player constructor',
-       name: 'sets values correctly',
-       time: '0.002' },
-     { classname: 'Player moveTo', name: 'moves', time: '0' },
-     { classname: 'Player addToScore',
-       name: 'adds to score',
-       time: '0',
+   [ { classname: 'DependencyTree getFlat',
+       name: 'throws if file not found',
+       time: '0.001' },
+     { classname: 'DependencyTree getFlat',
+       name: 'returns a single file',
+       time: '0.003' },
+     { classname: 'DependencyTree getFlat',
+       name: 'returns multiple files',
+       time: '0.002',
        failure:
-        'err\nError: err\n    at Player.addToScore (tests/player.ts:33:34)\n    at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)' },
-     { classname: 'Player loseLife',
-       name: 'decrements lives',
-       time: '0' },
-     { classname: 'Player setDirection',
-       name: 'sets direction',
-       time: '0' } ] }
-[2019-06-27T07:30:47.056] [DEBUG] file -  pass: [%s] [%s] [%s] Player default constructor score === 0 etc 0
-[2019-06-27T07:30:47.057] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player default constructor score === 0 etc 0
-[2019-06-27T07:30:47.057] [DEBUG] file -  pass: [%s] [%s] [%s] Player constructor sets values correctly 0.002
-[2019-06-27T07:30:47.057] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player constructor sets values correctly 2
-[2019-06-27T07:30:47.057] [DEBUG] file -  pass: [%s] [%s] [%s] Player moveTo moves 0
-[2019-06-27T07:30:47.057] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player moveTo moves 0
-[2019-06-27T07:30:47.057] [DEBUG] file -  failed: [%s] [%s] [%s] Player addToScore adds to score 0
-[2019-06-27T07:30:47.057] [DEBUG] file -  error message:
- err
-Error: err
-    at Player.addToScore (tests/player.ts:33:34)
-    at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)
-[2019-06-27T07:30:47.057] [DEBUG] file -  extractStack returns [ { file: 'tests/player.ts', lineno: 33 },
-  { file: 'tests/player.t.ts', lineno: 37 } ]
-[2019-06-27T07:30:47.058] [ERROR] file -  onFail /Users/robertcook/play/fmon/tests/player.t.js Player addToScore adds to score err Error: err     at Player.addToScore (tests/player.ts:33:34)     at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)
-[2019-06-27T07:30:47.058] [DEBUG] file -  onFail /Users/robertcook/play/fmon/tests/player.t.js Player addToScore adds to score err
-Error: err
-    at Player.addToScore (tests/player.ts:33:34)
-    at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20) err Error: err     at Player.addToScore (tests/player.ts:33:34)     at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20) [ { file: 'tests/player.ts', lineno: 33 },
-  { file: 'tests/player.t.ts', lineno: 37 } ]
-[2019-06-27T07:30:47.058] [DEBUG] file -  pass: [%s] [%s] [%s] Player loseLife decrements lives 0
-[2019-06-27T07:30:47.058] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player loseLife decrements lives 0
-[2019-06-27T07:30:47.058] [DEBUG] file -  pass: [%s] [%s] [%s] Player setDirection sets direction 0
-[2019-06-27T07:30:47.058] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player setDirection sets direction 0
-[2019-06-27T07:30:47.058] [INFO] file -  onEnd 5 1
-[2019-06-27T07:30:47.058] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:47.206] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:47.211] [DEBUG] file -  readdir .
-[2019-06-27T07:30:47.212] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:47.212] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:47.213] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:47.213] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:47.213] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:47.214] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:47.214] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:47.214] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:47.710] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:47.713] [DEBUG] file -  readdir .
-[2019-06-27T07:30:47.714] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:47.714] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:47.715] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:47.715] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:47.715] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:47.716] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:47.716] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:47.717] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:48.212] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:48.217] [DEBUG] file -  readdir .
-[2019-06-27T07:30:48.218] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:48.218] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:48.219] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:48.219] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:48.219] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:48.220] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:48.220] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:48.221] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:48.714] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:48.718] [DEBUG] file -  readdir .
-[2019-06-27T07:30:48.719] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:48.720] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:48.720] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:48.720] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:48.721] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:48.721] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:48.722] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:48.722] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:49.216] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:49.220] [DEBUG] file -  readdir .
-[2019-06-27T07:30:49.221] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:49.221] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:49.221] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:49.222] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:49.222] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:49.223] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:49.223] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:49.224] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:49.719] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:49.723] [DEBUG] file -  readdir .
-[2019-06-27T07:30:49.724] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:49.724] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:49.724] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:49.724] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:49.725] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:49.725] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:49.726] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:49.726] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:50.087] [DEBUG] file -  renderZoom 1
-[2019-06-27T07:30:50.088] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:30:50.219] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:30:50.221] [DEBUG] file -  renderZoom 1
-[2019-06-27T07:30:50.221] [ERROR] file -  renderZoom 1 not found
-[2019-06-27T07:30:50.221] [DEBUG] file -  readdir .
-[2019-06-27T07:30:50.222] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:50.222] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:30:50.223] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:30:50.223] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:50.223] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:30:50.224] [DEBUG] file -  subfolders []
-[2019-06-27T07:30:50.224] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:30:50.225] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:46.239] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:38:46.249] [DEBUG] file -  readdir .
-[2019-06-27T07:38:46.250] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/.eslintrc.js
-[2019-06-27T07:38:46.251] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/.prettierrc.js
-[2019-06-27T07:38:46.254] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:38:46.254] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:38:46.254] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:38:46.255] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/bin/mutt.js
-[2019-06-27T07:38:46.255] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:38:46.255] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/game.js
-[2019-06-27T07:38:46.255] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:46.255] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/ghost.js
-[2019-06-27T07:38:46.255] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/ghost.t.js
-[2019-06-27T07:38:46.255] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.256] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/level-view.t.js
-[2019-06-27T07:38:46.256] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/pacman.js
-[2019-06-27T07:38:46.256] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/player.js
-[2019-06-27T07:38:46.256] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:46.256] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:38:46.256] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/command-line.js
-[2019-06-27T07:38:46.256] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/dependency.js
-[2019-06-27T07:38:46.256] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/logger.js
-[2019-06-27T07:38:46.256] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/mocha-runner.js
-[2019-06-27T07:38:46.257] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/mutt.js
-[2019-06-27T07:38:46.257] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/ps.js
-[2019-06-27T07:38:46.257] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/render.js
-[2019-06-27T07:38:46.257] [INFO] file -  readTestCasesFromFile /Users/robertcook/play/fmon/src/test-runner.js
-[2019-06-27T07:38:46.258] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:46.259] [INFO] file -   File /Users/robertcook/play/fmon/tests/game.t.js depends on /Users/robertcook/play/fmon/tests/game.js
-[2019-06-27T07:38:46.259] [INFO] file -    File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js
-[2019-06-27T07:38:46.259] [INFO] file -     File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.260] [INFO] file -      File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:38:46.260] [INFO] file -      Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:38:46.260] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.260] [INFO] file -    File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.260] [INFO] file -     File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.261] [INFO] file -      File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:38:46.261] [INFO] file -      Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:38:46.261] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/ghost.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.261] [INFO] file -    File /Users/robertcook/play/fmon/tests/ghost.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.261] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/game.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.261] [INFO] file -   File /Users/robertcook/play/fmon/tests/game.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.261] [INFO] file -   Full dependants for /Users/robertcook/play/fmon/tests/game.t.js are /Users/robertcook/play/fmon/tests/game.js,/Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/ghost.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.261] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/game.t.js-constuctor-score === 0 constuctor score === 0
-[2019-06-27T07:38:46.262] [DEBUG] file -  exec @ /Users/robertcook/play/fmon mocha [ '/Users/robertcook/play/fmon/tests/game.t.js',
+        '[ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,\n  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]\n\n      + expected - actual\n\n       [\n      +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;\n         &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;\n       ]\n      \nAssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,\n  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]\n    at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20)' } ] }
+[2019-06-27T16:15:36.994] [DEBUG] file -  pass: [%s] [%s] [%s] DependencyTree getFlat throws if file not found 0.001
+[2019-06-27T16:15:36.994] [INFO] file -  onPass /private/tmp/mutt/muttley/src/dependency.t.js DependencyTree getFlat throws if file not found 1
+[2019-06-27T16:15:36.994] [DEBUG] file -  pass: [%s] [%s] [%s] DependencyTree getFlat returns a single file 0.003
+[2019-06-27T16:15:36.994] [INFO] file -  onPass /private/tmp/mutt/muttley/src/dependency.t.js DependencyTree getFlat returns a single file 3
+[2019-06-27T16:15:36.994] [DEBUG] file -  failed: [%s] [%s] [%s] DependencyTree getFlat returns multiple files 0.002
+[2019-06-27T16:15:36.994] [DEBUG] file -  error message:
+ [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+      + expected - actual
+       [
+      +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;
+         &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;
+       ]
+      
+AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+    at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20)
+[2019-06-27T16:15:36.994] [DEBUG] file -  extractStack returns [ { file: 'src/dependency.t.ts', lineno: 25 } ]
+[2019-06-27T16:15:36.995] [ERROR] file -  onFail /private/tmp/mutt/muttley/src/dependency.t.js DependencyTree getFlat returns multiple files [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,   &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]       + expected - actual        [       +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;          &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;        ]        AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,   &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]     at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20)
+[2019-06-27T16:15:36.995] [DEBUG] file -  onFail /private/tmp/mutt/muttley/src/dependency.t.js DependencyTree getFlat returns multiple files [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+
+      + expected - actual
+
+       [
+      +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;
+         &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;
+       ]
+      
+AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+    at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20) [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,   &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]       + expected - actual        [       +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;          &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;        ]        AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,   &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]     at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20) [ { file: 'src/dependency.t.ts', lineno: 25 } ]
+[2019-06-27T16:15:36.995] [INFO] file -  onEnd 2 1
+[2019-06-27T16:15:36.995] [DEBUG] file -  subfolders []
+[2019-06-27T16:15:37.367] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:15:37.368] [DEBUG] file -  readdir src
+[2019-06-27T16:15:37.368] [DEBUG] file -  subfolders []
+[2019-06-27T16:15:37.870] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:15:37.872] [DEBUG] file -  readdir src
+[2019-06-27T16:15:37.872] [DEBUG] file -  subfolders []
+[2019-06-27T16:15:38.373] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:15:38.375] [DEBUG] file -  readdir src
+[2019-06-27T16:15:38.375] [DEBUG] file -  subfolders []
+[2019-06-27T16:19:18.983] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:19:18.988] [DEBUG] file -  readdir src
+[2019-06-27T16:19:18.988] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/command-line.js
+[2019-06-27T16:19:18.989] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/dependency.js
+[2019-06-27T16:19:18.989] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:19:18.989] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:18.990] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/mocha-runner.js
+[2019-06-27T16:19:18.990] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:19:18.990] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/mutt.js
+[2019-06-27T16:19:18.990] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/ps.js
+[2019-06-27T16:19:18.990] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/render.js
+[2019-06-27T16:19:18.990] [INFO] file -  readTestCasesFromFile /private/tmp/mutt/muttley/src/test-runner.js
+[2019-06-27T16:19:18.994] [DEBUG] file -  Found require on line const dependency_1 = require("./dependency");
+[2019-06-27T16:19:18.994] [DEBUG] file -  Found require on line const assert = require("assert");
+[2019-06-27T16:19:18.994] [DEBUG] file -  Found require on line const path_1 = __importDefault(require("path"));
+[2019-06-27T16:19:18.994] [DEBUG] file -  Found require on line const process_1 = __importDefault(require("process"));
+[2019-06-27T16:19:18.995] [INFO] file -   File /private/tmp/mutt/muttley/src/dependency.t.js depends on /private/tmp/mutt/muttley/src/dependency.js
+[2019-06-27T16:19:18.995] [DEBUG] file -  Found require on line const fs_1 = __importDefault(require("fs"));
+[2019-06-27T16:19:18.995] [DEBUG] file -  Found require on line const path_1 = __importDefault(require("path"));
+[2019-06-27T16:19:18.995] [DEBUG] file -  Found require on line const logger_1 = require("./logger");
+[2019-06-27T16:19:18.995] [INFO] file -    File /private/tmp/mutt/muttley/src/dependency.js depends on /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:18.995] [DEBUG] file -  Found require on line const log4js_1 = __importDefault(require("log4js"));
+[2019-06-27T16:19:18.996] [INFO] file -     File /private/tmp/mutt/muttley/src/logger.js depends on 
+[2019-06-27T16:19:18.996] [INFO] file -     Full dependants for /private/tmp/mutt/muttley/src/logger.js are 
+[2019-06-27T16:19:18.996] [INFO] file -    Full dependants for /private/tmp/mutt/muttley/src/dependency.js are /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:18.996] [INFO] file -   File /private/tmp/mutt/muttley/src/dependency.js depends on /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:18.996] [INFO] file -   Full dependants for /private/tmp/mutt/muttley/src/dependency.t.js are /private/tmp/mutt/muttley/src/dependency.js,/private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:18.996] [DEBUG] file -  adding /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-throws if file not found getFlat throws if file not found
+[2019-06-27T16:19:18.997] [DEBUG] file -  adding /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns a single file getFlat returns a single file
+[2019-06-27T16:19:18.997] [DEBUG] file -  adding /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns multiple files getFlat returns multiple files
+[2019-06-27T16:19:18.997] [DEBUG] file -  exec @ /private/tmp/mutt/muttley mocha [ '/private/tmp/mutt/muttley/src/dependency.t.js',
   '--reporter=xunit',
   '--require',
   'source-map-support/register' ]
-[2019-06-27T07:38:46.267] [INFO] file -   File /Users/robertcook/play/fmon/tests/player.t.js depends on /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.268] [INFO] file -    File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.268] [INFO] file -     File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:38:46.268] [INFO] file -     Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:38:46.268] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/player.js are /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.268] [INFO] file -   File /Users/robertcook/play/fmon/tests/player.js depends on /Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.268] [INFO] file -    File /Users/robertcook/play/fmon/tests/level-view.js depends on 
-[2019-06-27T07:38:46.268] [INFO] file -    Full dependants for /Users/robertcook/play/fmon/tests/level-view.js are 
-[2019-06-27T07:38:46.268] [INFO] file -   Full dependants for /Users/robertcook/play/fmon/tests/player.t.js are /Users/robertcook/play/fmon/tests/player.js,/Users/robertcook/play/fmon/tests/level-view.js,/Users/robertcook/play/fmon/tests/level-view.js
-[2019-06-27T07:38:46.269] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-default constructor-score === 0 etc default constructor score === 0 etc
-[2019-06-27T07:38:46.269] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-constructor-sets values correctly constructor sets values correctly
-[2019-06-27T07:38:46.269] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-moveTo-moves moveTo moves
-[2019-06-27T07:38:46.269] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-addToScore-adds to score addToScore adds to score
-[2019-06-27T07:38:46.269] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-loseLife-decrements lives loseLife decrements lives
-[2019-06-27T07:38:46.269] [DEBUG] file -  adding /Users/robertcook/play/fmon/tests/player.t.js-setDirection-sets direction setDirection sets direction
-[2019-06-27T07:38:46.269] [DEBUG] file -  exec @ /Users/robertcook/play/fmon mocha [ '/Users/robertcook/play/fmon/tests/player.t.js',
+[2019-06-27T16:19:19.002] [DEBUG] file -  Found require on line const mocha_runner_1 = require("./mocha-runner");
+[2019-06-27T16:19:19.002] [DEBUG] file -  Found require on line const assert = require("assert");
+[2019-06-27T16:19:19.002] [INFO] file -   File /private/tmp/mutt/muttley/src/mocha-runner.t.js depends on /private/tmp/mutt/muttley/src/mocha-runner.js
+[2019-06-27T16:19:19.002] [DEBUG] file -  Found require on line const fs_1 = __importDefault(require("fs"));
+[2019-06-27T16:19:19.002] [DEBUG] file -  Found require on line const os_1 = __importDefault(require("os"));
+[2019-06-27T16:19:19.002] [DEBUG] file -  Found require on line const fast_xml_parser_1 = __importDefault(require("fast-xml-parser"));
+[2019-06-27T16:19:19.002] [DEBUG] file -  Found require on line const child_process_1 = require("child_process");
+[2019-06-27T16:19:19.003] [DEBUG] file -  Found require on line const logger_1 = require("./logger");
+[2019-06-27T16:19:19.003] [INFO] file -    File /private/tmp/mutt/muttley/src/mocha-runner.js depends on /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:19.003] [DEBUG] file -  Found require on line const log4js_1 = __importDefault(require("log4js"));
+[2019-06-27T16:19:19.003] [INFO] file -     File /private/tmp/mutt/muttley/src/logger.js depends on 
+[2019-06-27T16:19:19.003] [INFO] file -     Full dependants for /private/tmp/mutt/muttley/src/logger.js are 
+[2019-06-27T16:19:19.003] [INFO] file -    Full dependants for /private/tmp/mutt/muttley/src/mocha-runner.js are /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:19.003] [INFO] file -   File /private/tmp/mutt/muttley/src/mocha-runner.js depends on /private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:19.003] [INFO] file -   Full dependants for /private/tmp/mutt/muttley/src/mocha-runner.t.js are /private/tmp/mutt/muttley/src/mocha-runner.js,/private/tmp/mutt/muttley/src/logger.js
+[2019-06-27T16:19:19.004] [DEBUG] file -  adding /private/tmp/mutt/muttley/src/mocha-runner.t.js-ctor-is can be created ctor is can be created
+[2019-06-27T16:19:19.004] [DEBUG] file -  exec @ /private/tmp/mutt/muttley mocha [ '/private/tmp/mutt/muttley/src/mocha-runner.t.js',
   '--reporter=xunit',
   '--require',
   'source-map-support/register' ]
-[2019-06-27T07:38:46.272] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:46.740] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:38:46.741] [DEBUG] file -  readdir .
-[2019-06-27T07:38:46.741] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:38:46.741] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:38:46.742] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:38:46.742] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:46.742] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:38:46.743] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:46.743] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:38:46.746] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:47.064] [INFO] file -  onStart /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:47.064] [DEBUG] file -  /Users/robertcook/play/fmon/tests/game.t.js-constuctor-score === 0 /Users/robertcook/play/fmon/tests/game.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:47.065] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/game.t.js constuctor score === 0
-[2019-06-27T07:38:47.065] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-default constructor-score === 0 etc /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:47.065] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-constructor-sets values correctly /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:47.065] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-moveTo-moves /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:47.065] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-addToScore-adds to score /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:47.065] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-loseLife-decrements lives /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:47.065] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-setDirection-sets direction /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/game.t.js
-[2019-06-27T07:38:47.065] [DEBUG] file -  stdout: <testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Thu, 27 Jun 2019 11:38:47 GMT" time="0.005">
-<testcase classname="Game constuctor" name="score === 0" time="0.001"/>
+[2019-06-27T16:19:19.485] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:19:19.487] [DEBUG] file -  readdir src
+[2019-06-27T16:19:19.488] [DEBUG] file -  subfolders []
+[2019-06-27T16:19:19.776] [INFO] file -  onStart /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:19:19.777] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-throws if file not found /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:19:19.777] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns a single file /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:19:19.777] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns multiple files /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:19:19.777] [DEBUG] file -  /private/tmp/mutt/muttley/src/mocha-runner.t.js-ctor-is can be created /private/tmp/mutt/muttley/src/mocha-runner.t.js /private/tmp/mutt/muttley/src/mocha-runner.t.js
+[2019-06-27T16:19:19.777] [DEBUG] file -  remove /private/tmp/mutt/muttley/src/mocha-runner.t.js ctor is can be created
+[2019-06-27T16:19:19.777] [DEBUG] file -  stdout: <testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Thu, 27 Jun 2019 20:19:19 GMT" time="0.004">
+<testcase classname="MochaTestRunner ctor" name="is can be created" time="0"/>
 </testsuite>
 
-[2019-06-27T07:38:47.065] [DEBUG] file -  stderr: 
-[2019-06-27T07:38:47.067] [DEBUG] file -  { name: 'Mocha Tests',
+[2019-06-27T16:19:19.777] [DEBUG] file -  stderr: 
+[2019-06-27T16:19:19.779] [DEBUG] file -  { name: 'Mocha Tests',
   tests: '1',
   failures: '0',
   errors: '0',
   skipped: '0',
-  timestamp: 'Thu, 27 Jun 2019 11:38:47 GMT',
-  time: '0.005',
+  timestamp: 'Thu, 27 Jun 2019 20:19:19 GMT',
+  time: '0.004',
   testcase:
-   { classname: 'Game constuctor',
-     name: 'score === 0',
-     time: '0.001' } }
-[2019-06-27T07:38:47.068] [DEBUG] file -  pass: [%s] [%s] [%s] Game constuctor score === 0 0.001
-[2019-06-27T07:38:47.068] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/game.t.js Game constuctor score === 0 1
-[2019-06-27T07:38:47.068] [INFO] file -  onEnd 1 0
-[2019-06-27T07:38:47.090] [INFO] file -  onStart /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:47.091] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-default constructor-score === 0 etc /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:47.091] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js default constructor score === 0 etc
-[2019-06-27T07:38:47.091] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-constructor-sets values correctly /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:47.091] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js constructor sets values correctly
-[2019-06-27T07:38:47.091] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-moveTo-moves /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:47.091] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js moveTo moves
-[2019-06-27T07:38:47.091] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-addToScore-adds to score /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:47.091] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js addToScore adds to score
-[2019-06-27T07:38:47.091] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-loseLife-decrements lives /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:47.091] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js loseLife decrements lives
-[2019-06-27T07:38:47.091] [DEBUG] file -  /Users/robertcook/play/fmon/tests/player.t.js-setDirection-sets direction /Users/robertcook/play/fmon/tests/player.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:47.091] [DEBUG] file -  remove /Users/robertcook/play/fmon/tests/player.t.js setDirection sets direction
-[2019-06-27T07:38:47.091] [DEBUG] file -  /Users/robertcook/play/fmon/tests/game.t.js-Game constuctor-score === 0 /Users/robertcook/play/fmon/tests/game.t.js /Users/robertcook/play/fmon/tests/player.t.js
-[2019-06-27T07:38:47.091] [DEBUG] file -  mocha exe returned : Error: Command failed: mocha /Users/robertcook/play/fmon/tests/player.t.js --reporter=xunit --require source-map-support/register
+   { classname: 'MochaTestRunner ctor',
+     name: 'is can be created',
+     time: '0' } }
+[2019-06-27T16:19:19.779] [DEBUG] file -  pass: [%s] [%s] [%s] MochaTestRunner ctor is can be created 0
+[2019-06-27T16:19:19.779] [INFO] file -  onPass /private/tmp/mutt/muttley/src/mocha-runner.t.js MochaTestRunner ctor is can be created 0
+[2019-06-27T16:19:19.780] [INFO] file -  onEnd 1 0
+[2019-06-27T16:19:19.792] [INFO] file -  onStart /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:19:19.792] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-throws if file not found /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:19:19.792] [DEBUG] file -  remove /private/tmp/mutt/muttley/src/dependency.t.js getFlat throws if file not found
+[2019-06-27T16:19:19.792] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns a single file /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:19:19.792] [DEBUG] file -  remove /private/tmp/mutt/muttley/src/dependency.t.js getFlat returns a single file
+[2019-06-27T16:19:19.792] [DEBUG] file -  /private/tmp/mutt/muttley/src/dependency.t.js-getFlat-returns multiple files /private/tmp/mutt/muttley/src/dependency.t.js /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:19:19.792] [DEBUG] file -  remove /private/tmp/mutt/muttley/src/dependency.t.js getFlat returns multiple files
+[2019-06-27T16:19:19.792] [DEBUG] file -  /private/tmp/mutt/muttley/src/mocha-runner.t.js-MochaTestRunner ctor-is can be created /private/tmp/mutt/muttley/src/mocha-runner.t.js /private/tmp/mutt/muttley/src/dependency.t.js
+[2019-06-27T16:19:19.792] [DEBUG] file -  mocha exe returned : Error: Command failed: mocha /private/tmp/mutt/muttley/src/dependency.t.js --reporter=xunit --require source-map-support/register
 
-[2019-06-27T07:38:47.091] [DEBUG] file -  stdout: <testsuite name="Mocha Tests" tests="6" failures="0" errors="1" skipped="0" timestamp="Thu, 27 Jun 2019 11:38:47 GMT" time="0.028">
-<testcase classname="Player default constructor" name="score === 0 etc" time="0"/>
-<testcase classname="Player constructor" name="sets values correctly" time="0.002"/>
-<testcase classname="Player moveTo" name="moves" time="0"/>
-<testcase classname="Player addToScore" name="adds to score" time="0.001"><failure>err
-Error: err
-    at Player.addToScore (tests/player.ts:33:34)
-    at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)</failure></testcase>
-<testcase classname="Player loseLife" name="decrements lives" time="0"/>
-<testcase classname="Player setDirection" name="sets direction" time="0.001"/>
+[2019-06-27T16:19:19.792] [DEBUG] file -  stdout: <testsuite name="Mocha Tests" tests="3" failures="0" errors="1" skipped="0" timestamp="Thu, 27 Jun 2019 20:19:19 GMT" time="0.022">
+<testcase classname="DependencyTree getFlat" name="throws if file not found" time="0.001"/>
+<testcase classname="DependencyTree getFlat" name="returns a single file" time="0.002"/>
+<testcase classname="DependencyTree getFlat" name="returns multiple files" time="0.001"><failure>[ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+
+      + expected - actual
+
+       [
+      +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;
+         &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;
+       ]
+      
+AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+    at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20)</failure></testcase>
 </testsuite>
 
-[2019-06-27T07:38:47.091] [DEBUG] file -  stderr: 
-[2019-06-27T07:38:47.092] [DEBUG] file -  { name: 'Mocha Tests',
-  tests: '6',
+[2019-06-27T16:19:19.792] [DEBUG] file -  stderr: 
+[2019-06-27T16:19:19.793] [DEBUG] file -  { name: 'Mocha Tests',
+  tests: '3',
   failures: '0',
   errors: '1',
   skipped: '0',
-  timestamp: 'Thu, 27 Jun 2019 11:38:47 GMT',
-  time: '0.028',
+  timestamp: 'Thu, 27 Jun 2019 20:19:19 GMT',
+  time: '0.022',
   testcase:
-   [ { classname: 'Player default constructor',
-       name: 'score === 0 etc',
-       time: '0' },
-     { classname: 'Player constructor',
-       name: 'sets values correctly',
+   [ { classname: 'DependencyTree getFlat',
+       name: 'throws if file not found',
+       time: '0.001' },
+     { classname: 'DependencyTree getFlat',
+       name: 'returns a single file',
        time: '0.002' },
-     { classname: 'Player moveTo', name: 'moves', time: '0' },
-     { classname: 'Player addToScore',
-       name: 'adds to score',
+     { classname: 'DependencyTree getFlat',
+       name: 'returns multiple files',
        time: '0.001',
        failure:
-        'err\nError: err\n    at Player.addToScore (tests/player.ts:33:34)\n    at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)' },
-     { classname: 'Player loseLife',
-       name: 'decrements lives',
-       time: '0' },
-     { classname: 'Player setDirection',
-       name: 'sets direction',
-       time: '0.001' } ] }
-[2019-06-27T07:38:47.093] [DEBUG] file -  pass: [%s] [%s] [%s] Player default constructor score === 0 etc 0
-[2019-06-27T07:38:47.093] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player default constructor score === 0 etc 0
-[2019-06-27T07:38:47.093] [DEBUG] file -  pass: [%s] [%s] [%s] Player constructor sets values correctly 0.002
-[2019-06-27T07:38:47.093] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player constructor sets values correctly 2
-[2019-06-27T07:38:47.093] [DEBUG] file -  pass: [%s] [%s] [%s] Player moveTo moves 0
-[2019-06-27T07:38:47.093] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player moveTo moves 0
-[2019-06-27T07:38:47.093] [DEBUG] file -  failed: [%s] [%s] [%s] Player addToScore adds to score 0.001
-[2019-06-27T07:38:47.093] [DEBUG] file -  error message:
- err
-Error: err
-    at Player.addToScore (tests/player.ts:33:34)
-    at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)
-[2019-06-27T07:38:47.093] [DEBUG] file -  extractStack returns [ { file: 'tests/player.ts', lineno: 33 },
-  { file: 'tests/player.t.ts', lineno: 37 } ]
-[2019-06-27T07:38:47.094] [ERROR] file -  onFail /Users/robertcook/play/fmon/tests/player.t.js Player addToScore adds to score err Error: err     at Player.addToScore (tests/player.ts:33:34)     at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20)
-[2019-06-27T07:38:47.094] [DEBUG] file -  onFail /Users/robertcook/play/fmon/tests/player.t.js Player addToScore adds to score err
-Error: err
-    at Player.addToScore (tests/player.ts:33:34)
-    at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20) err Error: err     at Player.addToScore (tests/player.ts:33:34)     at Context.&#x3C;anonymous&#x3E; (tests/player.t.ts:37:20) [ { file: 'tests/player.ts', lineno: 33 },
-  { file: 'tests/player.t.ts', lineno: 37 } ]
-[2019-06-27T07:38:47.094] [DEBUG] file -  pass: [%s] [%s] [%s] Player loseLife decrements lives 0
-[2019-06-27T07:38:47.094] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player loseLife decrements lives 0
-[2019-06-27T07:38:47.094] [DEBUG] file -  pass: [%s] [%s] [%s] Player setDirection sets direction 0.001
-[2019-06-27T07:38:47.094] [INFO] file -  onPass /Users/robertcook/play/fmon/tests/player.t.js Player setDirection sets direction 1
-[2019-06-27T07:38:47.094] [INFO] file -  onEnd 5 1
-[2019-06-27T07:38:47.094] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:47.241] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:38:47.242] [DEBUG] file -  readdir .
-[2019-06-27T07:38:47.243] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:38:47.243] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:38:47.243] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:38:47.243] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:47.244] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:38:47.244] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:47.245] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:38:47.245] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:47.744] [INFO] file -  readFiles [ '.' ]
-[2019-06-27T07:38:47.745] [DEBUG] file -  readdir .
-[2019-06-27T07:38:47.745] [DEBUG] file -  subfolders [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:38:47.746] [INFO] file -  readFiles [ '/Users/robertcook/play/fmon/bin',
-  '/Users/robertcook/play/fmon/src',
-  '/Users/robertcook/play/fmon/tests' ]
-[2019-06-27T07:38:47.748] [DEBUG] file -  readdir /Users/robertcook/play/fmon/bin
-[2019-06-27T07:38:47.748] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:47.748] [DEBUG] file -  readdir /Users/robertcook/play/fmon/src
-[2019-06-27T07:38:47.749] [DEBUG] file -  subfolders []
-[2019-06-27T07:38:47.749] [DEBUG] file -  readdir /Users/robertcook/play/fmon/tests
-[2019-06-27T07:38:47.749] [DEBUG] file -  subfolders []
+        '[ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,\n  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]\n\n      + expected - actual\n\n       [\n      +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;\n         &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;\n       ]\n      \nAssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,\n  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]\n    at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20)' } ] }
+[2019-06-27T16:19:19.793] [DEBUG] file -  pass: [%s] [%s] [%s] DependencyTree getFlat throws if file not found 0.001
+[2019-06-27T16:19:19.793] [INFO] file -  onPass /private/tmp/mutt/muttley/src/dependency.t.js DependencyTree getFlat throws if file not found 1
+[2019-06-27T16:19:19.793] [DEBUG] file -  pass: [%s] [%s] [%s] DependencyTree getFlat returns a single file 0.002
+[2019-06-27T16:19:19.793] [INFO] file -  onPass /private/tmp/mutt/muttley/src/dependency.t.js DependencyTree getFlat returns a single file 2
+[2019-06-27T16:19:19.793] [DEBUG] file -  failed: [%s] [%s] [%s] DependencyTree getFlat returns multiple files 0.001
+[2019-06-27T16:19:19.794] [DEBUG] file -  error message:
+ [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+      + expected - actual
+       [
+      +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;
+         &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;
+       ]
+      
+AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+    at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20)
+[2019-06-27T16:19:19.794] [DEBUG] file -  extractStack returns [ { file: 'src/dependency.t.ts', lineno: 25 } ]
+[2019-06-27T16:19:19.794] [ERROR] file -  onFail /private/tmp/mutt/muttley/src/dependency.t.js DependencyTree getFlat returns multiple files [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,   &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]       + expected - actual        [       +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;          &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;        ]        AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,   &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]     at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20)
+[2019-06-27T16:19:19.794] [DEBUG] file -  onFail /private/tmp/mutt/muttley/src/dependency.t.js DependencyTree getFlat returns multiple files [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+
+      + expected - actual
+
+       [
+      +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;
+         &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;
+       ]
+      
+AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,
+  &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]
+    at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20) [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,   &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]       + expected - actual        [       +  &#x22;/private/tmp/mutt/muttley/src/test-runner.js&#x22;          &#x22;/private/tmp/mutt/muttley/src/logger.js&#x22;        ]        AssertionError [ERR_ASSERTION]: [ &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ] deepEqual [ &#x27;/private/tmp/mutt/muttley/src/test-runner.js&#x27;,   &#x27;/private/tmp/mutt/muttley/src/logger.js&#x27; ]     at Context.&#x3C;anonymous&#x3E; (src/dependency.t.ts:25:20) [ { file: 'src/dependency.t.ts', lineno: 25 } ]
+[2019-06-27T16:19:19.795] [INFO] file -  onEnd 2 1
+[2019-06-27T16:19:19.795] [DEBUG] file -  subfolders []
+[2019-06-27T16:19:19.990] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:19:19.991] [DEBUG] file -  readdir src
+[2019-06-27T16:19:19.992] [DEBUG] file -  subfolders []
+[2019-06-27T16:19:20.493] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:19:20.494] [DEBUG] file -  readdir src
+[2019-06-27T16:19:20.495] [DEBUG] file -  subfolders []
+[2019-06-27T16:19:20.995] [INFO] file -  readFiles [ 'src' ]
+[2019-06-27T16:19:20.997] [DEBUG] file -  readdir src
+[2019-06-27T16:19:20.997] [DEBUG] file -  subfolders []

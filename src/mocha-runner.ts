@@ -3,8 +3,10 @@ import os from 'os';
 import parser from 'fast-xml-parser';
 import { execFile } from 'child_process';
 
-import { TestRunner, TestFailure } from './test-runner';
+import { TestRunner, TestFailure, FakeTestRunner } from './test-runner';
 import { logger } from './logger';
+
+(FakeTestRunner); // add a reference so the dependency remains in the js file because test depends on it
 
 export class MochaTestRunner implements TestRunner {
     // eslint-disable-next-line class-methods-use-this
