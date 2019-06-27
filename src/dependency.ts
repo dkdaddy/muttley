@@ -2,14 +2,22 @@ import fs from 'fs';
 import path from 'path';
 import { logger } from './logger';
 
+/**
+ * Find file dependancies bases on commonJS require statements.
+ * It does not load the modules - it regexes the files - hence not guarenteed to be 100% correct
+ */
 export class DependencyTree {
-    private root: string;
     private cache: Map<string, string[]>;
-    public constructor(root: string) {
-        this.root = root;
+
+    public constructor() {
         this.cache = new Map();
     }
 
+    /**
+     *
+     * @param filepath can be absolute or relative path
+     * @returns a flattened list of all the dependants
+     */
     public getFlat(filepath: string): string[] {
         let list;
         if ((list = this.cache.get(filepath))) return list;
@@ -18,7 +26,14 @@ export class DependencyTree {
         return list;
     }
 
-    public getImportsCommonJS(filepath: string, depth: number = 0): string[] {
+    /**
+     *
+     * @param filepath absolute or relative file path
+     * @param depth recursion depth - just for logging indentation
+     * @returns the full list of dependants for the file.
+     *          Only relative dependants are considered - not NODE_MODULES.
+     */
+    private getImportsCommonJS(filepath: string, depth: number = 0): string[] {
         const indent: string = ' '.repeat(depth);
         const list: string[] = [];
         const folder = path.dirname(filepath);
@@ -56,7 +71,7 @@ export class DependencyTree {
         const nextLevel: Set<string> = new Set();
         logger.info(indent, `File ${filepath} depends on ${list}`);
         list.forEach((file): void => {
-            const imports = this.getImportsCommonJS(file, depth + 1);
+            const imports = this.getImportsCommonJS(file, depth + 1); // recurse next level down
             if (imports.length) {
                 logger.info(indent, `File ${file} depends on ${imports}`);
                 imports.forEach(importedFile => {

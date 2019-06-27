@@ -9,6 +9,7 @@ import { logger, Levels } from './logger';
 import { argv, config } from './command-line';
 import { FgColour, Table, renderHeader, renderTable, renderFileWindow, renderPacman, write, writeline } from './render';
 import { TestFailure } from './test-runner';
+import { execFile } from 'child_process';
 
 const mutt = `
        __,-----._                       ,-.
@@ -143,7 +144,7 @@ async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<
 
 const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();
-const deps = new DependencyTree('/');
+const deps = new DependencyTree();
 
 function readFiles(folders: string[]): Promise<void> {
     logger.info('readFiles', folders);
@@ -262,7 +263,6 @@ function renderZoom(nth: number): void {
         .filter(([, t]) => t.state === TestState.Failed)
         .forEach(([, t], ix) => {
             if (ix + 1 === nth) {
-                writeline('\x1b[31;1m', [t.suite, t.name, t.filename, t.fullMessage, '\x1b[0m'].join(' '));
                 test = t;
             }
         });
@@ -270,11 +270,15 @@ function renderZoom(nth: number): void {
         logger.error('renderZoom', nth, 'not found');
         return;
     }
+    let lines = 5;
+    const windowLines = 14;
+    writeline('\x1b[31;1m', [test.suite, test.name, test.filename, test.fullMessage, '\x1b[0m'].join(' '));
     const renderStack = [...test.stack].reverse();
 
     let pad = 0;
     renderStack.forEach(frame => {
         writeline(`\x1b[35m'${' '.repeat(2 * pad++)}${frame.file}:${frame.lineno}\x1b[0m`);
+        lines++;
     });
     process.stdout.write(os.EOL);
     //find first line in stack
@@ -284,7 +288,9 @@ function renderZoom(nth: number): void {
         // inverse filename padded full width
         writeline('\x1b[7m', `${filepath}:${line}`.padEnd(columns), '\x1b[0m');
 
-        renderFileWindow(filepath, 14, line);
+        if (fs.existsSync(filepath) && lines<(process.stdout.rows||24))
+           renderFileWindow(filepath, windowLines, line);
+           lines+=windowLines;
     });
 }
 function renderHelp(): void {

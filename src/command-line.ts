@@ -22,19 +22,29 @@ const argv = yargs
     .help()
     .alias('help', 'h').argv;
 
-export interface Config {
-    refreshIntervalMs: number;
-}
 const configStore = new Configstore('mutt', {
     refreshIntervalMs: 500,
 });
-
+/**
+ * Config provides type safe accessors over the configStore object
+ */
 const config: Config = {
+    /**
+     * get the refresh rate for the display
+     */
     get refreshIntervalMs(): number {
         return configStore.get('refreshIntervalMs');
     },
+    /**
+     * set the refresh rate for the display
+     */
     set refreshIntervalMs(interval) {
         configStore.set('intervalMs', interval);
     },
 };
+
+export interface Config {
+    refreshIntervalMs: number;
+}
+
 export { argv, config };
