@@ -40,9 +40,13 @@
     "fast-xml-parser": "^3.12.16",
     "mocha": "^6.1.4",
     "sinon": "^7.3.2",
+    "configstore": "^5.0.0",
+    "source-map-support": "^0.5.12",
+    "ps-node": "^0.1.6",
     "log4js": "^4.3.2"
   },
   "devDependencies": {
+    "@types/configstore": "^4.0.0",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.10",
     "@types/yargs": "^13.0.0",
@@ -52,8 +56,6 @@
     "eslint-config-prettier": "^5.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "prettier": "^1.18.2",
-    "ps-node": "^0.1.6",
-    "source-map-support": "^0.5.12",
     "typescript": "^3.5.2"
   }
 }

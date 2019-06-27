@@ -1,4 +1,5 @@
 import yargs from 'yargs';
+import Configstore from 'configstore';
 
 // eslint-disable-next-line prefer-destructuring
 const argv = yargs
@@ -9,7 +10,7 @@ const argv = yargs
             return args.positional('paths', {
                 describe: 'paths to watch',
                 type: 'string',
-                default: '.'
+                default: '.',
             });
         },
     )
@@ -22,4 +23,19 @@ const argv = yargs
     .help()
     .alias('help', 'h').argv;
 
-export { argv };
+export interface Config {
+    refreshIntervalMs: number;
+};
+const configStore = new Configstore('mutt', {
+    refreshIntervalMs: 800,
+});
+
+const config: Config = {
+    get refreshIntervalMs(): number {
+        return configStore.get('refreshIntervalMs');
+    },
+    set refreshIntervalMs(interval) {
+        configStore.set('intervalMs', interval);
+    }
+};
+export { argv, config };

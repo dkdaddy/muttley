@@ -6,7 +6,7 @@ import { MochaTestRunner } from './mocha-runner';
 import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
 import { logger } from './logger';
-import { argv } from './command-line';
+import { argv, config } from './command-line';
 import { Table, renderHeader, renderTable, renderFileWindow, renderPacman, FgColour } from './render';
 import { TestFailure } from './test-runner';
 
@@ -312,6 +312,9 @@ function renderHelp() {
     console.log(mutt);
 }
 async function render() {
+    if (logger.stdout)
+        return; // don't render if logging to stdout
+
     renderTestHeader();
     process.stdout.write('\x1b[5;0H'); // row 5
     switch (mode) {
@@ -345,8 +348,13 @@ async function run(paths: string[]) {
         } else if (key.name === 'r') {
             allTests.clear();
             allFiles.clear();
+        } else if (key.name === 'l') {
+            logger.stdout = true; // setting this will stop the render function
+            logger.level = 'debug';
         } else if (key.name === 'd' || key.name === 'escape') {
             mode = 'd';
+            logger.stdout=false;
+            logger.level='off';
             render();
         } else {
             mode = key.name;
@@ -359,18 +367,14 @@ async function run(paths: string[]) {
 
     setInterval(async () => {
         await readFiles(paths);
-    }, 500);
+    }, config.refreshIntervalMs);
     setInterval(async () => {
-        await render();
-    }, 800);
+       await render();
+    }, config.refreshIntervalMs);
 }
 if (argv.debug) {
+    logger.stdout = true;
     logger.level = 'debug';
-} else if (argv.verbose) {
-    logger.level = 'info'
-}
-else {
-    logger.level = 'error';
 }
 console.log(argv);
 const paths = Array.isArray(argv.paths) && (argv.paths as string[]).length ? argv.paths : ['.'];

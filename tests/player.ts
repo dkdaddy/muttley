@@ -11,7 +11,7 @@ export class Player {
         this.playerNumber = player;
         this._position = position;
         this._lives = lives;
-        this._score = 10;
+        this._score = 0;
         this._direction = direction;
     }
     public get position(): Position {
