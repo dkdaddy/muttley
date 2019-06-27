@@ -5,7 +5,7 @@ import readline from 'readline';
 import { MochaTestRunner } from './mocha-runner';
 import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
-import { logger } from './logger';
+import { logger, Levels } from './logger';
 import { argv, config } from './command-line';
 import { Table, renderHeader, renderTable, renderFileWindow, renderPacman, FgColour } from './render';
 import { TestFailure } from './test-runner';
@@ -96,7 +96,8 @@ function onFail(
     message, 
     stack}: TestFailure 
 ): void {
-    logger.info('onFail', filename, suite, name, fullMessage, message, stack);
+    logger.error('onFail', filename, suite, name, message);
+    logger.debug('onFail', filename, suite, name, fullMessage, message, stack);
     const testcase = new Testcase(filename, stat, suite, name);
     testcase.state = TestState.Failed;
     testcase.message = message;
@@ -152,7 +153,9 @@ async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<
 const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();
 const deps = new DependencyTree('/');
+
 async function readFiles(folders: string[]): Promise<void> {
+    logger.info('readFiles', folders);
     return new Promise((resolve, reject) => {
         folders.forEach(folder => {
             fs.readdir(folder, async (err, files) => {
@@ -191,7 +194,8 @@ async function readFiles(folders: string[]): Promise<void> {
                     });
                     await Promise.all(promises);
                     logger.debug('subfolders', subFolders);
-                    await readFiles(subFolders);
+                    if (subFolders.length)
+                        await readFiles(subFolders);
 
                     resolve();
                 }
@@ -301,7 +305,7 @@ function renderHelp() {
     console.log('Monitor Unit Testing Tool - MUTT', os.EOL);
     [
         `esc Default view`,
-        `l show log`,
+        `l show info level log`,
         `r re-run all tests`,
         `z Zoom into test failures`,
         `1-9 Zoom into test failure 1-9`,
@@ -312,7 +316,7 @@ function renderHelp() {
     console.log(mutt);
 }
 async function render() {
-    if (logger.stdout)
+    if (logger.type==='stdout')
         return; // don't render if logging to stdout
 
     renderTestHeader();
@@ -349,12 +353,12 @@ async function run(paths: string[]) {
             allTests.clear();
             allFiles.clear();
         } else if (key.name === 'l') {
-            logger.stdout = true; // setting this will stop the render function
-            logger.level = 'debug';
+            logger.level = 'info';
+            logger.type = 'stdout'; // setting this will stop the render function
         } else if (key.name === 'd' || key.name === 'escape') {
             mode = 'd';
-            logger.stdout=false;
             logger.level='off';
+            logger.type ='file';
             render();
         } else {
             mode = key.name;
@@ -372,9 +376,16 @@ async function run(paths: string[]) {
        await render();
     }, config.refreshIntervalMs);
 }
-if (argv.debug) {
-    logger.stdout = true;
-    logger.level = 'debug';
+if (argv.verbose !== undefined) {
+    if (!['error', 'warn', 'debug', 'info'].includes(argv.verbose)) {
+        logger.type = 'stdout';
+        logger.level = 'error';
+        logger.error('-v parameter must be one of error|warn|debug|info.');
+        process.exit(12);
+    }
+
+    logger.level = argv.debug as Levels;
+    logger.type = 'file';
 }
 console.log(argv);
 const paths = Array.isArray(argv.paths) && (argv.paths as string[]).length ? argv.paths : ['.'];

@@ -14,12 +14,11 @@ const argv = yargs
             });
         },
     )
-    .option('debug', {
-        alias: 'd',
-        description: 'start in debug mode',
-        type: 'boolean',
+    .option('verbose', {
+        alias: 'v',
+        description: 'Log to file. Pass info|debug|warn',
+        type: 'string',
     })
-    .alias('v', 'verbose')
     .help()
     .alias('help', 'h').argv;
 
@@ -27,7 +26,7 @@ export interface Config {
     refreshIntervalMs: number;
 };
 const configStore = new Configstore('mutt', {
-    refreshIntervalMs: 800,
+    refreshIntervalMs: 500,
 });
 
 const config: Config = {
