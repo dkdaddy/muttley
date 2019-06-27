@@ -16,7 +16,7 @@ const argv = yargs
     )
     .option('verbose', {
         alias: 'v',
-        description: 'Log to file. Pass info|debug|warn',
+        description: 'Log to file. Pass info|debug|warn etc',
         type: 'string',
     })
     .help()

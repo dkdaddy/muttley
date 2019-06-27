@@ -20,3 +20,22 @@ It then finds all the module dependencies for those files and monitors them, re-
 - pretty - run prettier
 - pretty-write - run prettier --write
 - start - run mutt
+
+## mutt -h
+```
+mutt [paths...]
+
+Monitor all Unit Tests in the paths. If no paths supplied use current directory.
+
+Positionals:
+
+  paths  paths to watch                                  [string] [default: "."]
+
+Options:
+
+  --version      Show version number                                   [boolean]
+
+  --verbose, -v  Log to file. Pass info|debug|warn etc                 [string]
+
+  --help, -h     Show help                                             [boolean]
+  ```
