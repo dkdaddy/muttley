@@ -10,10 +10,10 @@ const defaultColumns = 80, defaultRows = 24;
 const columns = process.stdout.columns || defaultColumns;
 const rows = process.stdout.rows || defaultRows;
 
-function write(...args: any[]): void {
+export function write(...args: any[]): void {
     process.stdout.write(args.join(''));
 }
-function writeline(...args: any[]): void {
+export function writeline(...args: any[]): void {
     write(...args, os.EOL);
 }
 

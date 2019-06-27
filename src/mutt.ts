@@ -7,7 +7,7 @@ import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
 import { logger, Levels } from './logger';
 import { argv, config } from './command-line';
-import { Table, renderHeader, renderTable, renderFileWindow, renderPacman, FgColour } from './render';
+import { FgColour, Table, renderHeader, renderTable, renderFileWindow, renderPacman, write, writeline } from './render';
 import { TestFailure } from './test-runner';
 
 const mutt = `
@@ -148,20 +148,19 @@ async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<
         });
     }
 }
-/* eslint-disable */
 
 const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();
 const deps = new DependencyTree('/');
 
-async function readFiles(folders: string[]): Promise<void> {
+function readFiles(folders: string[]): Promise<void> {
     logger.info('readFiles', folders);
     return new Promise((resolve, reject) => {
         folders.forEach(folder => {
-            fs.readdir(folder, async (err, files) => {
+            fs.readdir(folder, async (error, files) => {
                 logger.debug('readdir', folder);
-                if (err) {
-                    reject(err);
+                if (error) {
+                    reject(error);
                 } else {
                     const promises: Promise<void>[] = [];
                     const subFolders: string[] = [];
@@ -203,8 +202,7 @@ async function readFiles(folders: string[]): Promise<void> {
         });
     });
 }
-var mode = 'd'; // i : bundle info, h : help, e - expanded errors
-// o sort,
+let mode = 'd'; // i : bundle info, h : help, e - expanded errors
 
 // columns name, file, time, status, error
 const Label = {
@@ -222,9 +220,9 @@ const Colour = {
 };
 
 function shortTextFromStack(stack: { file: string; lineno: number }[]): string {
-    return stack.length ? stack[0].file + ':' + stack[0].lineno : '';
+    return stack.length ? `${stack[0].file}:${stack[0].lineno}` : '';
 }
-var testColumns = [
+const testColumns = [
     { name: 'FILE', width: 20, just: 'l', func: (row: Testcase) => path.basename(row.filename) },
     { name: 'SUITE', width: 20, just: 'l', func: (row: Testcase) => row.suite },
     { name: 'NAME', width: 30, just: 'l', func: (row: Testcase) => row.name },
@@ -234,62 +232,64 @@ var testColumns = [
     { name: 'SOURCE', width: 36, just: 'l', func: (row: Testcase) => shortTextFromStack(row.stack) },
 ];
 
-function renderTestHeader() {
+function renderTestHeader(): void {
     let failing = 0;
-    allTests.forEach(t => {
-        failing += t.state === TestState.Failed ? 1 : 0;
+    allTests.forEach(test => {
+        failing += test.state === TestState.Failed ? 1 : 0;
     });
-    const fileCount = allFiles.size;
     renderHeader(failing, failing, allFiles.size);
 }
-function renderAllTests() {
+function renderAllTests(): void {
     const table: Table = {
         columns: testColumns,
-        rows: Array.from(allTests.values()).sort((a, b) => (a.state-b.state)),
+        rows: Array.from(allTests.values()).sort((lhs, rhs) => (lhs.state-rhs.state)),
         rowColour: (row: any) => {
             const test = row as Testcase;
-            return Colour[test.state]
+            return Colour[test.state];
         }
 
     };
     renderTable(table);
 }
-function renderFailures() {
+function renderFailures(): void {
     Array.from(allTests)
         .filter(([, t]) => t.state === TestState.Failed)
         .forEach(([, t]) => {
-            process.stdout.write(['\x1b[31;1m' + 'FAILED:', t.suite, t.name, os.EOL].join(' '));
+            process.stdout.write(['\x1b[31;1mFAILED:', t.suite, t.name, os.EOL].join(' '));
             process.stdout.write(['\x1b[32m', t.fullMessage, '\x1b[0m', os.EOL].join(' '));
             let pad = 0;
             t.stack.forEach(frame => {
                 process.stdout.write(
-                    '\x1b[35m' + ' '.repeat(2 * pad++) + frame.file + ':' + frame.lineno + '\x1b[0m' + os.EOL,
+                    `\x1b[35m${' '.repeat(2 * pad++)}${frame.file}:${frame.lineno}\x1b[0m${os.EOL}`,
                 );
             });
             process.stdout.write(os.EOL);
         });
 }
-function renderZoom(n: number) {
+function renderZoom(nth: number): void {
+    logger.debug('renderZoom', nth);
     const columns = process.stdout.columns || 80;
-    let test: Testcase | undefined = undefined;
-    let i = 1;
+    let test: Testcase | undefined;
     Array.from(allTests)
         .filter(([, t]) => t.state === TestState.Failed)
-        .forEach(([, t]) => {
-            if (i++ === n) {
-                process.stdout.write(
-                    ['\x1b[31;1m' + t.suite, t.name, t.filename, t.fullMessage, '\x1b[0m', os.EOL].join(' '),
+        .forEach(([, t], ix) => {
+            if (ix+1 === nth) {
+                writeline(
+                    '\x1b[31;1m', [ t.suite, t.name, t.filename, t.fullMessage, '\x1b[0m'].join(' '),
                 );
                 test = t;
             }
         });
-    if (!test) return;
-
-    const renderStack = [...test!.stack].reverse();
+    if (!test) {
+        logger.error('renderZoom', nth, 'not found');
+        return;
+    }
+    const renderStack = [...test.stack].reverse();
 
     let pad = 0;
     renderStack.forEach(frame => {
-        process.stdout.write('\x1b[35m' + ' '.repeat(2 * pad++) + frame.file + ':' + frame.lineno + '\x1b[0m' + os.EOL);
+        writeline(`\x1b[35m'${' '.repeat(2 * pad++)}${frame.file}:${frame.lineno}\x1b[0m`);
+        
     });
     process.stdout.write(os.EOL);
     //find first line in stack
@@ -297,12 +297,13 @@ function renderZoom(n: number) {
         const filepath = frame.file;
         const line = frame.lineno;
         // inverse filename padded full width
-        process.stdout.write('\x1b[7m' + (filepath + ':' + line).padEnd(columns) + '\x1b[0m');
+        writeline('\x1b[7m', `${filepath}:${line}`.padEnd(columns), '\x1b[0m');
+        
         renderFileWindow(filepath, 14, line);
     });
 }
-function renderHelp() {
-    console.log('Monitor Unit Testing Tool - MUTT', os.EOL);
+function renderHelp(): void {
+    write('Monitor Unit Testing Tool - MUTT', os.EOL);
     [
         `esc Default view`,
         `l show info level log`,
@@ -312,10 +313,10 @@ function renderHelp() {
         `p process list`,
         `q Quit`,
         `h Help`,
-    ].forEach(i => console.log(i));
-    console.log(mutt);
+    ].forEach(line => writeline(line));
+    writeline(mutt);
 }
-async function render() {
+function render(): void {
     if (logger.type==='stdout')
         return; // don't render if logging to stdout
 
@@ -339,15 +340,16 @@ async function render() {
         case 'h':
             return renderHelp();
         default:
-            console.log(`Nothing to show in mode '${mode}'`);
+            logger.info(`Nothing to show in mode '${mode}'`);
     }
 }
-async function run(paths: string[]) {
+
+function run(paths: string[]): void {
     readline.emitKeypressEvents(process.stdin);
     process.stdin.setRawMode && process.stdin.setRawMode(true);
     process.stdin.on('keypress', (str, key) => {
         if (key.name === 'q') {
-            console.log('\x1b[?25h'); // show cursor
+            writeline('\x1b[?25h'); // show cursor
             process.exit();
         } else if (key.name === 'r') {
             allTests.clear();
@@ -365,9 +367,9 @@ async function run(paths: string[]) {
             render();
         }
     });
-    console.log('\x1b[2J'); //clear
-    console.log('\x1b[H'); // home
-    console.log('\x1b[?25l'); // hide cursor
+    write('\x1b[2J'); //clear
+    write('\x1b[H'); // home
+    write('\x1b[?25l'); // hide cursor
 
     setInterval(async () => {
         await readFiles(paths);
@@ -376,7 +378,8 @@ async function run(paths: string[]) {
        await render();
     }, config.refreshIntervalMs);
 }
-if (argv.verbose !== undefined) {
+
+if (typeof argv.verbose !== 'undefined') {
     if (!['error', 'warn', 'debug', 'info'].includes(argv.verbose)) {
         logger.type = 'stdout';
         logger.level = 'error';
@@ -384,9 +387,8 @@ if (argv.verbose !== undefined) {
         process.exit(12);
     }
 
-    logger.level = argv.debug as Levels;
+    logger.level = argv.verbose as Levels;
     logger.type = 'file';
 }
-console.log(argv);
 const paths = Array.isArray(argv.paths) && (argv.paths as string[]).length ? argv.paths : ['.'];
 run(paths);

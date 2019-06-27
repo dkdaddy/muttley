@@ -30,6 +30,7 @@ export class Player {
         this._position = position;
     }
     public addToScore(points: number): void {
+        if (this.score==0) throw Error('err');
         this._score += points;
     }
     public loseLife(): void {
