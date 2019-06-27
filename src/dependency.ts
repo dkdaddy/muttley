@@ -18,7 +18,7 @@ export class DependencyTree {
         return list;
     }
 
-    public getImportsCommonJS(filepath: string, depth: number=0): string[] {
+    public getImportsCommonJS(filepath: string, depth: number = 0): string[] {
         const indent: string = ' '.repeat(depth);
         const list: string[] = [];
         const folder = path.dirname(filepath);
@@ -56,10 +56,12 @@ export class DependencyTree {
         const nextLevel: Set<string> = new Set();
         logger.info(indent, `File ${filepath} depends on ${list}`);
         list.forEach((file): void => {
-            const imports = this.getImportsCommonJS(file, depth+1);
+            const imports = this.getImportsCommonJS(file, depth + 1);
             if (imports.length) {
                 logger.info(indent, `File ${file} depends on ${imports}`);
-                imports.forEach((importedFile) => {nextLevel.add(importedFile);});
+                imports.forEach(importedFile => {
+                    nextLevel.add(importedFile);
+                });
             }
         });
         const allDependants: string[] = [...list, ...Array.from(nextLevel.keys())];

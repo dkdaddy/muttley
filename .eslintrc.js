@@ -71,7 +71,6 @@ module.exports = {
         "max-lines": ["error", 400],
         "max-params": ["error", 6],
         "max-statements": ["error", 50],
-        "newline-per-chained-call": ["error"],
         "no-array-constructor": "error",
         "no-continue": "error",
         "no-lonely-if": "error",

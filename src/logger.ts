@@ -25,12 +25,13 @@ const logger = {
         }
     },
     set type(typ: string) {
-        currentLogType = typ as 'stdout'|'file';
+        currentLogType = typ as 'stdout' | 'file';
         // reconfigure. Done this way because adding a file appender causes file to be created
-        if (currentLogType === 'file' && currentLevel !== 'off' ) {
+        if (currentLogType === 'file' && currentLevel !== 'off') {
             log4js.configure({
-                appenders: {  file: { type: 'file', filename: './mutt.log' },
-                              // stdout: { type: 'stdout' },
+                appenders: {
+                    file: { type: 'file', filename: './mutt.log' },
+                    // stdout: { type: 'stdout' },
                 },
                 categories: { default: { appenders: ['file'], level: 'info' } },
             });

@@ -24,7 +24,7 @@ const argv = yargs
 
 export interface Config {
     refreshIntervalMs: number;
-};
+}
 const configStore = new Configstore('mutt', {
     refreshIntervalMs: 500,
 });
@@ -35,6 +35,6 @@ const config: Config = {
     },
     set refreshIntervalMs(interval) {
         configStore.set('intervalMs', interval);
-    }
+    },
 };
 export { argv, config };

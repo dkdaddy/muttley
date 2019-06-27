@@ -5,8 +5,8 @@ interface Process {
     pid: string;
     command: string;
     arguments: string;
-};
-let processList: Process[]=[];
+}
+let processList: Process[] = [];
 
 const psColumns = [
     { name: 'PID', width: 10, just: 'l', func: (row: Process) => row.pid },
@@ -14,9 +14,9 @@ const psColumns = [
     { name: 'ARGS', width: 90, just: 'l', func: (row: Process) => row.arguments },
 ];
 export function renderProcessList(): void {
-    // to avoid flicker between the clear and waiting for the callback, draw the latest list and update 
+    // to avoid flicker between the clear and waiting for the callback, draw the latest list and update
     // the list in the callback
-    renderTable({columns: psColumns, rowColour: (row) => FgColour.green, rows: processList});
+    renderTable({ columns: psColumns, rowColour: row => FgColour.green, rows: processList });
 
     ps.lookup({ command: 'node' }, function(error, resultList): void {
         if (error) {

@@ -7,7 +7,7 @@ import { Direction } from './level-view';
 
 describe('Player', function(): void {
     describe('default constructor', function(): void {
-        it('score === 0 etc', function(): void  {
+        it('score === 0 etc', function(): void {
             const player = new Player(1);
             assert.equal(player.playerNumber, 1);
             assert.equal(player.score, 0);
@@ -25,7 +25,7 @@ describe('Player', function(): void {
         });
     });
     describe('moveTo', function(): void {
-        it('moves', function(): void  {
+        it('moves', function(): void {
             const player = new Player(1);
             player.moveTo([5, 6]);
             assert.deepEqual(player.position, [5, 6]);

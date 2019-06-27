@@ -49,7 +49,6 @@ export function newPosition([x, y]: Position, direction: Direction): Position {
             break;
         default:
             throw Error('bad direction');
-            
     }
     return position;
 }

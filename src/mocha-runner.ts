@@ -80,22 +80,26 @@ export class MochaTestRunner implements TestRunner {
                 const suite = json.testsuite;
                 logger.debug(suite);
                 // if there is only a single case the testcase is *not* an array! Arrrrgg!
-                const cases: { classname: string; name: string; time: string; failure: string }[] =
-                    suite.testcase.length ? suite.testcase : [suite.testcase];
+                const cases: { classname: string; name: string; time: string; failure: string }[] = suite.testcase
+                    .length
+                    ? suite.testcase
+                    : [suite.testcase];
                 cases.forEach((testcase): void => {
                     if (testcase.failure) {
                         logger.debug('failed: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
                         logger.debug('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
                         failed++;
-                        onFail( { suite: testcase.classname, 
-                                  name: testcase.name, 
-                                  fullMessage: testcase.failure, 
-                                  message: extractError(testcase.failure), 
-                                  stack: extractStack(testcase.failure)});
+                        onFail({
+                            suite: testcase.classname,
+                            name: testcase.name,
+                            fullMessage: testcase.failure,
+                            message: extractError(testcase.failure),
+                            stack: extractStack(testcase.failure),
+                        });
                     } else {
                         logger.debug('pass: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
                         passed++;
-                        const msPerSeconds=1000;
+                        const msPerSeconds = 1000;
                         onPass(testcase.classname, testcase.name, msPerSeconds * Number.parseFloat(testcase.time));
                     }
                 });

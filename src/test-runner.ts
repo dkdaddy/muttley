@@ -77,11 +77,12 @@ export class FakeTestRunner implements TestRunner {
             .forEach((test): void => {
                 setImmediate((): void => {
                     onFail({
-                        suite: test.suite, 
-                        name: test.name, 
-                        fullMessage: test.message || '', 
-                        message: test.message || '', 
-                        stack: test.stack || []});
+                        suite: test.suite,
+                        name: test.name,
+                        fullMessage: test.message || '',
+                        message: test.message || '',
+                        stack: test.stack || [],
+                    });
                 });
             });
         const passCount = this.tests.filter((test): boolean => !!test.message).length;

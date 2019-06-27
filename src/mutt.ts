@@ -87,15 +87,7 @@ function onPass(filename: string, stat: fs.Stats, suite: string, name: string, d
     testcase.state = TestState.Passsed;
     allTests.set(testcase.key, testcase);
 }
-function onFail(
-    filename: string,
-    stat: fs.Stats,
-    { suite,
-    name,
-    fullMessage,
-    message, 
-    stack}: TestFailure 
-): void {
+function onFail(filename: string, stat: fs.Stats, { suite, name, fullMessage, message, stack }: TestFailure): void {
     logger.error('onFail', filename, suite, name, message);
     logger.debug('onFail', filename, suite, name, fullMessage, message, stack);
     const testcase = new Testcase(filename, stat, suite, name);
@@ -137,7 +129,7 @@ async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<
 
     if (tests.length) {
         // const absoluteFilePath = path.resolve(process.cwd(), filename);
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             return theRunner.runFileP(
                 filename,
                 onStart.bind(null, filename),
@@ -193,8 +185,7 @@ function readFiles(folders: string[]): Promise<void> {
                     });
                     await Promise.all(promises);
                     logger.debug('subfolders', subFolders);
-                    if (subFolders.length)
-                        await readFiles(subFolders);
+                    if (subFolders.length) await readFiles(subFolders);
 
                     resolve();
                 }
@@ -242,12 +233,11 @@ function renderTestHeader(): void {
 function renderAllTests(): void {
     const table: Table = {
         columns: testColumns,
-        rows: Array.from(allTests.values()).sort((lhs, rhs) => (lhs.state-rhs.state)),
+        rows: Array.from(allTests.values()).sort((lhs, rhs) => lhs.state - rhs.state),
         rowColour: (row: any) => {
             const test = row as Testcase;
             return Colour[test.state];
-        }
-
+        },
     };
     renderTable(table);
 }
@@ -259,9 +249,7 @@ function renderFailures(): void {
             process.stdout.write(['\x1b[32m', t.fullMessage, '\x1b[0m', os.EOL].join(' '));
             let pad = 0;
             t.stack.forEach(frame => {
-                process.stdout.write(
-                    `\x1b[35m${' '.repeat(2 * pad++)}${frame.file}:${frame.lineno}\x1b[0m${os.EOL}`,
-                );
+                process.stdout.write(`\x1b[35m${' '.repeat(2 * pad++)}${frame.file}:${frame.lineno}\x1b[0m${os.EOL}`);
             });
             process.stdout.write(os.EOL);
         });
@@ -273,10 +261,8 @@ function renderZoom(nth: number): void {
     Array.from(allTests)
         .filter(([, t]) => t.state === TestState.Failed)
         .forEach(([, t], ix) => {
-            if (ix+1 === nth) {
-                writeline(
-                    '\x1b[31;1m', [ t.suite, t.name, t.filename, t.fullMessage, '\x1b[0m'].join(' '),
-                );
+            if (ix + 1 === nth) {
+                writeline('\x1b[31;1m', [t.suite, t.name, t.filename, t.fullMessage, '\x1b[0m'].join(' '));
                 test = t;
             }
         });
@@ -289,7 +275,6 @@ function renderZoom(nth: number): void {
     let pad = 0;
     renderStack.forEach(frame => {
         writeline(`\x1b[35m'${' '.repeat(2 * pad++)}${frame.file}:${frame.lineno}\x1b[0m`);
-        
     });
     process.stdout.write(os.EOL);
     //find first line in stack
@@ -298,7 +283,7 @@ function renderZoom(nth: number): void {
         const line = frame.lineno;
         // inverse filename padded full width
         writeline('\x1b[7m', `${filepath}:${line}`.padEnd(columns), '\x1b[0m');
-        
+
         renderFileWindow(filepath, 14, line);
     });
 }
@@ -317,8 +302,7 @@ function renderHelp(): void {
     writeline(mutt);
 }
 function render(): void {
-    if (logger.type==='stdout')
-        return; // don't render if logging to stdout
+    if (logger.type === 'stdout') return; // don't render if logging to stdout
 
     renderTestHeader();
     process.stdout.write('\x1b[5;0H'); // row 5
@@ -359,8 +343,8 @@ function run(paths: string[]): void {
             logger.type = 'stdout'; // setting this will stop the render function
         } else if (key.name === 'd' || key.name === 'escape') {
             mode = 'd';
-            logger.level='off';
-            logger.type ='file';
+            logger.level = 'off';
+            logger.type = 'file';
             render();
         } else {
             mode = key.name;
@@ -375,7 +359,7 @@ function run(paths: string[]): void {
         await readFiles(paths);
     }, config.refreshIntervalMs);
     setInterval(async () => {
-       await render();
+        await render();
     }, config.refreshIntervalMs);
 }
 

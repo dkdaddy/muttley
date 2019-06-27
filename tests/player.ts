@@ -1,5 +1,5 @@
 import { Direction, Position } from './level-view';
-const initialLives=3;
+const initialLives = 3;
 
 export class Player {
     public readonly playerNumber: number;
@@ -30,7 +30,7 @@ export class Player {
         this._position = position;
     }
     public addToScore(points: number): void {
-        if (this.score==0) throw Error('err');
+        if (this.score == 0) throw Error('err');
         this._score += points;
     }
     public loseLife(): void {
