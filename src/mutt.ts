@@ -9,7 +9,6 @@ import { logger, Levels } from './logger';
 import { argv, config } from './command-line';
 import { FgColour, Table, renderHeader, renderTable, renderFileWindow, renderPacman, write, writeline } from './render';
 import { TestFailure } from './test-runner';
-import { execFile } from 'child_process';
 
 const mutt = `
        __,-----._                       ,-.

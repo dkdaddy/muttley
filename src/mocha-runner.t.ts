@@ -1,9 +1,7 @@
 import sinon from 'sinon';
 import { MochaTestRunner } from './mocha-runner';
 import assert = require('assert');
-// import { logger } from './logger';
 import childProcess, { ChildProcess } from 'child_process';
-import { logger } from './logger';
 
 describe('MochaTestRunner', function(): void {
     describe('ctor', function(): void {
