@@ -6,7 +6,7 @@ import { execFile } from 'child_process';
 import { TestRunner, TestFailure, FakeTestRunner } from './test-runner';
 import { logger } from './logger';
 
-(FakeTestRunner); // add a reference so the dependency remains in the js file because test depends on it
+FakeTestRunner; // add a reference so the dependency remains in the js file because test depends on it
 
 export class MochaTestRunner implements TestRunner {
     // eslint-disable-next-line class-methods-use-this
@@ -81,30 +81,43 @@ export class MochaTestRunner implements TestRunner {
                 const json = parser.parse(stdout, { ignoreAttributes: false, attributeNamePrefix: '' });
                 const suite = json.testsuite;
                 logger.debug(suite);
-                // if there is only a single case the testcase is *not* an array! Arrrrgg!
-                const cases: { classname: string; name: string; time: string; failure: string }[] = suite.testcase
-                    .length
-                    ? suite.testcase
-                    : [suite.testcase];
-                cases.forEach((testcase): void => {
-                    if (testcase.failure) {
-                        logger.debug('failed: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
-                        logger.debug('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
-                        failed++;
-                        onFail({
-                            suite: testcase.classname,
-                            name: testcase.name,
-                            fullMessage: testcase.failure,
-                            message: extractError(testcase.failure),
-                            stack: extractStack(testcase.failure),
-                        });
-                    } else {
-                        logger.debug('pass: [%s] [%s] [%s]', testcase.classname, testcase.name, testcase.time);
-                        passed++;
-                        const msPerSeconds = 1000;
-                        onPass(testcase.classname, testcase.name, msPerSeconds * Number.parseFloat(testcase.time));
-                    }
-                });
+                // sometimes there is no testcase property on the suite.
+                // This is usually because the function tested is async
+                if (suite.testcase) {
+                    // if there is only a single case the testcase is *not* an array! Arrrrgg!
+                    const cases: { classname: string; name: string; time: string; failure: string }[] = suite.testcase
+                        .length
+                        ? suite.testcase
+                        : [suite.testcase];
+                    cases.forEach((testcase): void => {
+                        if (testcase.failure) {
+                            logger.debug(`failed: [${testcase.classname}] [${testcase.name}] [${testcase.time}]`);
+                            logger.debug('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
+                            failed++;
+                            onFail({
+                                suite: testcase.classname,
+                                name: testcase.name,
+                                fullMessage: testcase.failure,
+                                message: extractError(testcase.failure),
+                                stack: extractStack(testcase.failure),
+                            });
+                        } else {
+                            logger.debug(`passed: [${testcase.classname}] [${testcase.name}] [${testcase.time}]`);
+                            passed++;
+                            const msPerSeconds = 1000;
+                            onPass(testcase.classname, testcase.name, msPerSeconds * Number.parseFloat(testcase.time));
+                        }
+                    });
+                } else {
+                    logger.error('No testcase output. Are you calling an async function without await?', suite);
+                    onFail({
+                        suite: 'mutt',
+                        name: 'mutt',
+                        fullMessage: 'No testcase output. Are you calling an async function without await?',
+                        message: 'No testcase output. Are you calling an async function without await?',
+                        stack: [],
+                    });
+                }
             }
             onEnd(passed, failed);
         });

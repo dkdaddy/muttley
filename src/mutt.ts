@@ -232,9 +232,13 @@ function renderTestHeader(): void {
     renderHeader(failing, failing, allFiles.size);
 }
 function renderAllTests(): void {
+    const sort = (lhs: Testcase, rhs: Testcase): number => {
+        if (lhs.state === rhs.state) return lhs.filename.localeCompare(rhs.filename);
+        return lhs.state-rhs.state;
+    };
     const table: Table = {
         columns: testColumns,
-        rows: Array.from(allTests.values()).sort((lhs, rhs) => lhs.state - rhs.state),
+        rows: Array.from(allTests.values()).sort(sort),
         rowColour: (row: any) => {
             const test = row as Testcase;
             return Colour[test.state];
