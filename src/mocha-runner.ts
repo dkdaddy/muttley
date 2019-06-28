@@ -75,7 +75,16 @@ export class MochaTestRunner implements TestRunner {
             }
             logger.debug(`stdout: ${stdout}`);
             logger.debug(`stderr: ${stderr}`);
-            if (!stderr) {
+            if (stderr) {
+                logger.error('stderr output. You crashed mocha!');
+                onFail({
+                    suite: 'mutt',
+                    name: 'mutt',
+                    fullMessage: `stderr output. You crashed mocha! ' ${stderr}`,
+                    message: 'stderr output. You crashed mocha!',
+                    stack: extractStack(stderr),
+                });
+            } else {
                 // if there were errors in the runner avoid bad XML parse
 
                 const json = parser.parse(stdout, { ignoreAttributes: false, attributeNamePrefix: '' });
