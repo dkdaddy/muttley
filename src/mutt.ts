@@ -234,7 +234,7 @@ function renderTestHeader(): void {
 function renderAllTests(): void {
     const sort = (lhs: Testcase, rhs: Testcase): number => {
         if (lhs.state === rhs.state) return lhs.filename.localeCompare(rhs.filename);
-        return lhs.state-rhs.state;
+        return lhs.state - rhs.state;
     };
     const table: Table = {
         columns: testColumns,
@@ -274,7 +274,9 @@ function renderZoom(nth: number): void {
         logger.error('renderZoom', nth, 'not found');
         return;
     }
-    let lines = 5;
+    let lines = 7;
+    lines += test.stack.length * 2; // the stack and the error take this
+
     const windowLines = 14;
     writeline('\x1b[31;1m', [test.suite, test.name, test.filename, test.fullMessage, '\x1b[0m'].join(' '));
     const renderStack = [...test.stack].reverse();
@@ -287,14 +289,15 @@ function renderZoom(nth: number): void {
     process.stdout.write(os.EOL);
     //find first line in stack
     renderStack.forEach(frame => {
-        const filepath = frame.file;
-        const line = frame.lineno;
-        // inverse filename padded full width
-        writeline('\x1b[7m', `${filepath}:${line}`.padEnd(columns), '\x1b[0m');
+        if (lines < (process.stdout.rows || 24)) {
+            const filepath = frame.file;
+            const line = frame.lineno;
+            // inverse filename padded full width
+            writeline('\x1b[7m', `${filepath}:${line}`.padEnd(columns), '\x1b[0m');
 
-        if (fs.existsSync(filepath) && lines<(process.stdout.rows||24))
-           renderFileWindow(filepath, windowLines, line);
-           lines+=windowLines;
+            if (fs.existsSync(filepath)) renderFileWindow(filepath, windowLines, line);
+            lines += windowLines + 1;
+        }
     });
 }
 function renderHelp(): void {

@@ -37,25 +37,26 @@
   },
   "homepage": "https://github.com/dkdaddy/muttley#readme",
   "dependencies": {
-    "fast-xml-parser": "^3.12.16",
-    "mocha": "^6.1.4",
-    "sinon": "^7.3.2",
     "configstore": "^5.0.0",
-    "source-map-support": "^0.5.12",
+    "fast-xml-parser": "^3.12.16",
+    "log4js": "^4.3.2",
+    "mocha": "^6.1.4",
     "ps-node": "^0.1.6",
-    "log4js": "^4.3.2"
+    "source-map-support": "^0.5.12"
   },
   "devDependencies": {
     "@types/configstore": "^4.0.0",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.10",
     "@types/yargs": "^13.0.0",
+    "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^5.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "prettier": "^1.18.2",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "sinon": "^7.3.2"
   }
 }

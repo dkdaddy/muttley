@@ -53,84 +53,90 @@ export class MochaTestRunner implements TestRunner {
         onFail: (testFailure: TestFailure) => void,
         onEnd: (passed: number, failed: number) => void,
     ): Promise<void> {
-        let passed = 0,
-            failed = 0;
-        const isWin = process.platform === 'win32';
-        // there must be a better way than this but running mocha directly on windows gives an error
-        const cmd = isWin ? 'node' : 'mocha';
-        const args = isWin
-            ? [
-                  'node_modules\\mocha\\bin\\mocha',
-                  filePath,
-                  '--reporter=xunit',
-                  '--require',
-                  'source-map-support/register',
-              ]
-            : [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
-        logger.debug('exec @', process.cwd(), cmd, args);
-        execFile(cmd, args, (error: any, stdout: any, stderr: any): void => {
-            onStart();
-            if (error) {
-                logger.debug(`mocha exe returned : ${error}`);
-            }
-            logger.debug(`stdout: ${stdout}`);
-            logger.debug(`stderr: ${stderr}`);
-            if (stderr) {
-                logger.error('stderr output. You crashed mocha!');
-                onFail({
-                    suite: 'mutt',
-                    name: 'mutt',
-                    fullMessage: `stderr output. You crashed mocha! ' ${stderr}`,
-                    message: 'stderr output. You crashed mocha!',
-                    stack: extractStack(stderr),
-                });
-            } else {
-                // if there were errors in the runner avoid bad XML parse
-
-                const json = parser.parse(stdout, { ignoreAttributes: false, attributeNamePrefix: '' });
-                const suite = json.testsuite;
-                logger.debug(suite);
-                // sometimes there is no testcase property on the suite.
-                // This is usually because the function tested is async
-                if (suite.testcase) {
-                    // if there is only a single case the testcase is *not* an array! Arrrrgg!
-                    const cases: { classname: string; name: string; time: string; failure: string }[] = suite.testcase
-                        .length
-                        ? suite.testcase
-                        : [suite.testcase];
-                    cases.forEach((testcase): void => {
-                        if (testcase.failure) {
-                            logger.debug(`failed: [${testcase.classname}] [${testcase.name}] [${testcase.time}]`);
-                            logger.debug('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
-                            failed++;
-                            onFail({
-                                suite: testcase.classname,
-                                name: testcase.name,
-                                fullMessage: testcase.failure,
-                                message: extractError(testcase.failure),
-                                stack: extractStack(testcase.failure),
-                            });
-                        } else {
-                            logger.debug(`passed: [${testcase.classname}] [${testcase.name}] [${testcase.time}]`);
-                            passed++;
-                            const msPerSeconds = 1000;
-                            onPass(testcase.classname, testcase.name, msPerSeconds * Number.parseFloat(testcase.time));
-                        }
-                    });
-                } else {
-                    logger.error('No testcase output. Are you calling an async function without await?', suite);
+        return new Promise((resolve, reject) => {
+            let passed = 0,
+                failed = 0;
+            const isWin = process.platform === 'win32';
+            // there must be a better way than this but running mocha directly on windows gives an error
+            const cmd = isWin ? 'node' : 'mocha';
+            const args = isWin
+                ? [
+                      'node_modules\\mocha\\bin\\mocha',
+                      filePath,
+                      '--reporter=xunit',
+                      '--require',
+                      'source-map-support/register',
+                  ]
+                : [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
+            logger.debug('exec @', process.cwd(), cmd, args);
+            execFile(cmd, args, (error: any, stdout: any, stderr: any): void => {
+                onStart();
+                if (error) {
+                    logger.error(`mocha exe returned : ${error}`);
+                }
+                logger.debug(`stdout: ${stdout}`);
+                logger.debug(`stderr: ${stderr}`);
+                if (stderr) {
+                    logger.error('stderr output. You crashed mocha!');
                     onFail({
                         suite: 'mutt',
                         name: 'mutt',
-                        fullMessage: 'No testcase output. Are you calling an async function without await?',
-                        message: 'No testcase output. Are you calling an async function without await?',
-                        stack: [],
+                        fullMessage: `stderr output. You crashed mocha! ' ${stderr}`,
+                        message: 'stderr output. You crashed mocha!',
+                        stack: extractStack(stderr),
                     });
+                } else {
+                    // if there were errors in the runner avoid bad XML parse
+
+                    const json = parser.parse(stdout, { ignoreAttributes: false, attributeNamePrefix: '' });
+                    const suite = json.testsuite;
+                    logger.debug(suite);
+                    // sometimes there is no testcase property on the suite.
+                    // This is usually because the function tested is async
+                    if (suite.testcase) {
+                        // if there is only a single case the testcase is *not* an array! Arrrrgg!
+                        const cases: { classname: string; name: string; time: string; failure: string }[] = suite
+                            .testcase.length
+                            ? suite.testcase
+                            : [suite.testcase];
+                        cases.forEach((testcase): void => {
+                            if (testcase.failure) {
+                                logger.debug(`failed: [${testcase.classname}] [${testcase.name}] [${testcase.time}]`);
+                                logger.debug('error message:\n', testcase.failure.replace(/\n+/g, '\n'));
+                                failed++;
+                                onFail({
+                                    suite: testcase.classname,
+                                    name: testcase.name,
+                                    fullMessage: testcase.failure,
+                                    message: extractError(testcase.failure),
+                                    stack: extractStack(testcase.failure),
+                                });
+                            } else {
+                                logger.debug(`passed: [${testcase.classname}] [${testcase.name}] [${testcase.time}]`);
+                                passed++;
+                                const msPerSeconds = 1000;
+                                onPass(
+                                    testcase.classname,
+                                    testcase.name,
+                                    msPerSeconds * Number.parseFloat(testcase.time),
+                                );
+                            }
+                        });
+                    } else {
+                        logger.error('No testcase output. Are you calling an async function without await?', suite);
+                        onFail({
+                            suite: 'mutt',
+                            name: 'mutt',
+                            fullMessage: 'No testcase output. Are you calling an async function without await?',
+                            message: 'No testcase output. Are you calling an async function without await?',
+                            stack: [],
+                        });
+                    }
                 }
-            }
-            onEnd(passed, failed);
+                onEnd(passed, failed);
+                resolve();
+            });
         });
-        return Promise.resolve();
     }
 }
 function extractError(message: string): string {
