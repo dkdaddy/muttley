@@ -12,11 +12,10 @@ export enum FgColour {
     white = 37,
 }
 
-const defaultColumns = 80;
-// defaultRows = 24;
+const defaultColumns = 80,
+    defaultRows = 24;
 
 const columns = process.stdout.columns || defaultColumns;
-// const rows = process.stdout.rows || defaultRows;
 
 export function write(...args: any[]): void {
     process.stdout.write(args.join(''));
@@ -41,27 +40,29 @@ export function renderTable(table: Table): void {
     const rowHeadings = table.columns.map((column): string => column.name.padEnd(column.width)).join(' ');
     writeline(rowHeadings);
 
-    table.rows.forEach((row): void => {
-        const color = table.rowColour(row);
-        write(`\x1b[${color}m`);
-        table.columns.forEach((column): void => {
-            write(
-                column
-                    .func(row)
-                    .toString()
-                    .padEnd(column.width)
-                    .substr(0, column.width),
-                ' ',
-            );
-        });
-        writeline('\x1b[0m');
+    table.rows.forEach((row, index): void => {
+        if (index < (process.stdout.rows || defaultRows) - 6) {
+            const color = table.rowColour(row);
+            write(`\x1b[${color}m`);
+            table.columns.forEach((column): void => {
+                write(
+                    column
+                        .func(row)
+                        .toString()
+                        .padEnd(column.width)
+                        .substr(0, column.width),
+                    ' ',
+                );
+            });
+            writeline('\x1b[0m');
+        }
     });
 }
 let lastTotal = 0,
     lastIdle = 0,
     lastSys = 0,
     lastUser = 0;
-export function renderHeader(failing: number, running: number, fileCount: number): void {
+export function renderHeader(testCount: number, failing: number, running: number, fileCount: number): void {
     write('\x1b[2J'); //clear
     write('\x1b[0;0H'); // top left
 
@@ -92,7 +93,7 @@ export function renderHeader(failing: number, running: number, fileCount: number
 
     // test summary
     write('\x1b[0;0H'); // top left again
-    writeline(`Tests ${running + failing}, Failing ${failing}, Running ${running}, Files monitored ${fileCount}`);
+    writeline(`Tests ${testCount}, Failing ${failing}, Running ${running}, Files monitored ${fileCount}`);
 
     // system
     write(`CPU Usage ${userDelta}% user, ${sysDelta}% sys, ${idleDelta}% idle, ${freeMem}% mem free`);

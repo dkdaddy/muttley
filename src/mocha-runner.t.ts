@@ -93,7 +93,6 @@ describe('MochaTestRunner', function(): void {
             assert(onPass.notCalled);
             assert(onFail.calledOnce);
             assert(onEnd.calledOnceWith(0, 1));
-
         });
         it('handles execFile passing tests', async function() {
             // logger.level = 'debug';

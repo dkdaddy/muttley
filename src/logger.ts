@@ -26,8 +26,7 @@ const logger = {
     },
     set type(typ: string) {
         currentLogType = typ as 'stdout' | 'file';
-        if (typ !== 'stdout' && typ !== 'file')
-            throw Error(`Invalid log type ${typ}`);
+        if (typ !== 'stdout' && typ !== 'file') throw Error(`Invalid log type ${typ}`);
         // reconfigure. Done this way because adding a file appender causes file to be created
         if (currentLogType === 'file' && currentLevel !== 'off') {
             log4js.configure({

@@ -1,4 +1,4 @@
-import { DependencyTree } from "./dependency";
+import { DependencyTree } from './dependency';
 import assert = require('assert');
 import path from 'path';
 import process from 'process';

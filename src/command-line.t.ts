@@ -1,4 +1,4 @@
-import { config, argv } from "./command-line";
+import { config, argv } from './command-line';
 import assert = require('assert');
 
 describe('config', function(): void {

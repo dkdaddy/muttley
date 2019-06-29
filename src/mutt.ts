@@ -216,19 +216,21 @@ function shortTextFromStack(stack: { file: string; lineno: number }[]): string {
 const testColumns = [
     { name: 'FILE', width: 20, just: 'l', func: (row: Testcase) => path.basename(row.filename) },
     { name: 'SUITE', width: 20, just: 'l', func: (row: Testcase) => row.suite },
-    { name: 'NAME', width: 30, just: 'l', func: (row: Testcase) => row.name },
+    { name: 'NAME', width: 25, just: 'l', func: (row: Testcase) => row.name },
     { name: 'STATUS', width: 8, just: 'l', func: (row: Testcase) => Label[row.state] },
     { name: 'TIME(ms)', width: 8, just: 'l', func: (row: Testcase) => row.runtimeInMs },
-    { name: 'MSG', width: 50, just: 'l', func: (row: Testcase) => row.message },
+    { name: 'MSG', width: 40, just: 'l', func: (row: Testcase) => row.message },
     { name: 'SOURCE', width: 36, just: 'l', func: (row: Testcase) => shortTextFromStack(row.stack) },
 ];
 
 function renderTestHeader(): void {
-    let failing = 0;
+    let failing = 0,
+        running = 0;
     allTests.forEach(test => {
         failing += test.state === TestState.Failed ? 1 : 0;
+        running += test.state === TestState.Running ? 1 : 0;
     });
-    renderHeader(failing, failing, allFiles.size);
+    renderHeader(allTests.size, failing, running, allFiles.size);
 }
 function renderAllTests(): void {
     const sort = (lhs: Testcase, rhs: Testcase): number => {

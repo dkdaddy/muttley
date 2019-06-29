@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha *.t.js",
+    "test": "mocha src/*.t.js",
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "eslint --ext .ts .",

@@ -1,4 +1,4 @@
-import { logger } from "./logger";
+import { logger } from './logger';
 import assert = require('assert');
 
 describe('logger', function(): void {
@@ -10,6 +10,8 @@ describe('logger', function(): void {
         assert.equal(logger.type, 'stdout');
     });
     it('rejects bad type', function(): void {
-        assert.throws(() => {logger.type = '?';});
+        assert.throws(() => {
+            logger.type = '?';
+        });
     });
 });

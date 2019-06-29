@@ -53,7 +53,7 @@ export class MochaTestRunner implements TestRunner {
         onFail: (testFailure: TestFailure) => void,
         onEnd: (passed: number, failed: number) => void,
     ): Promise<void> {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             let passed = 0,
                 failed = 0;
             const isWin = process.platform === 'win32';
