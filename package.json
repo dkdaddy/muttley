@@ -1,12 +1,15 @@
 {
   "name": "muttley",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Monitor Unit Test Tool",
   "main": "mutt.js",
   "directories": {
     "test": "tests"
   },
-  "files": ["src/**/*.js", "demo/**/*.js"],
+  "files": [
+    "src/**/*.js",
+    "demo/**/*.js"
+  ],
   "scripts": {
     "test": "mocha src/*.t.js",
     "build": "tsc",
