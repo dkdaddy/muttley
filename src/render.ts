@@ -101,11 +101,11 @@ export function renderHeader(failing: number, running: number, fileCount: number
 export function renderFileWindow(filepath: string, height: number, line: number): void {
     const content = fs.readFileSync(filepath);
     const halfHeight = height / 2;
-    const window = content
-        .toString()
-        .split(os.EOL)
-        .slice(line - halfHeight, line + halfHeight);
-    let rownum = line - halfHeight + 1;
+    const lines = content.toString().split(os.EOL);
+    const [start, end, firstRow] =
+        lines.length > height ? [line - halfHeight, line + halfHeight, line - halfHeight + 1] : [0, lines.length, 1];
+    const window = lines.slice(start, end);
+    let rownum = firstRow;
     window.forEach((sourceline): void => {
         const prefix = rownum === line ? '\x1b[35m' : '';
         const rowNumColumnWidth = 6;
