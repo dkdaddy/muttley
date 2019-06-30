@@ -62,31 +62,35 @@ export class FakeTestRunner implements TestRunner {
         onFail: (failure: TestFailure) => void,
         onEnd: (passed: number, failed: number) => void,
     ): Promise<void> {
-        setImmediate(onStart);
-        this.tests
-            .filter((test): boolean => {
-                return !test.message;
-            })
-            .forEach((test): void => {
-                setImmediate((): void => {
-                    onPass(test.suite, test.name, 0);
-                });
-            });
-        this.tests
-            .filter((test): boolean => !!test.message)
-            .forEach((test): void => {
-                setImmediate((): void => {
-                    onFail({
-                        suite: test.suite,
-                        name: test.name,
-                        fullMessage: test.message || '',
-                        message: test.message || '',
-                        stack: test.stack || [],
+        return new Promise(resolve => {
+            setImmediate(onStart);
+            this.tests
+                .filter((test): boolean => {
+                    return !test.message;
+                })
+                .forEach((test): void => {
+                    setImmediate((): void => {
+                        onPass(test.suite, test.name, 0);
                     });
                 });
+            this.tests
+                .filter((test): boolean => !!test.message)
+                .forEach((test): void => {
+                    setImmediate((): void => {
+                        onFail({
+                            suite: test.suite,
+                            name: test.name,
+                            fullMessage: test.message || '',
+                            message: test.message || '',
+                            stack: test.stack || [],
+                        });
+                    });
+                });
+            const passCount = this.tests.filter((test): boolean => !!test.message).length;
+            setImmediate((): void => {
+                onEnd(passCount, this.tests.length - passCount);
+                resolve();
             });
-        const passCount = this.tests.filter((test): boolean => !!test.message).length;
-        setImmediate((): void => onEnd(passCount, this.tests.length - passCount));
-        return Promise.resolve();
+        });
     }
 }
