@@ -23,9 +23,17 @@ It then finds all the module dependencies for those files and monitors them, re-
 From the package folder you can runn mutt on itself to see how it works
 -  mutt src to monitor mutt's own unit tests
 -  mutt demo to see it on the demo folder. The demo folder has some failing tests to illustrate mutt features. Type 'z' to see details of the failures or '1' to see source code.
+## Docker
+There is a Dockerfile which can be used as the basis for your own docker based test watcher. The default file builds mutt, runs it's tests and runs the app on itself.
+```
+docker build  -t mutt .
+docker run -it mutt
+```
 
+Use `docker run` with -v and -w to map your code into the docker image.
 ## Know Issues
- It seems there are bugs in the xunit reporter for mocha so there are cases the XML does not contain all the tests. If you think mutt is not showing all your tests, run mocha cli with --reporter=xunit and check the output.
+- mocha and source-map-support need to be installed globally or the process.exec won't find them
+- It seems there are bugs in the xunit reporter for mocha so there are cases the XML does not contain all the tests. If you think mutt is not showing all your tests, run mocha cli with --reporter=xunit and check the output.
 
 ## npm scripts
 - build - tsc build

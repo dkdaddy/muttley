@@ -1,7 +1,7 @@
 import fs from 'fs';
 import os from 'os';
 import parser from 'fast-xml-parser';
-import { execFile } from 'child_process';
+import { exec } from 'child_process';
 
 import { TestRunner, TestFailure, FakeTestRunner } from './test-runner';
 import { logger } from './logger';
@@ -69,10 +69,20 @@ export class MochaTestRunner implements TestRunner {
                   ]
                 : [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
             logger.debug('exec @', process.cwd(), cmd, args);
-            execFile(cmd, args, (error: any, stdout: any, stderr: any): void => {
+            exec([cmd, ...args].join(' '), (error: any, stdout: any, stderr: any): void => {
                 onStart();
                 if (error) {
+                    // Note - if mocha has failing tests, error is set like this :
+                    // {"killed":false,"code":3,"signal":null,"cmd":"mocha /usr/src/app/demo/player.t.js --reporter=xunit --require source-map-support/register"}
+                    // code=3 for 3 failing tests
+                    // in this case stderr is blank
                     logger.error(`mocha exe returned : ${error}`);
+                    if (stderr) {
+                        process.stdout.write(`error ${error.toString()}`);
+                        process.stdout.write(JSON.stringify(error));
+                        process.stdout.write(`stderr: ${stderr}`);
+                        process.abort();
+                    }
                 }
                 logger.debug(`stdout: ${stdout}`);
                 logger.debug(`stderr: ${stderr}`);
