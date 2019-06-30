@@ -6,6 +6,7 @@
   "directories": {
     "test": "tests"
   },
+  "files": ["src/**/*.js", "demo/**/*.js"],
   "scripts": {
     "test": "mocha src/*.t.js",
     "build": "tsc",
