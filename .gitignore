@@ -1,5 +1,8 @@
 node_modules
-*.js
-*.js.map
+output
+coverage
+**/*.js
+**/*.js.map
 !.*.js
+!setup-jasmine-env.js
 mutt.log
