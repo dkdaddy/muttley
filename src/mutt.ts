@@ -143,7 +143,9 @@ async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<
 
 const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();
-const deps = new DependencyTree();
+
+const depsModule = config.dependencyModule;
+const deps: DependencyTree = require(depsModule).tree;
 
 function readFiles(folders: string[]): Promise<void> {
     logger.info('readFiles', folders);

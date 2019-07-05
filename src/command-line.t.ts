@@ -5,6 +5,15 @@ describe('config', function(): void {
     it('has refreshIntervalMs', function(): void {
         assert.ok(config.refreshIntervalMs);
     });
+    it('has dependencyModule', function(): void {
+        assert.ok(config.dependencyModule);
+    });
+    it('has testCmd', function(): void {
+        assert.ok(config.testCmd);
+    });
+    it('has testCmd', function(): void {
+        assert.ok(config.testArgs);
+    });
 });
 describe('argv', function(): void {
     it('exists', function(): void {

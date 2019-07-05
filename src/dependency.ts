@@ -2,11 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import { logger } from './logger';
 
+export interface DependencyTree {
+    getFlat(filepath: string): string[];
+}
 /**
  * Find file dependancies bases on commonJS require statements.
  * It does not load the modules - it regexes the files - hence not guarenteed to be 100% correct
  */
-export class DependencyTree {
+class CommonJsRegexDependencyTree implements DependencyTree {
     private cache: Map<string, string[]>;
 
     public constructor() {
@@ -85,3 +88,7 @@ export class DependencyTree {
         return allDependants;
     }
 }
+
+export const tree = (() => {
+    return new CommonJsRegexDependencyTree();
+})();

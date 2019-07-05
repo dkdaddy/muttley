@@ -24,6 +24,9 @@ const argv = yargs
 
 const configStore = new Configstore('mutt', {
     refreshIntervalMs: 500,
+    dependencyModule: './dependency',
+    testCmd: 'mocha',
+    testArgs: ['--reporter=xunit', '--require', 'source-map-support/register'],
 });
 /**
  * Config provides type safe accessors over the configStore object
@@ -41,10 +44,22 @@ const config: Config = {
     set refreshIntervalMs(interval) {
         configStore.set('intervalMs', interval);
     },
+    get dependencyModule(): string {
+        return configStore.get('dependencyModule');
+    },
+    get testCmd(): string {
+        return configStore.get('testCmd');
+    },
+    get testArgs(): string[] {
+        return configStore.get('testArgs');
+    },
 };
 
 export interface Config {
     refreshIntervalMs: number;
+    dependencyModule: string;
+    testCmd: string;
+    testArgs: string[];
 }
 
 export { argv, config };

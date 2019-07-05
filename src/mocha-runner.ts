@@ -5,6 +5,7 @@ import { exec } from 'child_process';
 
 import { TestRunner, TestFailure, FakeTestRunner } from './test-runner';
 import { logger } from './logger';
+import { config } from './command-line';
 
 FakeTestRunner; // add a reference so the dependency remains in the js file because test depends on it
 
@@ -58,7 +59,7 @@ export class MochaTestRunner implements TestRunner {
                 failed = 0;
             const isWin = process.platform === 'win32';
             // there must be a better way than this but running mocha directly on windows gives an error
-            const cmd = isWin ? 'node' : 'mocha';
+            const cmd = isWin ? 'node' : config.testCmd;
             const args = isWin
                 ? [
                       'node_modules\\mocha\\bin\\mocha',
@@ -67,13 +68,14 @@ export class MochaTestRunner implements TestRunner {
                       '--require',
                       'source-map-support/register',
                   ]
-                : [filePath, '--reporter=xunit', '--require', 'source-map-support/register'];
+                : [filePath, ...config.testArgs];
             logger.debug('exec @', process.cwd(), cmd, args);
             exec([cmd, ...args].join(' '), (error: any, stdout: any, stderr: any): void => {
                 onStart();
                 if (error) {
                     // Note - if mocha has failing tests, error is set like this :
-                    // {"killed":false,"code":3,"signal":null,"cmd":"mocha /usr/src/app/demo/player.t.js --reporter=xunit --require source-map-support/register"}
+                    // {"killed":false,"code":3,"signal":null,"cmd":"mocha /usr/src/app/demo/player.t.js
+                    // --reporter=xunit --require source-map-support/register"}
                     // code=3 for 3 failing tests
                     // in this case stderr is blank
                     logger.error(`mocha exe returned : ${error}`);
