@@ -1,68 +1,75 @@
 {
-  "name": "muttley",
-  "version": "1.0.12",
-  "description": "Monitor Unit Test Tool",
-  "main": "mutt.js",
-  "directories": {
-    "test": "tests"
-  },
-  "files": [
-    "src/**/*.ts",
-    "src/**/*.js",
-    "demo/**/*.ts",
-    "demo/**/*.js"
-  ],
-  "scripts": {
-    "test": "mocha src/*.t.js",
-    "build": "tsc",
-    "watch": "tsc -w",
-    "lint": "eslint --ext .ts .",
-    "pretty": "prettier -c **/**.ts",
-    "pretty-write": "prettier --write **/**.ts",
-    "start": "node src/mutt.js"
-  },
-  "bin": {
-    "mutt": "bin/mutt.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dkdaddy/muttley.git"
-  },
-  "keywords": [
-    "test",
-    "mocha",
-    "cli",
-    "test",
-    "mutt",
-    "muttley"
-  ],
-  "author": "dkdaddy",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dkdaddy/muttley/issues"
-  },
-  "homepage": "https://github.com/dkdaddy/muttley#readme",
-  "dependencies": {
-    "configstore": "^5.0.0",
-    "fast-xml-parser": "^3.12.16",
-    "log4js": "^4.3.2",
-    "mocha": "^6.1.4",
-    "ps-node": "^0.1.6",
-    "sinon": "^7.3.2",
-    "source-map-support": "^0.5.12"
-  },
-  "devDependencies": {
-    "@types/configstore": "^4.0.0",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.0.10",
-    "@types/yargs": "^13.0.0",
-    "@types/sinon": "^7.0.13",
-    "@typescript-eslint/eslint-plugin": "^1.10.2",
-    "@typescript-eslint/parser": "^1.10.2",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^5.0.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "prettier": "^1.18.2",
-    "typescript": "^3.5.2"
-  }
+    "name": "muttley",
+    "version": "1.0.12",
+    "description": "Monitor Unit Test Tool",
+    "main": "mutt.js",
+    "directories": {
+        "test": "tests"
+    },
+    "files": [
+        "src/**/*.ts",
+        "src/**/*.js",
+        "demo/**/*.ts",
+        "demo/**/*.js"
+    ],
+    "scripts": {
+        "test": "mocha src/*.t.js",
+        "jest": "jest --testRegex src/*.t.js",
+        "cover": "jest --coverage --testRegex src/*.t.js",
+        "build": "tsc",
+        "watch": "tsc -w",
+        "lint": "eslint --ext .ts .",
+        "pretty": "prettier -c **/**.ts",
+        "pretty-write": "prettier --write **/**.ts",
+        "start": "node src/mutt.js"
+    },
+    "bin": {
+        "mutt": "bin/mutt.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dkdaddy/muttley.git"
+    },
+    "keywords": [
+        "test",
+        "mocha",
+        "cli",
+        "test",
+        "mutt",
+        "muttley"
+    ],
+    "author": "dkdaddy",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dkdaddy/muttley/issues"
+    },
+    "homepage": "https://github.com/dkdaddy/muttley#readme",
+    "dependencies": {
+        "configstore": "^5.0.0",
+        "fast-xml-parser": "^3.12.16",
+        "jasmine-reporters": "^2.3.2",
+        "jest": "^24.8.0",
+        "log4js": "^4.3.2",
+        "mocha": "^6.1.4",
+        "ps-node": "^0.1.6",
+        "sinon": "^7.3.2",
+        "source-map-support": "^0.5.12"
+    },
+    "devDependencies": {
+        "@types/configstore": "^4.0.0",
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^12.0.10",
+        "@types/yargs": "^13.0.0",
+        "@types/sinon": "^7.0.13",
+        "@typescript-eslint/eslint-plugin": "^1.10.2",
+        "@typescript-eslint/parser": "^1.10.2",
+        "eslint": "^5.16.0",
+        "eslint-config-prettier": "^5.0.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "prettier": "^1.18.2",
+        "typescript": "^3.5.2"
+    },
+    "jest": {
+        "setupFilesAfterEnv": ["./setup-jasmine-env.js"]
+    }
 }

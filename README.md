@@ -39,7 +39,9 @@ Use `docker run` with -v and -w to map your code into the docker image.
 ## npm scripts
 - build - tsc build
 - watch - tsc -w build
-- test - run tests
+- test - run tests mocha
+- jest - run tests with jest
+- cover - run test with coverage stats in jest
 - lint - run eslint
 - pretty - run prettier
 - pretty-write - run prettier --write
