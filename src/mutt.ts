@@ -338,6 +338,7 @@ function run(paths: string[]): void {
     process.stdin.setRawMode && process.stdin.setRawMode(true);
     process.stdin.on('keypress', (str, key) => {
         if (key.name === 'q') {
+            write('\x1b[?1049l'); // revert alternative buffer
             writeline('\x1b[?25h'); // show cursor
             process.exit();
         } else if (key.name === 'r') {
@@ -356,6 +357,7 @@ function run(paths: string[]): void {
             render();
         }
     });
+    write('\x1b[?1049h'); // alternative buffer
     write('\x1b[2J'); //clear
     write('\x1b[H'); // home
     write('\x1b[?25l'); // hide cursor
