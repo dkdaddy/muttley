@@ -11,7 +11,7 @@ describe('config', function(): void {
     it('has testCmd', function(): void {
         assert.ok(config.testCmd);
     });
-    it('has testCmd', function(): void {
+    it('has testArgs', function(): void {
         assert.ok(config.testArgs);
     });
 });

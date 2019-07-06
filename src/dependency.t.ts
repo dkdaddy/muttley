@@ -21,6 +21,7 @@ describe('DependencyTree', function(): void {
             const expected = [
                 path.resolve(process.cwd(), './src/test-runner.js'),
                 path.resolve(process.cwd(), './src/logger.js'),
+                path.resolve(process.cwd(), './src/command-line.js'),
             ];
             assert.deepEqual(list, expected);
         });
