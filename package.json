@@ -70,6 +70,8 @@
         "typescript": "^3.5.2"
     },
     "jest": {
-        "setupFilesAfterEnv": ["./setup-jasmine-env.js"]
+        "setupFilesAfterEnv": [
+            "./setup-jasmine-env.js"
+        ]
     }
 }
