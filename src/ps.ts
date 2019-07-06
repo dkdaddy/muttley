@@ -13,15 +13,18 @@ const psColumns = [
     { name: 'COMMAND', width: 30, just: 'l', func: (row: Process) => row.command },
     { name: 'ARGS', width: 90, just: 'l', func: (row: Process) => row.arguments },
 ];
-export function renderProcessList(): void {
+export function renderProcessList(): Promise<void> {
     // to avoid flicker between the clear and waiting for the callback, draw the latest list and update
     // the list in the callback
-    renderTable({ columns: psColumns, rowColour: () => FgColour.green, rows: processList });
+    return new Promise(resolve => {
+        renderTable({ columns: psColumns, rowColour: () => FgColour.green, rows: processList });
 
-    ps.lookup({ command: 'node' }, function(error, resultList): void {
-        if (error) {
-            throw new Error(error);
-        }
-        processList = resultList as Process[];
+        ps.lookup({ command: 'node' }, function(error, resultList): void {
+            if (error) {
+                throw new Error(error);
+            }
+            processList = resultList as Process[];
+            resolve();
+        });
     });
 }

@@ -16,7 +16,7 @@
         "test": "mocha src/*.t.js",
         "jest": "jest --testRegex src/*.t.js",
         "cover": "jest --coverage --testRegex src/*.t.js",
-        "build": "tsc",
+        "build": "npm run pretty-write && npm run lint && tsc",
         "watch": "tsc -w",
         "lint": "eslint --ext .ts .",
         "pretty": "prettier -c **/**.ts",

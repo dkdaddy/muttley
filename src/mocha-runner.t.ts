@@ -66,7 +66,7 @@ describe('MochaTestRunner', function(): void {
             const mochaStdout = `
                 <testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" time="0.022">
                     <testcase classname="MyTestClass" name="myTest1" time="0.00">
-                        <failure>it failed</failure>
+                        <failure>it failed at (file1.js:27)</failure>
                     </testcase>
                 </testsuite>`;
 

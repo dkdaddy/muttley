@@ -311,7 +311,7 @@ function renderHelp(): void {
     ].forEach(line => writeline(line));
     writeline(mutt);
 }
-function render(): void {
+async function render(): Promise<void> {
     if (logger.type === 'stdout') return; // don't render if logging to stdout
 
     renderTestHeader();
@@ -324,7 +324,7 @@ function render(): void {
             case 'z':
                 return renderFailures();
             case 'p':
-                return renderProcessList();
+                await renderProcessList();
             case 'h':
                 return renderHelp();
             default:
