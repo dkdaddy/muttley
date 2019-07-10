@@ -7,7 +7,7 @@ import { DependencyTree } from './dependency';
 import { renderProcessList } from './ps';
 import { logger, Levels } from './logger';
 import { argv, config } from './command-line';
-import { FgColour, Table, renderHeader, renderTable, renderFileWindow, renderPacman, write, writeline } from './render';
+import { FgColour, Table, renderHeader, renderTable, renderFileWindow, write, writeline } from './render';
 import { TestFailure } from './test-runner';
 
 const mutt = `
@@ -265,18 +265,12 @@ function renderFailures(): void {
 function renderZoom(nth: number): void {
     logger.debug('renderZoom', nth);
     const columns = process.stdout.columns || 80;
-    let test: Testcase | undefined;
-    Array.from(allTests)
-        .filter(([, t]) => t.state === TestState.Failed)
-        .forEach(([, t], ix) => {
-            if (ix + 1 === nth) {
-                test = t;
-            }
-        });
-    if (!test) {
+    const pair = Array.from(allTests).filter(([, t]) => t.state === TestState.Failed)[nth - 1];
+    if (!pair) {
         logger.error('renderZoom', nth, 'not found');
         return;
     }
+    const [, test] = pair;
     let lines = 7;
     lines += test.stack.length * 2; // the stack and the error take this
 
@@ -322,26 +316,21 @@ function render(): void {
 
     renderTestHeader();
     process.stdout.write('\x1b[5;0H'); // row 5
-    switch (mode) {
-        case 'd':
-            return renderAllTests();
-        case 'z':
-            return renderFailures();
-        case 'p':
-            return renderProcessList();
-        case 'P':
-            return renderPacman();
-        case '1':
-            return renderZoom(1);
-        case '2':
-            return renderZoom(2);
-        case '3':
-            return renderZoom(3);
-        case 'h':
-            return renderHelp();
-        default:
-            logger.info(`Nothing to show in mode '${mode}'`);
-    }
+    if (mode >= '1' && mode <= '9') return renderZoom(Number.parseInt(mode, 10));
+    else
+        switch (mode) {
+            case 'd':
+                return renderAllTests();
+            case 'z':
+                return renderFailures();
+            case 'p':
+                renderProcessList();
+                break;
+            case 'h':
+                return renderHelp();
+            default:
+                writeline(`Nothing to show in mode '${mode}`);
+        }
 }
 
 function run(paths: string[]): void {
@@ -349,6 +338,7 @@ function run(paths: string[]): void {
     process.stdin.setRawMode && process.stdin.setRawMode(true);
     process.stdin.on('keypress', (str, key) => {
         if (key.name === 'q') {
+            write('\x1b[?1049l'); // revert alternative buffer
             writeline('\x1b[?25h'); // show cursor
             process.exit();
         } else if (key.name === 'r') {
@@ -367,6 +357,7 @@ function run(paths: string[]): void {
             render();
         }
     });
+    write('\x1b[?1049h'); // alternative buffer
     write('\x1b[2J'); //clear
     write('\x1b[H'); // home
     write('\x1b[?25l'); // hide cursor

@@ -39,9 +39,9 @@ export interface TestRunner {
  */
 export class FakeTestRunner implements TestRunner {
     private tests = [
-        { file: 'game.t.js', suite: 'Player constructor', name: 'throws if no name' },
-        { file: 'game.t.js', suite: 'Player constructor', name: 'accepts a name' },
-        { file: 'game.t.js', suite: 'Player hit', name: 'reduces health' },
+        { file: 'game.t.js', suite: 'Player constructor', name: 'throws if no name', message: '', stack: [] },
+        { file: 'game.t.js', suite: 'Player constructor', name: 'accepts a name', message: '', stack: [] },
+        { file: 'game.t.js', suite: 'Player hit', name: 'reduces health', message: '', stack: [] },
         {
             file: 'game.t.js',
             suite: 'Player hit',
@@ -80,9 +80,9 @@ export class FakeTestRunner implements TestRunner {
                         onFail({
                             suite: test.suite,
                             name: test.name,
-                            fullMessage: test.message || '',
-                            message: test.message || '',
-                            stack: test.stack || [],
+                            fullMessage: test.message,
+                            message: test.message,
+                            stack: test.stack,
                         });
                     });
                 });

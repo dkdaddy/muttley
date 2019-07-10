@@ -62,6 +62,7 @@ let lastTotal = 0,
     lastIdle = 0,
     lastSys = 0,
     lastUser = 0;
+
 export function renderHeader(testCount: number, failing: number, running: number, fileCount: number): void {
     write('\x1b[2J'); //clear
     write('\x1b[0;0H'); // top left
@@ -114,32 +115,32 @@ export function renderFileWindow(filepath: string, height: number, line: number)
     });
 }
 
-export function renderPacman(): void {
-    // Oikake (追いかけ)
-    // see https://en.wikipedia.org/wiki/ANSI_escape_code
-    // const blue = '\x1b[94m';
-    // const white = '\x1b[97m';
-    // for (let i = 0; i < 40; i++) {
-    //     process.stdout.write(blue + String.fromCodePoint(0x2551) + white + String.fromCodePoint(0x2022) + white);
-    //     if (i < move) console.log();
-    //     else if (move === i) console.log(String.fromCodePoint(0x1f354));
-    //     else console.log(String.fromCodePoint(0x2022));
-    // }
-    // move = move > 30 ? 0 : move + 1;
-    // process.stdout.write(
-    //     [
-    //         ,
-    //         '\x1b[31m',
-    //         // String.fromCodePoint(0x2560),
-    //         // String.fromCodePoint(0x2550),
-    //         // String.fromCodePoint(0x2550),
-    //         String.fromCodePoint(0x2557),
-    //         String.fromCodePoint(0x2022), // dot
-    //         String.fromCodePoint(0x1f354), // burger
-    //         String.fromCodePoint(0x1f3a7), // phones
-    //         String.fromCodePoint(0x1f47b), // ghost https://en.wikipedia.org/wiki/Ghosts_(Pac-Man)
-    //         String.fromCodePoint(0x1f3ae), // gamepad
-    // '\x1b[0m',
-    // ].join(''),
-    // );
-}
+// export function renderPacman(): void {
+// Oikake (追いかけ)
+// see https://en.wikipedia.org/wiki/ANSI_escape_code
+// const blue = '\x1b[94m';
+// const white = '\x1b[97m';
+// for (let i = 0; i < 40; i++) {
+//     process.stdout.write(blue + String.fromCodePoint(0x2551) + white + String.fromCodePoint(0x2022) + white);
+//     if (i < move) console.log();
+//     else if (move === i) console.log(String.fromCodePoint(0x1f354));
+//     else console.log(String.fromCodePoint(0x2022));
+// }
+// move = move > 30 ? 0 : move + 1;
+// process.stdout.write(
+//     [
+//         ,
+//         '\x1b[31m',
+//         // String.fromCodePoint(0x2560),
+//         // String.fromCodePoint(0x2550),
+//         // String.fromCodePoint(0x2550),
+//         String.fromCodePoint(0x2557),
+//         String.fromCodePoint(0x2022), // dot
+//         String.fromCodePoint(0x1f354), // burger
+//         String.fromCodePoint(0x1f3a7), // phones
+//         String.fromCodePoint(0x1f47b), // ghost https://en.wikipedia.org/wiki/Ghosts_(Pac-Man)
+//         String.fromCodePoint(0x1f3ae), // gamepad
+// '\x1b[0m',
+// ].join(''),
+// );
+// }
