@@ -69,7 +69,7 @@ export class MochaTestRunner implements TestRunner {
                       '--require',
                       'source-map-support/register',
                   ]
-                : [filePath, ...config.testArgs];
+                : [...config.testArgs, filePath];
             logger.debug('exec @', process.cwd(), cmd, args);
             exec([cmd, ...args].join(' '), (error: any, stdout: any, stderr: any): void => {
                 onStart();
