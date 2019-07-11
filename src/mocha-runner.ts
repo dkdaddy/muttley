@@ -58,18 +58,8 @@ export class MochaTestRunner implements TestRunner {
         return new Promise(resolve => {
             let passed = 0,
                 failed = 0;
-            const isWin = process.platform === 'win32';
-            // there must be a better way than this but running mocha directly on windows gives an error
-            const cmd = isWin ? 'node' : config.testCmd;
-            const args = isWin
-                ? [
-                      'node_modules\\mocha\\bin\\mocha',
-                      filePath,
-                      '--reporter=xunit',
-                      '--require',
-                      'source-map-support/register',
-                  ]
-                : [...config.testArgs, filePath];
+            const cmd = config.testCmd;
+            const args = [...config.testArgs, filePath];
             logger.debug('exec @', process.cwd(), cmd, args);
             exec([cmd, ...args].join(' '), (error: any, stdout: any, stderr: any): void => {
                 onStart();
