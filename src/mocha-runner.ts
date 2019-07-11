@@ -27,12 +27,12 @@ export class MochaTestRunner implements TestRunner {
                             const describeString = ' describe';
                             const itString = ' it';
                             if (
-                                (start = line.indexOf(describeString)) >= 0 &&
+                                (start = line.search(/[^a-zA-Z0-9]describe/)) >= 0 &&
                                 line.slice(start + describeString.length).startsWith("('")
                             ) {
                                 [, suite] = line.substr(start + describeString.length).split("'");
                             } else if (
-                                (start = line.indexOf(itString)) >= 0 &&
+                                (start = line.search(/[^a-zA-Z0-9]it/)) >= 0 &&
                                 line.slice(start + itString.length).startsWith("('")
                             ) {
                                 const [, name] = line.substr(start + itString.length).split("'");
@@ -41,6 +41,7 @@ export class MochaTestRunner implements TestRunner {
                                 }
                             }
                         });
+                    logger.debug(`findTestsP ${filePath} => ${testcases}`);
                     resolve(testcases);
                 }
             });

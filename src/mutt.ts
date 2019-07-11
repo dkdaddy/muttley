@@ -111,7 +111,7 @@ async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<
 
     const tests = await theRunner.findTestsP(filename);
 
-    if (tests.length) {
+    if (tests.length && deps) { // only find dependancies if there is a dependancy finder module
         const files = deps.getFlat(filename); // all files this depends on
         files.forEach(file => {
             const newList = watchlist.get(file) || new Set();
@@ -145,7 +145,7 @@ const allTests: Map<string, Testcase> = new Map();
 const allFiles: Map<string, Date> = new Map();
 
 const depsModule = config.dependencyModule;
-const deps: DependencyTree = require(depsModule).tree;
+const deps: DependencyTree = depsModule==='none'? null : require(depsModule).tree;
 
 function readFiles(folders: string[]): Promise<void> {
     logger.info('readFiles', folders);
