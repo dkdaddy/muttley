@@ -111,6 +111,9 @@ async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<
 
     const tests = await theRunner.findTestsP(filename);
 
+    if (tests.length)
+       watchlist.set(filename, new Set()); // add the test file itself to the watchlist
+
     if (tests.length && deps) { // only find dependancies if there is a dependancy finder module
         const files = deps.getFlat(filename); // all files this depends on
         files.forEach(file => {
@@ -128,7 +131,10 @@ async function readTestCasesFromFile(filename: string, stat: fs.Stats): Promise<
     });
 
     if (tests.length) {
-        // const absoluteFilePath = path.resolve(process.cwd(), filename);
+        // if no test runner, don't run it
+        if (config.testCmd === 'none' )
+            return Promise.resolve();
+
         return new Promise(resolve => {
             return theRunner.runFileP(
                 filename,
@@ -232,7 +238,7 @@ function renderTestHeader(): void {
         failing += test.state === TestState.Failed ? 1 : 0;
         running += test.state === TestState.Running ? 1 : 0;
     });
-    renderHeader(allTests.size, failing, running, allFiles.size);
+    renderHeader(allTests.size, failing, running, watchlist.size);
 }
 function renderAllTests(): void {
     const sort = (lhs: Testcase, rhs: Testcase): number => {

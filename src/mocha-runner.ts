@@ -24,19 +24,14 @@ export class MochaTestRunner implements TestRunner {
                         .toString()
                         .split(os.EOL)
                         .forEach((line): void => {
-                            const describeString = ' describe';
-                            const itString = ' it';
-                            if (
-                                (start = line.search(/[^a-zA-Z0-9]describe/)) >= 0 &&
-                                line.slice(start + describeString.length).startsWith("('")
-                            ) {
-                                [, suite] = line.substr(start + describeString.length).split("'");
-                            } else if (
-                                (start = line.search(/[^a-zA-Z0-9]it/)) >= 0 &&
-                                line.slice(start + itString.length).startsWith("('")
-                            ) {
-                                const [, name] = line.substr(start + itString.length).split("'");
-                                if (name) {
+                             const matchDescribe = line.match(/[^a-zA-Z0-9]describe\(['"](.*)['"]/);
+                             const matchIt = line.match(/[^a-zA-Z0-9]it\(['"](.*)['"]/);
+                             if ( matchDescribe )
+                             {
+                                [, suite] = matchDescribe;
+                            } else if ( matchIt) {
+                                const [, name] = matchIt;
+                                if (suite && name) {
                                     testcases.push({ suite, name });
                                 }
                             }
@@ -96,7 +91,7 @@ export class MochaTestRunner implements TestRunner {
                     logger.debug(suite);
                     // sometimes there is no testcase property on the suite.
                     // This is usually because the function tested is async
-                    if (suite.testcase) {
+                    if (suite && suite.testcase) {
                         // if there is only a single case the testcase is *not* an array! Arrrrgg!
                         const cases: { classname: string; name: string; time: string; failure: string }[] = suite
                             .testcase.length
