@@ -1,5 +1,6 @@
 import os from 'os';
-import { CodeGenerator } from '@babel/generator';
+import readline from 'readline';
+import { Direction } from './level-view';
 
 const map1 = `
 BBBBBBBBBBBBBBBBBBBBBBBBBBBB
@@ -11,17 +12,25 @@ B..........................B
 B.BBBB.BB.BBBBBBBB.BB.BBBB.B
 B.BBBB.BB.BBBBBBBB.BB.BBBB.B
 B......BB....BB....BB......B
-BBBBB..BBBBB.BB.BBBBB..BBBBB
-    B..BBBBB.BB.BBBBB..B
-BBBBB..BB..........BB..BBBBB
-     ..BB..........BB..     
-BBBBB..BB..........BB..BBBBB
-    B..................B    
-BBBBB.........G........BBBBB
+BBBBBB.BBBBB.BB.BBBBB.BBBBBB
+     B.BBBBB.BB.BBBBB.B
+     B.BB....G.....BB.B
+     B.BB.BB----BB.BB.B
+BBBBBB.BB.B      B.BB.BBBBBB     
+      ....B  G G B....B
+BBBBBB....B      B....BBBBBB    
+     B....BBBBBBBB....B
+     B.BB..........BB.B
+     B.BBBBB.BB.BBBBB.B
+BBBBBB.BBBBB.BB.BBBBB.BBBBBB
+B......BB....BB....BB......B
+B.BBBB.BB.BBBBBBBB.BB.BBBB.B
+B.BBBB.BB.BBBBBBBB.BB.BBBB.B
 B..........................B
-B..........F...............B
-B.................P........B
-B..........................B
+B.BBBB.BBBBB.BB.BBBBB.BBBB.B
+B.B  B.B   B.BB.B   B.B  B.B
+B.BBBB.BBBBB.BB.BBBBB.BBBB.B
+B............BB............B
 BBBBBBBBBBBBBBBBBBBBBBBBBBBB
 `;
 export = map1;
@@ -32,6 +41,7 @@ export = map1;
 
 const vertical = '║ ';
 const horizontal = '══';
+const thinwall = '--';
 const tl = '╔═';
 const tr = '╗ ';
 const bl = '╚═';
@@ -51,8 +61,15 @@ function writeline(...args: any[]): void {
     // eslint-disable-next-line no-console
     console.log(...args);
 }
+function write(...args: any[]): void {
+    process.stdout.write(args.join(''));
+}
 
 class Level {
+    private playerX = 11;
+    private playerY = 18;
+    private playerDirection: Direction = Direction.Right;
+    private playerNextDirection: Direction = Direction.Right;
     private map: number[][];
     public constructor(map: string) {
         this.map = [];
@@ -67,7 +84,7 @@ class Level {
         const code = line && line[x];
         return (line && code && String.fromCharCode(code)) || 'X';
     }
-    public isTopLeft(x: number, y: number): boolean {
+    private isTopLeft(x: number, y: number): boolean {
         return this.at(x, y) == 'B';
 
     }
@@ -133,11 +150,11 @@ class Level {
             code = horizontal; // thin block case
         if (index === 15)
             code = this.corners(index, x, y);
-        if (index === 8 && this.at(x+1, y) === 'X') // shorter on rh edge of map
+        if (index === 8 && this.at(x + 1, y) === 'X') // shorter on rh edge of map
             code = halfhorizontal;
         return code;
     }
-    public render(): void {
+    public renderLevel(): void {
         this.map.forEach((row, y) => {
             let out = '';
             row.forEach((position, x) => {
@@ -148,9 +165,11 @@ class Level {
                 }
                 else if (el === ' ')
                     char = space;
+                else if (el === '-')
+                    char = thinwall;
                 else if (el === 'G')
                     char = ghost;
-                else if (el === 'P')
+                else if (this.playerX === x && this.playerY === y)
                     char = pacman;
                 else if (el === 'F')
                     char = fruit;
@@ -160,9 +179,91 @@ class Level {
             process.stdout.write(os.EOL);
         });
     }
+    public tick(): void {
+        const x = this.playerX;
+        const y = this.playerY;
+        let newX = x;
+        let newY = y;
+        switch (this.playerDirection) {
+            case Direction.Left:
+                newX--;
+                break;
+            case Direction.Right:
+                newX++;
+                break;
+            case Direction.Up:
+                newY--;
+                break;
+            case Direction.Down:
+                newY++;
+                break;
+            default:
 
+        }
+        const el = this.at(newX, newY);
+        const directionChanged = this.playerDirection !== this.playerNextDirection;
+        if (el === 'B') {
+            this.playerDirection = this.playerNextDirection;
+        }
+        else if (directionChanged) {
+            this.playerDirection = this.playerNextDirection;
+            this.tick();
+        }
+        else {
+            this.playerX = newX;
+            this.playerY = newY;
+        }
+    }
+    public setDirection(direction: Direction): void {
+        this.playerNextDirection = direction;
+    }
 }
 
 const level = new Level(map1);
 
-level.render();
+
+
+
+write('\x1b[?1049l'); // revert alternative buffer
+writeline('\x1b[?25h'); // show cursor
+
+
+function run(): void {
+    write('\x1b[?1049h'); // alternative buffer
+    write('\x1b[2J'); //clear
+    write('\x1b[H'); // home
+    write('\x1b[?25l'); // hide cursor
+    readline.emitKeypressEvents(process.stdin);
+    process.stdin.setRawMode && process.stdin.setRawMode(true);
+    process.stdin.on('keypress', (str, key) => {
+        if (key.name === 'q') {
+            write('\x1b[?1049l'); // revert alternative buffer
+            writeline('\x1b[?25h'); // show cursor
+            process.exit();
+        } else if (key.name === 'left') {
+            level.setDirection(Direction.Left);
+        } else if (key.name === 'right') {
+            level.setDirection(Direction.Right);
+        } else if (key.name === 'up') {
+            level.setDirection(Direction.Up);
+        } else if (key.name === 'down') {
+            level.setDirection(Direction.Down);
+        }
+        else {
+            write('\x1b[?1049l'); // revert alternative buffer
+            writeline('\x1b[?25h'); // show cursor
+            write(key.name);
+            process.exit();
+        }
+    });
+    setInterval(() => {
+        write('\x1b[2J'); //clear
+        write('\x1b[H'); // home    
+        level.renderLevel();
+    }, 100);
+    setInterval(() => {
+        level.tick();
+    }, 100);
+}
+
+run();
