@@ -18,19 +18,17 @@ export class MochaTestRunner implements TestRunner {
                     reject(error);
                 } else {
                     let suite = '';
-                    let start;
                     const testcases: { suite: string; name: string }[] = [];
                     content
                         .toString()
                         .split(os.EOL)
                         .forEach((line): void => {
-                             const matchDescribe = line.match(/[^a-zA-Z0-9]describe\(['"](.*)['"]/);
-                             const matchIt = line.match(/[^a-zA-Z0-9]it\(['"](.*)['"]/);
-                             if ( matchDescribe )
-                             {
-                                [, suite] = matchDescribe;
-                            } else if ( matchIt) {
-                                const [, name] = matchIt;
+                            const matchDescribe = line.match(/[^a-zA-Z0-9]describe\(['"](.*)['"]/);
+                            const matchIt = line.match(/[^a-zA-Z0-9]it\(['"](.*)['"]/);
+                            if (matchDescribe) {
+                                [ , suite] = matchDescribe;
+                            } else if (matchIt) {
+                                const [ , name] = matchIt;
                                 if (suite && name) {
                                     testcases.push({ suite, name });
                                 }

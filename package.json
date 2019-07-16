@@ -1,6 +1,6 @@
 {
     "name": "muttley",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "description": "Monitor Unit Test Tool",
     "main": "mutt.js",
     "directories": {
