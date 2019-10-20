@@ -32,7 +32,7 @@ docker run -it mutt
 
 Use `docker run` with -v and -w to map your code into the docker image.
 
-## Know Issues
+## Known Issues
 - mocha and source-map-support need to be installed globally or the process.exec won't find them
 - It seems there are bugs in the xunit reporter for mocha so there are cases the XML does not contain all the tests. If you think mutt is not showing all your tests, run mocha cli with --reporter=xunit and check the output.
 - Windows support - ymmv - you may be better off using the docker image
